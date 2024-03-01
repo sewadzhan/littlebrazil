@@ -1,0 +1,148 @@
+import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:littlebrazil/data/models/product.dart';
+import 'package:littlebrazil/view/config/constants.dart';
+
+class ProductCard extends StatelessWidget {
+  const ProductCard(
+      {super.key, required this.product, this.isShownInSearchScreen = false});
+
+  final Product product;
+  final bool isShownInSearchScreen;
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      margin: EdgeInsets.only(bottom: Constants.defaultPadding * 0.5),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Container(
+                width: Constants.defaultPadding * 10,
+                height: Constants.defaultPadding * 8.125,
+                decoration: const BoxDecoration(
+                  borderRadius: BorderRadius.all(Radius.circular(6)),
+                ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.all(
+                        Radius.circular(6),
+                      ),
+                      child: product.imageUrls.isEmpty ||
+                              product.imageUrls.first.isEmpty
+                          ? Image.asset('assets/decorations/no_image_url.png',
+                              fit: BoxFit.cover)
+                          : CachedNetworkImage(
+                              fit: BoxFit.cover,
+                              imageUrl: product.imageUrls.first,
+                            ),
+                    ),
+                    product.tag != ProductTags.none
+                        ? Positioned(
+                            top: Constants.defaultPadding * 0.4,
+                            left: Constants.defaultPadding * 0.4,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: const BoxDecoration(
+                                  color: Constants.thirdPrimaryColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6))),
+                              child: Center(
+                                child: Text(
+                                  "СКИДКА",
+                                  textAlign: TextAlign.center,
+                                  style:
+                                      Constants.textTheme.bodyMedium!.copyWith(
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ))
+                        : const SizedBox.shrink()
+                  ],
+                ),
+              ),
+              Container(
+                padding: EdgeInsets.only(
+                  left: Constants.defaultPadding * 0.75,
+                ),
+                height: Constants.defaultPadding * 8.125,
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Container(
+                      width: MediaQuery.of(context).size.width -
+                          12.75 *
+                              Constants
+                                  .defaultPadding, //Calculated accounting for paddings and other stuff
+                      padding: EdgeInsets.only(
+                          bottom: Constants.defaultPadding * 0.125),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Text(
+                            product.title,
+                            style: Constants.textTheme.headlineSmall!.copyWith(
+                                fontWeight: FontWeight.w500,
+                                color: Constants.blackColor,
+                                height: 1.15),
+                          ),
+                          Text(
+                            "${product.price} ₸ • 590 ккал",
+                            style: Constants.textTheme.bodySmall!.copyWith(
+                                color: Constants.darkGrayColor, height: 1.75),
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                        width: Constants.defaultPadding * 8.5,
+                        child: OutlinedButton(
+                            onPressed: () {
+                              final successSnackBar = Constants.successSnackBar(
+                                  context, "Товар добавлен в корзину");
+                              ScaffoldMessenger.of(context)
+                                  .showSnackBar(successSnackBar);
+                            },
+                            style: OutlinedButton.styleFrom(
+                                backgroundColor: Constants.backgroundColor,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius:
+                                      BorderRadius.circular(6), // <-- Radius
+                                ),
+                                side: const BorderSide(
+                                    width: 1,
+                                    color: Constants.secondPrimaryColor)),
+                            child: Text("В КОРЗИНУ",
+                                style: Constants
+                                    .headlineTextTheme.headlineSmall!
+                                    .copyWith(
+                                        color: Constants.secondPrimaryColor))))
+                  ],
+                ),
+              )
+            ],
+          ),
+          Padding(
+            padding: EdgeInsets.only(top: Constants.defaultPadding * 0.5),
+            child: Container(
+              width: MediaQuery.of(context).size.width,
+              height: 1,
+              color: Constants.lightGrayColor,
+            ),
+          )
+        ],
+      ),
+    );
+  }
+}
