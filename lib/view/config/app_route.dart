@@ -2,10 +2,12 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
+import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
+import 'package:littlebrazil/view/screens/search_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -34,6 +36,16 @@ class AppRouter {
             type: PageTransitionType.bottomToTop,
             duration: const Duration(milliseconds: 200),
             child: const QRScannerScreen());
+      case "/search":
+        return PageTransition(
+            type: PageTransitionType.bottomToTop,
+            duration: const Duration(milliseconds: 200),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(create: (context) => SearchBloc(menuCubit))
+              ],
+              child: const SearchScreen(),
+            ));
       default:
         return _errorRoute();
     }

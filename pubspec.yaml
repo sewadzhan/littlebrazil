@@ -13,6 +13,7 @@ dependencies:
   #BLOC
   flutter_bloc: ^8.1.4
   equatable: ^2.0.5
+  bloc_concurrency: ^0.2.4
 
   #Firebase
   firebase_core: ^2.25.5
@@ -21,7 +22,7 @@ dependencies:
   firebase_messaging: ^14.7.17
   firebase_analytics: ^10.8.7
 
-
+  rxdart: ^0.27.7
   
   #Security
   crypto: ^3.0.3

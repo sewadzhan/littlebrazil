@@ -95,7 +95,7 @@ class _CategoryMenuState extends State<CategoryMenu> {
                 shape: const CircleBorder(),
               ),
               onPressed: () {
-                // Navigator.pushNamed(context, '/search');
+                Navigator.pushNamed(context, '/search');
               },
               child: SizedBox(
                 width: 25,

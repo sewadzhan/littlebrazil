@@ -1,8 +1,10 @@
 import 'package:bloc/bloc.dart';
+import 'package:bloc_concurrency/bloc_concurrency.dart';
 import 'package:equatable/equatable.dart';
 import 'package:littlebrazil/data/models/category.dart';
 import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
+import 'package:rxdart/rxdart.dart';
 
 part 'search_event.dart';
 part 'search_state.dart';
@@ -11,8 +13,15 @@ part 'search_state.dart';
 class SearchBloc extends Bloc<SearchEvent, SearchState> {
   final MenuCubit menuCubit;
 
+  EventTransformer<E> debounceSequential<E>(Duration duration) {
+    return (events, mapper) {
+      return sequential<E>().call(events.debounceTime(duration), mapper);
+    };
+  }
+
   SearchBloc(this.menuCubit) : super(SearchInitial()) {
-    on<SearchProducts>(searchProductsToState);
+    on<SearchProducts>(searchProductsToState,
+        transformer: debounceSequential(const Duration(milliseconds: 200)));
   }
 
   //Query processing from search of products
