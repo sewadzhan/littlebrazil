@@ -3,7 +3,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/view/config/constants.dart';
-import 'package:littlebrazil/view/screens/cart_screen.dart';
 import 'package:littlebrazil/view/screens/contacts_screen.dart';
 import 'package:littlebrazil/view/screens/home_screen.dart';
 import 'package:littlebrazil/view/screens/profile_screen.dart';
@@ -35,7 +34,6 @@ class MainScreen extends StatelessWidget {
               ContactsScreen(),
               Placeholder(),
               ProfileScreen(),
-              CartScreen()
             ],
           ),
           bottomNavigationBar: Container(
@@ -59,6 +57,9 @@ class MainScreen extends StatelessWidget {
                 // }
                 if (index == 2) {
                   Navigator.of(context).pushNamed('/qr');
+                }
+                if (index == 4) {
+                  Navigator.of(context).pushNamed('/cart');
                 } else {
                   context.read<NavigationCubit>().setIndex(index);
                 }

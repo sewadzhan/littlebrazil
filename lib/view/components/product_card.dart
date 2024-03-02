@@ -2,7 +2,10 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:littlebrazil/data/models/cart_item.dart';
 import 'package:littlebrazil/data/models/product.dart';
+import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
 class ProductCard extends StatelessWidget {
@@ -109,6 +112,22 @@ class ProductCard extends StatelessWidget {
                         width: Constants.defaultPadding * 8.5,
                         child: OutlinedButton(
                             onPressed: () {
+                              // List<OrderModifier> modifiers = [];
+                              // for (var e in product.groupModifiers) {
+                              //   if (e.childModifiers.isNotEmpty) {
+                              //     modifiers.add(OrderModifier(
+                              //         modifier: e.childModifiers.first,
+                              //         amount: 1,
+                              //         productGroupId: e.id,
+                              //         productGroupName: e.name));
+                              //   }
+                              // }
+                              context.read<CartBloc>().add(CartItemAdded(
+                                  CartItemModel(
+                                      product: product,
+                                      count: 1,
+                                      orderModifiers: const [])));
+
                               final successSnackBar = Constants.successSnackBar(
                                   context, "Товар добавлен в корзину");
                               ScaffoldMessenger.of(context)
@@ -117,8 +136,7 @@ class ProductCard extends StatelessWidget {
                             style: OutlinedButton.styleFrom(
                                 backgroundColor: Constants.backgroundColor,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius:
-                                      BorderRadius.circular(6), // <-- Radius
+                                  borderRadius: BorderRadius.circular(6),
                                 ),
                                 side: const BorderSide(
                                     width: 1,

@@ -1,3 +1,5 @@
+import 'package:littlebrazil/data/models/promocode.dart';
+import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
 
 class FirestoreRepository {
@@ -38,13 +40,13 @@ class FirestoreRepository {
   }
 
   //Get data of current user in Firebase Firestore
-  // Future<PikapikaUser> retrieveUser(String phoneNumber) async {
-  //   var data = await firestoreProvider.retrieveUser(phoneNumber);
-  //   if (data == null) {
-  //     throw Exception("No user in cloud Firestore with $phoneNumber phone");
-  //   }
-  //   return PikapikaUser.fromMap(data);
-  // }
+  Future<RestaurantUser> retrieveUser(String phoneNumber) async {
+    var data = await firestoreProvider.retrieveUser(phoneNumber);
+    if (data == null) {
+      throw Exception("No user in cloud Firestore with $phoneNumber phone");
+    }
+    return RestaurantUser.fromMap(data);
+  }
 
   //Get all saved addresses of certain user
   // Future<List<Address>> getAddressesOfUser(String phoneNumber) async {
@@ -66,13 +68,13 @@ class FirestoreRepository {
   // }
 
   //Retrieve all promocodes
-  // Future<List<Promocode>> getPromocodes() async {
-  //   var promocodeDocs = await firestoreProvider.getPromocodes();
+  Future<List<Promocode>> getPromocodes() async {
+    var promocodeDocs = await firestoreProvider.getPromocodes();
 
-  //   return promocodeDocs
-  //       .map((snapshot) => Promocode.fromMap(snapshot.data()))
-  //       .toList();
-  // }
+    return promocodeDocs
+        .map((snapshot) => Promocode.fromMap(snapshot.data()))
+        .toList();
+  }
 
   //Get delivery zones
   // Future<List<DeliveryZone>> getDeliveryZones() async {

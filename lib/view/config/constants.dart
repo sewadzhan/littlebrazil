@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
+import 'package:littlebrazil/view/components/custom_elevated_button.dart';
+import 'package:littlebrazil/view/components/custom_outlined_button.dart';
 import 'package:littlebrazil/view/config/theme.dart';
 
 class Constants {
@@ -48,5 +51,56 @@ class Constants {
         style: Constants.textTheme.headlineSmall!.copyWith(color: Colors.white),
       ),
     );
+  }
+
+  static void showBottomSheetAlert(
+      {required BuildContext context,
+      required String title,
+      required String submit,
+      String cancel = "ОТМЕНА",
+      required Function function}) {
+    showModalBottomSheet(
+        backgroundColor: Constants.backgroundColor,
+        elevation: 0,
+        shape: const RoundedRectangleBorder(
+          borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+        ),
+        context: context,
+        builder: (context) => Container(
+            height: 160,
+            padding: EdgeInsets.only(
+                left: Constants.defaultPadding,
+                right: Constants.defaultPadding,
+                bottom: Constants.defaultPadding,
+                top: Constants.defaultPadding * 2),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                Padding(
+                  padding: EdgeInsets.only(bottom: Constants.defaultPadding),
+                  child: Text(
+                    title,
+                    style: Constants.textTheme.headlineSmall,
+                  ),
+                ),
+                Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      Container(
+                        width: 125,
+                        margin: EdgeInsets.only(
+                            right: Constants.defaultPadding * 0.5),
+                        child: CustomOutlinedButton(
+                            text: cancel,
+                            function: () {
+                              Navigator.pop(context);
+                            }),
+                      ),
+                      Expanded(
+                          child: CustomElevatedButton(
+                              text: submit, function: function)),
+                    ])
+              ],
+            )));
   }
 }
