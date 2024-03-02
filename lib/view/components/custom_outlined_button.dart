@@ -48,9 +48,9 @@ class CustomOutlinedButton extends StatelessWidget {
               : Text(
                   text,
                   style: Constants.headlineTextTheme.displaySmall!.copyWith(
-                    color: Constants.secondPrimaryColor,
-                    fontSize: 17,
-                  ),
+                      color: Constants.secondPrimaryColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500),
                 )),
     );
   }

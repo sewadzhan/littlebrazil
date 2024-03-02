@@ -3,6 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
+import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/cross_sales_bottom_sheet.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/not_working_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/cart_item.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
@@ -14,6 +17,8 @@ class CartScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var promocodeController = TextEditingController();
+    Size size = MediaQuery.of(context).size;
+
     return SliverBody(
       actions: [
         BlocBuilder<CartBloc, CartState>(
@@ -113,6 +118,36 @@ class CartScreen extends StatelessWidget {
                             //   return;
                             // }
                             // Navigator.pushNamed(context, "/checkout");
+//NOT WORKING BOTTOM SHEET
+                            // showModalBottomSheet(
+                            //     backgroundColor: Constants.backgroundColor,
+                            //     elevation: 0,
+                            //     shape: const RoundedRectangleBorder(
+                            //       borderRadius: BorderRadius.vertical(
+                            //           top: Radius.circular(12)),
+                            //     ),
+                            //     context: context,
+                            //     builder: (context) =>
+                            //         const NotWorkingBottomSheet(
+                            //             openHour: "10:00", closeHour: "22:00"));
+
+                            showModalBottomSheet(
+                                backgroundColor: Constants.backgroundColor,
+                                elevation: 0,
+                                shape: const RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(12)),
+                                ),
+                                context: context,
+                                builder: (context1) => MultiBlocProvider(
+                                      providers: [
+                                        BlocProvider.value(
+                                            value: context.read<MenuCubit>()),
+                                        BlocProvider.value(
+                                            value: context.read<CartBloc>())
+                                      ],
+                                      child: const ExtraSalesBottomSheet(),
+                                    ));
                           }),
                     ],
                   ));
@@ -235,32 +270,47 @@ class CartScreen extends StatelessWidget {
               );
             }
             //Empty cart
-            return Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                // BlocBuilder<ContactsCubit, ContactsState>(
-                //   builder: (context, state) {
-                //     return RichText(
-                //       textAlign: TextAlign.center,
-                //       text: TextSpan(
-                //           text: state is ContactsLoadedState
-                //               ? "Корзина пуста.\nДобавьте товар в корзину\n*Минимальная сумма заказа ${state.contactsModel.minOrderSum}"
-                //               : "Корзина пуста.\nДобавьте товар в корзину",
-                //           style: Constants.textTheme.bodyLarge!.copyWith(
-                //             color: Constants.middleGrayColor,
-                //           ),
-                //           children: [
-                //             TextSpan(
-                //                 text: state is ContactsLoadedState ? "₸" : "",
-                //                 style: Constants.tengeStyle.copyWith(
-                //                     color: Constants.middleGrayColor,
-                //                     fontSize: 14))
-                //           ]),
-                //     );
-                //   },
-                // ),
-              ],
+            return SizedBox(
+              width: size.width,
+              height: size.height * 0.74,
+              child: Stack(
+                alignment: AlignmentDirectional.center,
+                children: [
+                  Positioned(
+                      top: 0,
+                      left: 10,
+                      child: SvgPicture.asset(
+                          'assets/decorations/cart-top-left.svg')),
+                  Positioned(
+                      top: 0,
+                      right: 0,
+                      child: SvgPicture.asset(
+                        'assets/decorations/cart-top-right.svg',
+                        width: 200,
+                      )),
+                  Positioned(
+                      bottom: 0,
+                      left: 0,
+                      child: SvgPicture.asset(
+                          'assets/decorations/cart-bottom-left.svg')),
+                  Positioned(
+                      bottom: 0,
+                      right: 0,
+                      child: SvgPicture.asset(
+                        'assets/decorations/cart-bottom-right.svg',
+                        width: 220,
+                      )),
+                  Padding(
+                    padding:
+                        EdgeInsets.only(bottom: Constants.defaultPadding * 7),
+                    child: Text(
+                      "Корзина пуста\nДобавьте блюда в корзину",
+                      style: Constants.textTheme.headlineMedium,
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
             );
           }
           //Cart loading state

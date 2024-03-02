@@ -186,6 +186,55 @@ class MenuCubit extends Cubit<MenuState> {
             // Add more dessert products here
           ],
         ),
+
+        Category(
+          type: CategoryType.extraSales,
+          name: "Extra sales",
+          categoryID: "extrasales",
+          products: [
+            Product(
+              categoryID: "desserts",
+              title: "Фруктовый салат",
+              imageUrls: [
+                "https://optim.tildacdn.pro/tild3331-3562-4835-b963-633531386332/-/format/webp/cache_899438757.jpg"
+              ],
+              price: 350, // Price in your currency
+              rmsID: "79135",
+              categoryTitle: "Десерты",
+              description:
+                  "Ассорти из свежих фруктов, порезанных и заправленных йогуртом.",
+              // Add other product properties as needed (tag, order, gift, groupModifiers)
+            ),
+            Product(
+              categoryID: "steaks",
+              title: "Рибай стейк",
+              imageUrls: [
+                "https://optim.tildacdn.pro/tild3662-6165-4434-b562-313063633662/-/format/webp/54d40c4a1b6bc_-_fire.jpg",
+                "https://optim.tildacdn.pro/tild6361-6132-4232-b435-383038363737/-/format/webp/bbq-pictures-xb9hxhb.jpg"
+              ],
+              price: 1500, // Price in your currency
+              rmsID: "12345",
+              categoryTitle: "Стейки",
+              description:
+                  "Сочный мраморный рибай стейк из мраморной говядины, приготовленный на гриле.",
+              // Add other product properties as needed (tag, order, gift, groupModifiers)
+            ),
+            Product(
+              categoryID: "steaks",
+              title: "Филе-миньон",
+              imageUrls: [
+                "https://optim.tildacdn.pro/tild3066-3761-4433-a634-313532333233/-/format/webp/1663762209_28-mykale.jpg"
+              ],
+              price: 2000, // Price in your currency
+              rmsID: "54321",
+              categoryTitle: "Стейки",
+              description:
+                  "Нежное филе-миньон из молодой телятины, приготовленное по вашему вкусу.",
+              // Add other product properties as needed (tag, order, gift, groupModifiers)
+            ),
+            // Add more steak products here
+          ],
+        ),
       ];
 
       // String token = await iikoRepository.getToken();

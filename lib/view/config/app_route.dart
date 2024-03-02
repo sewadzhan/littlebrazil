@@ -61,6 +61,7 @@ class AppRouter {
             duration: const Duration(milliseconds: 200),
             child: MultiBlocProvider(
               providers: [
+                BlocProvider.value(value: menuCubit),
                 BlocProvider.value(value: cartBloc),
                 BlocProvider(
                     create: (context) => PromocodeBloc(

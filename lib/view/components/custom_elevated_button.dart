@@ -23,13 +23,15 @@ class CustomElevatedButton extends StatelessWidget {
     return SizedBox(
       width: fullWidth ? MediaQuery.of(context).size.width : null,
       height: 48,
-      child: OutlinedButton(
-          style: OutlinedButton.styleFrom(
-            backgroundColor: Constants.secondPrimaryColor,
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(6),
-            ),
-          ),
+      child: ElevatedButton(
+          style: ElevatedButton.styleFrom(
+              elevation: 0,
+              backgroundColor: Constants.secondPrimaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(6),
+              ),
+              disabledBackgroundColor:
+                  Constants.secondPrimaryColor.withAlpha(50)),
           onPressed: isEnabled
               ? () {
                   function();
@@ -46,8 +48,10 @@ class CustomElevatedButton extends StatelessWidget {
                 )
               : Text(
                   text,
-                  style: Constants.headlineTextTheme.displaySmall!
-                      .copyWith(color: Constants.backgroundColor, fontSize: 17),
+                  style: Constants.headlineTextTheme.displaySmall!.copyWith(
+                      color: Constants.backgroundColor,
+                      fontSize: 17,
+                      fontWeight: FontWeight.w500),
                 )),
     );
   }
