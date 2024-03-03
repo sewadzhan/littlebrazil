@@ -24,6 +24,8 @@ dependencies:
 
   rxdart: ^0.27.7
   intl: ^0.19.0
+  url_launcher: ^6.2.5
+  new_version_plus: ^0.0.11
   
   #Security
   crypto: ^3.0.3

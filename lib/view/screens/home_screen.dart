@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/category.dart';
+import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/not_working_bottom_sheet.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/update_app_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/category_menu.dart';
 import 'package:littlebrazil/view/components/category_section.dart';
 import 'package:littlebrazil/view/components/home_screen_app_bar.dart';
@@ -97,103 +100,133 @@ class _HomeScreenState extends State<HomeScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: CustomScrollView(
-        controller: scrollController,
-        slivers: [
-          const HomeScreenAppBar(),
-          SliverToBoxAdapter(
-            child: Padding(
-              padding: EdgeInsets.only(
-                  top: Constants.defaultPadding * 0.75,
-                  bottom: Constants.defaultPadding),
-              child: SingleChildScrollView(
-                scrollDirection: Axis.horizontal,
-                child: Row(
-                  children: List.generate(
-                      5,
-                      (index) => Container(
-                            width: 90,
-                            height: 115,
-                            margin:
-                                EdgeInsets.only(left: Constants.defaultPadding),
-                            decoration: const BoxDecoration(
-                                color: Constants.lightGrayColor,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6))),
-                          )),
+    return BlocListener<BottomSheetCubit, BottomSheetState>(
+      listener: (context, bottomSheetState) {
+        if (bottomSheetState is NotWorkingBottomSheetShowState) {
+          showModalBottomSheet(
+              context: context,
+              backgroundColor: Constants.backgroundColor,
+              elevation: 0,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              ),
+              builder: (context) => NotWorkingBottomSheet(
+                    openHour: bottomSheetState.openHour,
+                    closeHour: bottomSheetState.closeHour,
+                  ));
+        } else if (bottomSheetState is UpdateAppBottomSheetShowState) {
+          showModalBottomSheet(
+              backgroundColor: Constants.backgroundColor,
+              elevation: 0,
+              shape: const RoundedRectangleBorder(
+                borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
+              ),
+              isDismissible: false,
+              enableDrag: false,
+              context: context,
+              builder: (context) => UpdateAppBottomSheet(
+                  playMarketUrl: bottomSheetState.playMarketUrl,
+                  appStoreUrl: bottomSheetState.appStoreUrl));
+        }
+      },
+      child: Scaffold(
+        body: CustomScrollView(
+          controller: scrollController,
+          slivers: [
+            const HomeScreenAppBar(),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: EdgeInsets.only(
+                    top: Constants.defaultPadding * 0.75,
+                    bottom: Constants.defaultPadding),
+                child: SingleChildScrollView(
+                  scrollDirection: Axis.horizontal,
+                  child: Row(
+                    children: List.generate(
+                        5,
+                        (index) => Container(
+                              width: 90,
+                              height: 115,
+                              margin: EdgeInsets.only(
+                                  left: Constants.defaultPadding),
+                              decoration: const BoxDecoration(
+                                  color: Constants.lightGrayColor,
+                                  borderRadius:
+                                      BorderRadius.all(Radius.circular(6))),
+                            )),
+                  ),
                 ),
               ),
             ),
-          ),
-          BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
-            if (state is MenuLoadedState) {
-              //Initialising break points for correct navigation
-              if (breakPoints.isEmpty) {
-                createBreakPoints(state.categories);
-                scrollControllerListener = () {
-                  updateCategoryIndexOnScroll(
-                      scrollController.offset, state.categories);
-                };
-                scrollController.addListener(scrollControllerListener);
-              }
+            BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
+              if (state is MenuLoadedState) {
+                //Initialising break points for correct navigation
+                if (breakPoints.isEmpty) {
+                  createBreakPoints(state.categories);
+                  scrollControllerListener = () {
+                    updateCategoryIndexOnScroll(
+                        scrollController.offset, state.categories);
+                  };
+                  scrollController.addListener(scrollControllerListener);
+                }
 
-              return SliverPersistentHeader(
-                  pinned: true,
-                  delegate: CategoryMenuSliverHeader(
-                      function: scrollToCategory,
-                      selectedIndex: selectedCategoryIndex,
-                      categories: state.categories));
-            }
-            return SliverToBoxAdapter(
-              child: SizedBox(
-                  height: 56,
-                  child: Padding(
-                    padding: EdgeInsets.symmetric(
-                        horizontal: Constants.defaultPadding * 0.5,
-                        vertical: Constants.defaultPadding * 0.4),
-                    child: Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceAround,
-                        children: List.generate(
-                          5,
-                          (i) => const ShimmerWidget.rectangular(
-                            width: 60,
-                            height: 25,
-                            decoration: BoxDecoration(
-                              color: Constants.lightGrayColor,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(6)),
+                return SliverPersistentHeader(
+                    pinned: true,
+                    delegate: CategoryMenuSliverHeader(
+                        function: scrollToCategory,
+                        selectedIndex: selectedCategoryIndex,
+                        categories: state.categories));
+              }
+              return SliverToBoxAdapter(
+                child: SizedBox(
+                    height: 56,
+                    child: Padding(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: Constants.defaultPadding * 0.5,
+                          vertical: Constants.defaultPadding * 0.4),
+                      child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceAround,
+                          children: List.generate(
+                            5,
+                            (i) => const ShimmerWidget.rectangular(
+                              width: 60,
+                              height: 25,
+                              decoration: BoxDecoration(
+                                color: Constants.lightGrayColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6)),
+                              ),
                             ),
-                          ),
-                        )),
-                  )),
-            );
-          }),
-          BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
-            if (state is MenuLoadedState) {
-              return SliverPadding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: Constants.defaultPadding),
-                sliver: SliverList(
-                    delegate: SliverChildBuilderDelegate((context, index) {
-                  return CategorySection(category: state.categories[index]);
-                }, childCount: state.categories.length)),
-              );
-            }
-            return SliverToBoxAdapter(
-              child: Center(
-                child: Container(
-                    width: 25,
-                    height: 25,
-                    margin: const EdgeInsets.only(top: 50),
-                    child: const CircularProgressIndicator(
-                      color: Constants.secondPrimaryColor,
-                      strokeWidth: 2.5,
+                          )),
                     )),
-              ),
-            );
-          })
-        ],
+              );
+            }),
+            BlocBuilder<MenuCubit, MenuState>(builder: (context, state) {
+              if (state is MenuLoadedState) {
+                return SliverPadding(
+                  padding: EdgeInsets.symmetric(
+                      horizontal: Constants.defaultPadding),
+                  sliver: SliverList(
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                    return CategorySection(category: state.categories[index]);
+                  }, childCount: state.categories.length)),
+                );
+              }
+              return SliverToBoxAdapter(
+                child: Center(
+                  child: Container(
+                      width: 25,
+                      height: 25,
+                      margin: const EdgeInsets.only(top: 50),
+                      child: const CircularProgressIndicator(
+                        color: Constants.secondPrimaryColor,
+                        strokeWidth: 2.5,
+                      )),
+                ),
+              );
+            })
+          ],
+        ),
       ),
     );
   }

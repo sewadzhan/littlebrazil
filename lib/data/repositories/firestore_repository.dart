@@ -1,3 +1,4 @@
+import 'package:littlebrazil/data/models/contacts.dart';
 import 'package:littlebrazil/data/models/promocode.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
@@ -8,12 +9,12 @@ class FirestoreRepository {
   FirestoreRepository(this.firestoreProvider);
 
   //Get contacts
-  // Future<ContactsModel> getContactsData() async {
-  //   var contactsSnapshot = await firestoreProvider.getContactsData();
-  //   var data = contactsSnapshot.data();
+  Future<ContactsModel> getContactsData() async {
+    var contactsSnapshot = await firestoreProvider.getContactsData();
+    var data = contactsSnapshot.data();
 
-  //   return ContactsModel.fromMap(data!);
-  // }
+    return ContactsModel.fromMap(data!);
+  }
 
   //Get promotions
   // Future<List<Promotion>> getPromotions() async {

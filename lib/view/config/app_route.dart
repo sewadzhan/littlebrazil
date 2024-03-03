@@ -6,8 +6,11 @@ import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
+import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
+import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
+import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/cart_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
@@ -21,6 +24,10 @@ class AppRouter {
 
   final NavigationCubit navigationCubit = NavigationCubit();
   static final MenuCubit menuCubit = MenuCubit(firestoreRepository)..getMenu();
+  static final BottomSheetCubit bottomSheetCubit = BottomSheetCubit();
+  static final UpdateAppCubit updateAppCubit = UpdateAppCubit(bottomSheetCubit);
+  static final ContactsCubit contactsCubit =
+      ContactsCubit(firestoreRepository, bottomSheetCubit, updateAppCubit);
 
   static final CurrentUserBloc currentUserBloc =
       CurrentUserBloc(firestoreRepository);
@@ -36,6 +43,8 @@ class AppRouter {
               BlocProvider.value(value: navigationCubit),
               BlocProvider.value(value: menuCubit),
               BlocProvider.value(value: cartBloc),
+              BlocProvider.value(value: bottomSheetCubit),
+              BlocProvider.value(value: contactsCubit),
             ],
             child: const MainScreen(),
           ),

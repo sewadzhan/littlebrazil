@@ -5,7 +5,6 @@ import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/cross_sales_bottom_sheet.dart';
-import 'package:littlebrazil/view/components/bottom_sheets/not_working_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/cart_item.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
