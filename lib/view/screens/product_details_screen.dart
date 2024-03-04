@@ -25,6 +25,7 @@ class ProductDetailsScreen extends StatefulWidget {
 class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   //Controllers for each group modifiers
   List<OrderModifier> modifierControllers = [];
+  int count = 1; //Product count
 
   @override
   void initState() {
@@ -45,7 +46,6 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
-    int count = 1; //Product count
 
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
@@ -302,7 +302,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
               child: Row(
                 children: [
                   SizedBox(
-                    width: 50,
+                    width: 45,
                     child: TextButton(
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.symmetric(
@@ -333,7 +333,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                   Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 3),
                     child: SizedBox(
-                      width: 15,
+                      width: 20,
                       child: Text(count.toString(),
                           textAlign: TextAlign.center,
                           style: Constants.headlineTextTheme.headlineMedium!
@@ -345,7 +345,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     ),
                   ),
                   SizedBox(
-                    width: 50,
+                    width: 45,
                     child: TextButton(
                         style: TextButton.styleFrom(
                           padding: EdgeInsets.symmetric(
