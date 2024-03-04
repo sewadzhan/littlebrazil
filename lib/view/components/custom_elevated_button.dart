@@ -51,7 +51,7 @@ class CustomElevatedButton extends StatelessWidget {
                   style: Constants.headlineTextTheme.displaySmall!.copyWith(
                       color: Constants.backgroundColor,
                       fontSize: 17,
-                      fontWeight: FontWeight.w500),
+                      fontWeight: FontWeight.w600),
                 )),
     );
   }

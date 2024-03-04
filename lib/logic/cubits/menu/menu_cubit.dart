@@ -21,6 +21,7 @@ class MenuCubit extends Cubit<MenuState> {
             Product(
               categoryID: "steaks",
               title: "Рибай стейк",
+              tag: ProductTags.discount,
               imageUrls: [
                 "https://optim.tildacdn.pro/tild3662-6165-4434-b562-313063633662/-/format/webp/54d40c4a1b6bc_-_fire.jpg",
                 "https://optim.tildacdn.pro/tild6361-6132-4232-b435-383038363737/-/format/webp/bbq-pictures-xb9hxhb.jpg"
@@ -90,6 +91,7 @@ class MenuCubit extends Cubit<MenuState> {
           products: [
             Product(
               categoryID: "salads",
+              tag: ProductTags.hit,
               title: "Салат с киноа и маринованным лососем в остром соусе",
               imageUrls: [
                 "https://optim.tildacdn.pro/tild3331-3562-4835-b963-633531386332/-/format/webp/cache_899438757.jpg"
@@ -126,6 +128,7 @@ class MenuCubit extends Cubit<MenuState> {
           products: [
             Product(
               categoryID: "drinks",
+              tag: ProductTags.latest,
               title: "Кока-кола",
               imageUrls: [
                 "https://optim.tildacdn.pro/tild3331-3562-4835-b963-633531386332/-/format/webp/cache_899438757.jpg"

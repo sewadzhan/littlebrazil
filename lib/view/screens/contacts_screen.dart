@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
+import 'package:littlebrazil/view/components/custom_outlined_button.dart';
 import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_widget.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -267,6 +268,11 @@ class ContactsScreen extends StatelessWidget {
                       ),
                     ));
                   },
+                ),
+                Padding(
+                  padding: EdgeInsets.only(top: Constants.defaultPadding * 2),
+                  child: CustomOutlinedButton(
+                      text: "О РЕСТОРАНЕ", function: () {}),
                 )
               ],
             )));

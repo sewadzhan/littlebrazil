@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/cart_item.dart';
 import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
+import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
 class ProductCard extends StatelessWidget {
@@ -25,52 +26,61 @@ class ProductCard extends StatelessWidget {
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Container(
-                width: Constants.defaultPadding * 10,
-                height: Constants.defaultPadding * 8.125,
-                decoration: const BoxDecoration(
-                  borderRadius: BorderRadius.all(Radius.circular(6)),
-                ),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    ClipRRect(
-                      borderRadius: const BorderRadius.all(
-                        Radius.circular(6),
+              InkWell(
+                onTap: () {
+                  Navigator.pushNamed(context, '/productDetails',
+                      arguments: product);
+                },
+                child: Container(
+                  width: Constants.defaultPadding * 10,
+                  height: Constants.defaultPadding * 8.125,
+                  decoration: const BoxDecoration(
+                    borderRadius: BorderRadius.all(Radius.circular(6)),
+                  ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ClipRRect(
+                        borderRadius: const BorderRadius.all(
+                          Radius.circular(6),
+                        ),
+                        child: product.imageUrls.isEmpty ||
+                                product.imageUrls.first.isEmpty
+                            ? Image.asset('assets/decorations/no_image_url.png',
+                                fit: BoxFit.cover)
+                            : CachedNetworkImage(
+                                fit: BoxFit.cover,
+                                imageUrl: product.imageUrls.first,
+                              ),
                       ),
-                      child: product.imageUrls.isEmpty ||
-                              product.imageUrls.first.isEmpty
-                          ? Image.asset('assets/decorations/no_image_url.png',
-                              fit: BoxFit.cover)
-                          : CachedNetworkImage(
-                              fit: BoxFit.cover,
-                              imageUrl: product.imageUrls.first,
-                            ),
-                    ),
-                    product.tag != ProductTags.none
-                        ? Positioned(
-                            top: Constants.defaultPadding * 0.4,
-                            left: Constants.defaultPadding * 0.4,
-                            child: Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 10, vertical: 5),
-                              decoration: const BoxDecoration(
-                                  color: Constants.thirdPrimaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6))),
-                              child: Center(
-                                child: Text(
-                                  "СКИДКА",
-                                  textAlign: TextAlign.center,
-                                  style:
-                                      Constants.textTheme.bodyMedium!.copyWith(
-                                    color: Colors.white,
+                      product.tag != ProductTags.none
+                          ? Positioned(
+                              top: Constants.defaultPadding * 0.4,
+                              left: Constants.defaultPadding * 0.4,
+                              child: Container(
+                                padding: const EdgeInsets.only(
+                                    left: 8, right: 8, top: 7, bottom: 4),
+                                decoration: BoxDecoration(
+                                    color: Config.getTagColor(product.tag),
+                                    borderRadius: const BorderRadius.all(
+                                        Radius.circular(6))),
+                                child: Align(
+                                  alignment: Alignment.center,
+                                  child: Text(
+                                    Config.getTagTitle(product.tag),
+                                    textAlign: TextAlign.center,
+                                    style: Constants
+                                        .headlineTextTheme.headlineSmall!
+                                        .copyWith(
+                                            fontWeight: FontWeight.w600,
+                                            color: Colors.white,
+                                            height: 0.8),
                                   ),
                                 ),
-                              ),
-                            ))
-                        : const SizedBox.shrink()
-                  ],
+                              ))
+                          : const SizedBox.shrink()
+                    ],
+                  ),
                 ),
               ),
               Container(
