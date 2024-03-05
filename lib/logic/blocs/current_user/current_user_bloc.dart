@@ -2,6 +2,7 @@ import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
+import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 
 part 'current_user_event.dart';
 part 'current_user_state.dart';
@@ -9,10 +10,11 @@ part 'current_user_state.dart';
 //Bloc for current user information
 class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   final FirestoreRepository firestoreRepository;
-  // final AddressBloc addressBloc;
+  final AddressBloc addressBloc;
   bool isNewUser = false;
 
-  CurrentUserBloc(this.firestoreRepository) : super(CurrentUserInitial()) {
+  CurrentUserBloc(this.firestoreRepository, this.addressBloc)
+      : super(CurrentUserInitial()) {
     on<CurrentUserRetrieved>(currentUserRetrievedToState);
     on<CurrentUserSet>(currentUserSetToState);
     on<CurrentUserCashbackChanged>(currentUserCashbackChangedToState);
@@ -28,9 +30,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
         //     await firestoreRepository.retrieveUser(event.phoneNumber);
         // emit(CurrentUserRetrieveSuccessful(user));
         //Retrieving all user addresses
-        // addressBloc.add(LoadAddresses(event.phoneNumber));
-        //Retrieving all user paybox cards
-        // payboxCardBloc.add(LoadPayboxCards(event.phoneNumber));
+        addressBloc.add(LoadAddresses("+77086053541"));
       } catch (e) {
         emit(CurrentUserRetrieveFailure());
       }

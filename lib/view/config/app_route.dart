@@ -3,17 +3,23 @@ import 'package:flutter/material.dart';
 import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
+import 'package:littlebrazil/logic/blocs/add_address/add_address_bloc.dart';
+import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
+import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
+import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
+import 'package:littlebrazil/view/screens/add_address_screen.dart';
 import 'package:littlebrazil/view/screens/cart_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
+import 'package:littlebrazil/view/screens/my_addresses_screen.dart';
 import 'package:littlebrazil/view/screens/product_details_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
 import 'package:littlebrazil/view/screens/search_screen.dart';
@@ -30,9 +36,14 @@ class AppRouter {
   static final UpdateAppCubit updateAppCubit = UpdateAppCubit(bottomSheetCubit);
   static final ContactsCubit contactsCubit =
       ContactsCubit(firestoreRepository, bottomSheetCubit, updateAppCubit);
+  static final DeliveryZonesCubit deliveryZonesCubit =
+      DeliveryZonesCubit(firestoreRepository);
 
+  static final AddressBloc addressBloc =
+      AddressBloc(firestoreRepository /*, checkoutBloc*/)
+        ..add(LoadAddresses("+77086053541"));
   static final CurrentUserBloc currentUserBloc =
-      CurrentUserBloc(firestoreRepository);
+      CurrentUserBloc(firestoreRepository, addressBloc);
   static final CartBloc cartBloc = CartBloc()..add(LoadCart());
 
   Route onGenerateRoute(RouteSettings settings) {
@@ -90,6 +101,28 @@ class AppRouter {
               ],
               child:
                   ProductDetailsScreen(product: settings.arguments as Product),
+            ));
+      case "/myAddresses":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 200),
+            child: BlocProvider.value(
+              value: addressBloc,
+              child: const MyAddressesScreen(),
+            ));
+      case "/addAddress":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 200),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: addressBloc),
+                BlocProvider.value(value: deliveryZonesCubit),
+                BlocProvider(create: (_) => AddAddressBloc(deliveryZonesCubit)),
+                BlocProvider(
+                    create: (_) => GeolocationBloc()..add(LoadGeolocation()))
+              ],
+              child: const AddAddressScreen(),
             ));
       default:
         return _errorRoute();

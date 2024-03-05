@@ -1,4 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
+    <uses-permission android:name="android.permission.INTERNET"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <application
         android:label="littlebrazil"
         android:name="${applicationName}"
@@ -29,17 +32,7 @@
         <meta-data
             android:name="flutterEmbedding"
             android:value="2" />
-        <!-- Provide required visibility configuration for API level 30 and above -->
-        <queries>
-        <!-- If your app checks for call support -->
-        <intent>
-            <action android:name="android.intent.action.VIEW" />
-            <data android:scheme="tel" />
-        </intent>
-        <!-- If your application checks for inAppBrowserView launch mode support -->
-        <intent>
-            <action android:name="android.support.customtabs.action.CustomTabsService" />
-        </intent>
-        </queries>
+         <meta-data android:name="com.google.android.geo.API_KEY"
+               android:value="AIzaSyCW7ONFc5Ek2Wc778uNxzlH1oLhXT8YT3E"/>
     </application>
 </manifest>

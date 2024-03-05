@@ -1,4 +1,6 @@
+import 'package:littlebrazil/data/models/address.dart';
 import 'package:littlebrazil/data/models/contacts.dart';
+import 'package:littlebrazil/data/models/delivery_zone.dart';
 import 'package:littlebrazil/data/models/promocode.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
@@ -50,23 +52,23 @@ class FirestoreRepository {
   }
 
   //Get all saved addresses of certain user
-  // Future<List<Address>> getAddressesOfUser(String phoneNumber) async {
-  //   var addressesDocs = await firestoreProvider.getAddressesOfUser(phoneNumber);
+  Future<List<Address>> getAddressesOfUser(String phoneNumber) async {
+    var addressesDocs = await firestoreProvider.getAddressesOfUser(phoneNumber);
 
-  //   return addressesDocs
-  //       .map((snapshot) => Address.fromMap(snapshot.data()))
-  //       .toList();
-  // }
+    return addressesDocs
+        .map((snapshot) => Address.fromMap(snapshot.data()))
+        .toList();
+  }
 
   //Add address to profile of certain phone number
-  // Future<void> addAddress(String phoneNumber, Address address) async {
-  //   await firestoreProvider.addAddress(phoneNumber, address.toMap());
-  // }
+  Future<void> addAddress(String phoneNumber, Address address) async {
+    await firestoreProvider.addAddress(phoneNumber, address.toMap());
+  }
 
   //Delete address from profile of certain phone number
-  // Future<void> removeAddress(String phoneNumber, Address address) async {
-  //   await firestoreProvider.removeAddress(phoneNumber, address.toMap());
-  // }
+  Future<void> removeAddress(String phoneNumber, Address address) async {
+    await firestoreProvider.removeAddress(phoneNumber, address.toMap());
+  }
 
   //Retrieve all promocodes
   Future<List<Promocode>> getPromocodes() async {
@@ -78,13 +80,13 @@ class FirestoreRepository {
   }
 
   //Get delivery zones
-  // Future<List<DeliveryZone>> getDeliveryZones() async {
-  //   var deliveryZonesDocs = await firestoreProvider.getDeliveryZones();
+  Future<List<DeliveryZone>> getDeliveryZones() async {
+    var deliveryZonesDocs = await firestoreProvider.getDeliveryZones();
 
-  //   return deliveryZonesDocs
-  //       .map((snapshot) => DeliveryZone.fromMap(snapshot.data()))
-  //       .toList();
-  // }
+    return deliveryZonesDocs
+        .map((snapshot) => DeliveryZone.fromMap(snapshot.data()))
+        .toList();
+  }
 
   //Add order
   // Future<void> createOrder(Order order) async {
