@@ -215,15 +215,17 @@ class AddAddressScreen extends StatelessWidget {
                             context, '/suggestAddress');
                         String address = addressDynamic;
                         if (address.isNotEmpty) {
+                          addressController =
+                              TextEditingController(text: address);
                           context
                               .read<AddAddressBloc>()
                               .add(NewAddressSetBySuggest(address));
                         }
                       },
-                      titleText: "Адрес",
-                      hintText: hintText,
-                      controller: addressController,
                       onlyRead: true,
+                      titleText: "Адрес",
+                      hintText: hintText.isEmpty ? "Введите адрес" : hintText,
+                      controller: addressController,
                     ),
                   );
                 },

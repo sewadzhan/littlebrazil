@@ -2,7 +2,9 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
+import 'package:littlebrazil/data/providers/yandex_provider.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
+import 'package:littlebrazil/data/repositories/yandex_repository.dart';
 import 'package:littlebrazil/logic/blocs/add_address/add_address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
@@ -10,6 +12,7 @@ import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
+import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
@@ -23,6 +26,7 @@ import 'package:littlebrazil/view/screens/my_addresses_screen.dart';
 import 'package:littlebrazil/view/screens/product_details_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
 import 'package:littlebrazil/view/screens/search_screen.dart';
+import 'package:littlebrazil/view/screens/suggest_address_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -124,6 +128,16 @@ class AppRouter {
               ],
               child: const AddAddressScreen(),
             ));
+      case "/suggestAddress":
+        return PageTransition(
+            fullscreenDialog: true,
+            child: BlocProvider(
+              create: (context) =>
+                  SuggestAddressBloc(YandexRepository(YandexProvider())),
+              child: const SuggestAddressScreen(),
+            ),
+            type: PageTransitionType.bottomToTop,
+            duration: const Duration(milliseconds: 150));
       default:
         return _errorRoute();
     }

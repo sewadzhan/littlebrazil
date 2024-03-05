@@ -72,10 +72,8 @@ class CustomTextInputField extends StatelessWidget {
       style: Constants.textTheme.bodyLarge,
       decoration: InputDecoration(
           hintText: hintText,
-          hintStyle: onlyRead
-              ? Constants.textTheme.bodyLarge
-              : Constants.textTheme.bodyLarge!
-                  .copyWith(color: Constants.textInputColor),
+          hintStyle: Constants.textTheme.bodyLarge!
+              .copyWith(color: Constants.textInputColor),
           focusedBorder: const OutlineInputBorder(
               borderSide: BorderSide(
             width: 1,
