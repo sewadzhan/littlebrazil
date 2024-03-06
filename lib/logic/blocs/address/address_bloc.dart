@@ -54,7 +54,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
       emit(AddressLoading());
 
       //Limit number of addresses
-      if ((currentState as AddressLoaded).addresses.length == 5) {
+      if ((currentState as AddressLoaded).addresses.length == 10) {
         emit(const AddressErrorState("Количество адресов превышает лимит"));
         emit(currentState);
         return;
@@ -76,7 +76,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           id: uuid.v4(),
           address: event.model.address,
           apartmentOrOffice: event.apartment,
-          geopoint: event.model.marker!.first);
+          geopoint: event.model.marker!);
 
       List<Address> newAddressesList = List.from(currentState.addresses)
         ..add(address);

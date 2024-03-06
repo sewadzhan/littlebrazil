@@ -144,6 +144,7 @@ class ProductCard extends StatelessWidget {
                                   .showSnackBar(successSnackBar);
                             },
                             style: OutlinedButton.styleFrom(
+                                overlayColor: Constants.secondPrimaryColor,
                                 backgroundColor: Constants.backgroundColor,
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(6),

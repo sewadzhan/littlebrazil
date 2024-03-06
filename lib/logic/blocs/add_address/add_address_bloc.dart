@@ -1,6 +1,3 @@
-import 'dart:collection';
-import 'dart:developer';
-
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
@@ -38,23 +35,22 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
       if (currentState is AddAddressLoaded) {
         emit(AddAddressLoading());
         if (deliveryZonesCubit.state is DeliveryZonesLoadedState) {
-          String address = await getAddress(event.geopoint);
+          MapLatLng point = event.geopoint;
+          print(point);
+          String address = await getAddress(point);
           List<DeliveryZone> zones =
               (deliveryZonesCubit.state as DeliveryZonesLoadedState)
                   .deliveryZones;
-          DeliveryZone? zone =
-              MapTools.getIntersectedZone(zones, event.geopoint);
-          Set<MapLatLng> markers = HashSet<MapLatLng>();
-          markers.add(event.geopoint);
+          DeliveryZone? zone = MapTools.getIntersectedZone(zones, point);
           if (zone != null) {
             emit(AddAddressLoaded(currentState.addAddressModel.copyWith(
-                marker: markers,
+                marker: point,
                 canBeDelivered: true,
                 address: address,
                 zoneDescription: zone.description)));
           } else {
             emit(AddAddressLoaded(currentState.addAddressModel.copyWith(
-                marker: markers,
+                marker: point,
                 canBeDelivered: false,
                 address: address,
                 zoneDescription:
@@ -82,31 +78,31 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
               await getGeocodePoint(event.address);
 
           if (geocodeResponse.firstPoint == null) {
-            log("Address point was not found in Yandex");
+            print("Address point was not found in Yandex");
             return;
           }
           MapLatLng geopoint = MapLatLng(
-              latitude: geocodeResponse.firstPoint!.lat,
-              longitude: geocodeResponse.firstPoint!.lon);
+              latitude: geocodeResponse
+                  .firstPoint!.lon, // ?????? RECEIVING UNCORRECT COORDINATES
+              longitude: geocodeResponse
+                  .firstPoint!.lat); // ?????? RECEIVING UNCORRECT COORDINATES
           List<DeliveryZone> zones =
               (deliveryZonesCubit.state as DeliveryZonesLoadedState)
                   .deliveryZones;
           DeliveryZone? zone = MapTools.getIntersectedZone(zones, geopoint);
-          Set<MapLatLng> markers = HashSet<MapLatLng>();
-          markers.add(geopoint);
 
           //Move map camera to marker
           emit(MapCameraMoved(geopoint));
 
           if (zone != null) {
             emit(AddAddressLoaded(currentState.addAddressModel.copyWith(
-                marker: markers,
+                marker: geopoint,
                 canBeDelivered: true,
                 address: event.address.replaceAll("Казахстан, Алматы, ", ""),
                 zoneDescription: zone.description)));
           } else {
             emit(AddAddressLoaded(currentState.addAddressModel.copyWith(
-                marker: markers,
+                marker: geopoint,
                 canBeDelivered: false,
                 address: event.address.replaceAll("Казахстан, Алматы, ", ""),
                 zoneDescription: "Поставьте маркер для добавления адреса")));
@@ -131,7 +127,9 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
     String address =
         geocodeFromPoint.firstFullAddress.formattedAddress.toString();
 
-    return address.replaceAll("Казахстан, Алматы, ", "");
+    return address
+        .replaceAll("Казахстан, Алматы, ", "")
+        .replaceAll("Kazakhstan, Almaty, ", "");
   }
 
   //Get accurate geocode point by address string using Yandex Geocoding package

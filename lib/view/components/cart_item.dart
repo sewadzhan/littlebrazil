@@ -103,6 +103,8 @@ class CartItem extends StatelessWidget {
                                   width: 28,
                                   child: TextButton(
                                       style: TextButton.styleFrom(
+                                        overlayColor:
+                                            Constants.secondPrimaryColor,
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10),
                                         shape: const RoundedRectangleBorder(
@@ -149,6 +151,8 @@ class CartItem extends StatelessWidget {
                                   width: 28,
                                   child: TextButton(
                                       style: TextButton.styleFrom(
+                                        overlayColor:
+                                            Constants.secondPrimaryColor,
                                         padding: const EdgeInsets.symmetric(
                                             vertical: 10),
                                         shape: const RoundedRectangleBorder(

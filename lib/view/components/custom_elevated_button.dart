@@ -26,6 +26,7 @@ class CustomElevatedButton extends StatelessWidget {
       child: ElevatedButton(
           style: ElevatedButton.styleFrom(
               elevation: 0,
+              overlayColor: Constants.secondPrimaryColor,
               backgroundColor: Constants.secondPrimaryColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6),
@@ -43,7 +44,7 @@ class CustomElevatedButton extends StatelessWidget {
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: Constants.primaryColor,
+                    color: Colors.white,
                   ),
                 )
               : Text(
@@ -51,7 +52,8 @@ class CustomElevatedButton extends StatelessWidget {
                   style: Constants.headlineTextTheme.displaySmall!.copyWith(
                       color: Constants.backgroundColor,
                       fontSize: 17,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w600,
+                      height: 0.5),
                 )),
     );
   }

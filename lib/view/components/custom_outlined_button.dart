@@ -25,6 +25,7 @@ class CustomOutlinedButton extends StatelessWidget {
       height: 48,
       child: OutlinedButton(
           style: OutlinedButton.styleFrom(
+              overlayColor: Constants.secondPrimaryColor,
               backgroundColor: Constants.backgroundColor,
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(6),
@@ -42,7 +43,7 @@ class CustomOutlinedButton extends StatelessWidget {
                   height: 20,
                   child: CircularProgressIndicator(
                     strokeWidth: 2.5,
-                    color: Constants.primaryColor,
+                    color: Constants.secondPrimaryColor,
                   ),
                 )
               : Text(
@@ -50,7 +51,8 @@ class CustomOutlinedButton extends StatelessWidget {
                   style: Constants.headlineTextTheme.displaySmall!.copyWith(
                       color: Constants.secondPrimaryColor,
                       fontSize: 17,
-                      fontWeight: FontWeight.w600),
+                      fontWeight: FontWeight.w600,
+                      height: 0.5),
                 )),
     );
   }

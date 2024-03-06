@@ -1,29 +1,40 @@
-import 'dart:collection';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:littlebrazil/data/models/maplatlng.dart';
 import 'package:littlebrazil/logic/blocs/add_address/add_address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
-// import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_text_input_field.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
+import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 
-class AddAddressScreen extends StatelessWidget {
+class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({Key? key}) : super(key: key);
 
   @override
-  Widget build(BuildContext context) {
-    var addressController = TextEditingController();
-    var apartmentController = TextEditingController();
-    var panelController = PanelController();
-    GoogleMapController? mapController;
+  State<AddAddressScreen> createState() => _AddAddressScreenState();
+}
 
+class _AddAddressScreenState extends State<AddAddressScreen> {
+  var addressController = TextEditingController();
+  final apartmentController = TextEditingController();
+  final panelController = PanelController();
+  late final YandexMapController mapController;
+
+  @override
+  void dispose() {
+    addressController.dispose();
+    apartmentController.dispose();
+    mapController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -58,77 +69,116 @@ class AddAddressScreen extends StatelessWidget {
               builder: (context, state) {
                 if (state is DeliveryZonesLoadedState &&
                     geolocationState is! GeolocationLoading) {
+                  List<MapObject> mapObjects = [];
+                  for (var e in state.deliveryZones) {
+                    mapObjects.add(PolygonMapObject(
+                      mapId: MapObjectId(e.description),
+                      polygon: Polygon(
+                          outerRing: LinearRing(
+                              points: e.geopoints
+                                  .map((e) => Point(
+                                      latitude: e.latitude,
+                                      longitude: e.longitude))
+                                  .toList()),
+                          innerRings: const []),
+                      strokeColor: e.color,
+                      strokeWidth: 1.5,
+                      fillColor: e.color.withAlpha(20),
+                    ) as MapObject);
+                  }
                   return Stack(
                     children: [
                       BlocConsumer<AddAddressBloc, AddAddressState>(
-                        listener: (context, state) {
+                        listener: (context, state) async {
                           //Move map camera to marker
                           if (state is MapCameraMoved) {
-                            mapController?.animateCamera(
+                            await mapController.moveCamera(
                                 CameraUpdate.newCameraPosition(CameraPosition(
-                                    target: LatLng(state.geopoint.latitude,
-                                        state.geopoint.longitude),
-                                    zoom: 17.5)));
+                                    target: Point(
+                                        latitude: state.geopoint.latitude,
+                                        longitude: state.geopoint.longitude),
+                                    zoom: 16.65)));
                           }
                         },
                         builder: (context, addAddressState) {
-                          Set<Marker> markerSet = HashSet<Marker>();
-                          var cameraPosition = const CameraPosition(
-                              target: LatLng(43.2398052, 76.8906515),
-                              zoom: 11.5);
-                          //Init initial camera position depending on geolocation
-                          var geolocationState =
-                              context.read<GeolocationBloc>().state;
-                          if (geolocationState is GeolocationLoaded) {
-                            cameraPosition = CameraPosition(
-                                target: LatLng(
-                                    geolocationState.position.latitude,
-                                    geolocationState.position.longitude),
-                                zoom: 17.5);
-                          }
                           if (addAddressState is AddAddressLoaded) {
                             //Initialising markers for map
-                            if (addAddressState.addAddressModel.marker !=
-                                null) {
-                              markerSet = addAddressState
-                                  .addAddressModel.marker!
-                                  .map((e) => Marker(
-                                      markerId: MarkerId("${e.latitude}"),
-                                      position: LatLng(e.latitude, e.longitude),
-                                      draggable: true,
-                                      onDragEnd: (LatLng geopoint) {
-                                        context.read<AddAddressBloc>().add(
-                                            NewAddressSetByMarker(MapLatLng(
-                                                latitude: geopoint.latitude,
-                                                longitude:
-                                                    geopoint.longitude)));
-                                        if (panelController.isPanelClosed) {
-                                          panelController.open();
-                                        }
-                                      }))
-                                  .toSet();
+                            MapLatLng? markerPoint =
+                                addAddressState.addAddressModel.marker;
+                            if (markerPoint != null) {
+                              mapObjects = mapObjects
+                                  .where(
+                                      (element) => element is PolygonMapObject)
+                                  .toList();
+                              mapObjects.add(PlacemarkMapObject(
+                                mapId: MapObjectId(
+                                    'MapObject ${markerPoint.latitude}'),
+                                point: Point(
+                                    latitude: markerPoint.latitude,
+                                    longitude: markerPoint.longitude),
+                                opacity: 1,
+                                icon: PlacemarkIcon.single(
+                                  PlacemarkIconStyle(
+                                    image: BitmapDescriptor.fromAssetImage(
+                                      'assets/icons/map-point.png',
+                                    ),
+                                    scale: 2,
+                                  ),
+                                ),
+                              ) as MapObject);
                             }
                           }
+                          return YandexMap(
+                            mapObjects: mapObjects,
+                            onMapCreated: (controller) async {
+                              mapController = controller;
 
-                          return GoogleMap(
-                            myLocationButtonEnabled: false,
-                            zoomControlsEnabled: false,
-                            compassEnabled: false,
-                            myLocationEnabled: true,
-                            markers: markerSet,
-                            polygons: state.deliveryZones.map((e) {
-                              return Polygon(
-                                  polygonId: PolygonId(e.description),
-                                  points: e.geopoints
-                                      .map((e) =>
-                                          LatLng(e.latitude, e.longitude))
-                                      .toList(),
-                                  strokeWidth: 1,
-                                  fillColor: e.color.withAlpha(20),
-                                  strokeColor: e.color);
-                            }).toSet(),
-                            initialCameraPosition: cameraPosition,
-                            onTap: (LatLng geopoint) {
+                              await mapController.setMinZoom(zoom: 10);
+                              await mapController.setMaxZoom(zoom: 18.5);
+
+                              if (geolocationState is GeolocationLoaded) {
+                                //Enabling location user layer
+                                await mapController.toggleUserLayer(
+                                    visible: true);
+                              }
+                            },
+                            onUserLocationAdded: (view) async {
+                              await mapController.moveCamera(
+                                CameraUpdate.newCameraPosition(
+                                    const CameraPosition(
+                                        target: Point(
+                                            latitude: 43.2398052,
+                                            longitude: 76.8906515),
+                                        zoom: 11.4)),
+                                animation: const MapAnimation(
+                                  type: MapAnimationType.linear,
+                                  duration: 0.3,
+                                ),
+                              );
+                              // Getting the user location
+                              var userLocation =
+                                  await mapController.getUserCameraPosition();
+                              // Setting the initial camera if location is found
+                              if (userLocation != null) {
+                                // await mapController.moveCamera(
+                                //   CameraUpdate.newCameraPosition(
+                                //     userLocation.copyWith(zoom: 15),
+                                //   ),
+                                //   animation: const MapAnimation(
+                                //     type: MapAnimationType.linear,
+                                //     duration: 0.3,
+                                //   ),
+                                // );
+                              }
+
+                              // Changing the view of location marker
+                              return view.copyWith(
+                                pin: view.pin.copyWith(
+                                  opacity: 1,
+                                ),
+                              );
+                            },
+                            onMapTap: (Point geopoint) {
                               context.read<AddAddressBloc>().add(
                                   NewAddressSetByMarker(MapLatLng(
                                       latitude: geopoint.latitude,
@@ -136,9 +186,6 @@ class AddAddressScreen extends StatelessWidget {
                               if (panelController.isPanelClosed) {
                                 panelController.open();
                               }
-                            },
-                            onMapCreated: (controller) {
-                              mapController = controller;
                             },
                           );
                         },
@@ -201,7 +248,8 @@ class AddAddressScreen extends StatelessWidget {
                   String hintText = "";
 
                   if (state is AddAddressLoaded) {
-                    hintText = state.addAddressModel.address;
+                    addressController = TextEditingController(
+                        text: state.addAddressModel.address);
                   } else if (state is AddAddressLoading) {
                     hintText = "Определение адреса...";
                   }
@@ -217,9 +265,11 @@ class AddAddressScreen extends StatelessWidget {
                         if (address.isNotEmpty) {
                           addressController =
                               TextEditingController(text: address);
-                          context
-                              .read<AddAddressBloc>()
-                              .add(NewAddressSetBySuggest(address));
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            context
+                                .read<AddAddressBloc>()
+                                .add(NewAddressSetBySuggest(address));
+                          });
                         }
                       },
                       onlyRead: true,

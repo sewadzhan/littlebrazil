@@ -7,7 +7,7 @@ class AddAddressModel extends Equatable {
   final String address;
   final bool canBeDelivered;
   final String zoneDescription;
-  final Set<MapLatLng>? marker;
+  final MapLatLng? marker;
 
   const AddAddressModel(
       {required this.address,
@@ -19,12 +19,12 @@ class AddAddressModel extends Equatable {
       {String? address,
       bool? canBeDelivered,
       String? zoneDescription,
-      Set<MapLatLng>? marker}) {
+      MapLatLng? marker}) {
     return AddAddressModel(
         address: address ?? this.address,
         canBeDelivered: canBeDelivered ?? this.canBeDelivered,
         zoneDescription: zoneDescription ?? this.zoneDescription,
-        marker: marker ?? this.marker);
+        marker: marker);
   }
 
   @override
