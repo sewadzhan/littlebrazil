@@ -31,14 +31,14 @@ class NotWorkingBottomSheetShowState extends BottomSheetState {
 // }
 
 //State for showing cashback bottom sheet in Checkout page
-// class CashbackBottomSheetShowState extends BottomSheetState {
-//   final Order order;
+class CashbackBottomSheetShowState extends BottomSheetState {
+  final Order order;
 
-//   const CashbackBottomSheetShowState(this.order);
+  const CashbackBottomSheetShowState(this.order);
 
-//   @override
-//   List<Object> get props => [order];
-// }
+  @override
+  List<Object> get props => [order];
+}
 
 //State for showing update app bottom sheet
 class UpdateAppBottomSheetShowState extends BottomSheetState {

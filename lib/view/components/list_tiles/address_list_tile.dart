@@ -18,9 +18,9 @@ class AddressListTile extends StatelessWidget {
     return Column(
       children: [
         ListTile(
+          dense: true,
           onTap: function,
-          contentPadding:
-              EdgeInsets.symmetric(horizontal: Constants.defaultPadding * 0.5),
+          contentPadding: EdgeInsets.zero,
           title: Text(
             address.address,
             style: Constants.textTheme.headlineSmall!.copyWith(
@@ -35,7 +35,7 @@ class AddressListTile extends StatelessWidget {
           ),
           trailing: SvgPicture.asset('assets/icons/arrow-right.svg',
               colorFilter: const ColorFilter.mode(
-                  Constants.darkGrayColor, BlendMode.srcIn)),
+                  Constants.middleGrayColor, BlendMode.srcIn)),
         ),
         Container(
           height: 1,

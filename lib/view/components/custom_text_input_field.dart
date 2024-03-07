@@ -69,8 +69,16 @@ class CustomTextInputField extends StatelessWidget {
       readOnly: onlyRead || pickerType != Picker.none,
       keyboardType: keyboardType,
       maxLines: maxLines,
-      style: Constants.textTheme.bodyLarge,
+      style: maxLines == 1
+          ? Constants.textTheme.bodyLarge
+          : Constants.textTheme.bodyMedium,
       decoration: InputDecoration(
+          floatingLabelBehavior: FloatingLabelBehavior.always,
+          label: Text(
+            titleText,
+            style: Constants.textTheme.bodyLarge!
+                .copyWith(color: Constants.darkGrayColor),
+          ),
           hintText: hintText,
           hintStyle: Constants.textTheme.bodyLarge!
               .copyWith(color: Constants.textInputColor),

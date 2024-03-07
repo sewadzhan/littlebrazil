@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_outlined_button.dart';
 import 'package:littlebrazil/view/config/theme.dart';
@@ -13,6 +12,7 @@ class Constants {
   static const Color thirdPrimaryColor = Color(0xFFBFD730);
   static const Color blackColor = Color.fromARGB(255, 20, 20, 20);
   static const Color darkGrayColor = Color(0xFF464646);
+  static const Color middleGrayColor = Color(0xFFB9B9B9);
   static const Color lightGrayColor = Color(0xFFEAEAEA);
 
   static const Color textInputColor = Color(0xFFD8D8D8);

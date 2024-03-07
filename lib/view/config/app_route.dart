@@ -8,19 +8,24 @@ import 'package:littlebrazil/data/repositories/yandex_repository.dart';
 import 'package:littlebrazil/logic/blocs/add_address/add_address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
+import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
+import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
+import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
+import 'package:littlebrazil/logic/cubits/extra_cutlery/extra_cutlery_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
 import 'package:littlebrazil/view/screens/cart_screen.dart';
+import 'package:littlebrazil/view/screens/checkout_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
 import 'package:littlebrazil/view/screens/my_addresses_screen.dart';
 import 'package:littlebrazil/view/screens/product_details_screen.dart';
@@ -42,13 +47,27 @@ class AppRouter {
       ContactsCubit(firestoreRepository, bottomSheetCubit, updateAppCubit);
   static final DeliveryZonesCubit deliveryZonesCubit =
       DeliveryZonesCubit(firestoreRepository);
+  static final ExtraCutleryCubit extraCutleryCubit =
+      ExtraCutleryCubit(cartBloc);
 
   static final AddressBloc addressBloc =
-      AddressBloc(firestoreRepository /*, checkoutBloc*/)
+      AddressBloc(firestoreRepository, checkoutBloc)
         ..add(LoadAddresses("+77086053541"));
+  static final CashbackBloc cashbackBloc =
+      CashbackBloc(firestoreRepository, currentUserBloc)
+        ..add(LoadCashbackData());
   static final CurrentUserBloc currentUserBloc =
       CurrentUserBloc(firestoreRepository, addressBloc);
   static final CartBloc cartBloc = CartBloc()..add(LoadCart());
+  static final CheckoutBloc checkoutBloc =
+      CheckoutBloc(deliveryZonesCubit, cartBloc, extraCutleryCubit);
+  final OrderBloc orderBloc = OrderBloc(
+      firestoreRepository: firestoreRepository,
+      cartBloc: cartBloc,
+      contactsCubit: contactsCubit,
+      currentUserBloc: currentUserBloc,
+      cashbackBloc: cashbackBloc,
+      bottomSheetCubit: bottomSheetCubit);
 
   Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -138,6 +157,25 @@ class AppRouter {
             ),
             type: PageTransitionType.bottomToTop,
             duration: const Duration(milliseconds: 150));
+      case "/checkout":
+        return PageTransition(
+            type: PageTransitionType.fade,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: checkoutBloc),
+                BlocProvider.value(value: addressBloc),
+                BlocProvider.value(value: cartBloc),
+                BlocProvider.value(value: contactsCubit),
+                BlocProvider.value(value: orderBloc),
+                BlocProvider.value(value: deliveryZonesCubit),
+                BlocProvider.value(value: bottomSheetCubit),
+                BlocProvider.value(value: cashbackBloc),
+                BlocProvider.value(value: currentUserBloc),
+                BlocProvider.value(value: contactsCubit),
+                BlocProvider.value(value: extraCutleryCubit),
+              ],
+              child: const CheckoutScreen(),
+            ));
       default:
         return _errorRoute();
     }

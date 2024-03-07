@@ -1,4 +1,5 @@
 import 'package:littlebrazil/data/models/address.dart';
+import 'package:littlebrazil/data/models/cashback_data.dart';
 import 'package:littlebrazil/data/models/contacts.dart';
 import 'package:littlebrazil/data/models/delivery_zone.dart';
 import 'package:littlebrazil/data/models/promocode.dart';
@@ -103,15 +104,15 @@ class FirestoreRepository {
   // }
 
   //Get cashback system data (percent value, is enabled or not)
-  // Future<CashbackData> getCashbackData() async {
-  //   var cashbackDoc = await firestoreProvider.getCashbackData();
-  //   return CashbackData.fromMap(cashbackDoc.data()!);
-  // }
+  Future<CashbackData> getCashbackData() async {
+    var cashbackDoc = await firestoreProvider.getCashbackData();
+    return CashbackData.fromMap(cashbackDoc.data()!);
+  }
 
   //Edit user cashback
-  // Future<void> editUserCashback(String phoneNumber, int newCashback) async {
-  //   await firestoreProvider.editUserCashback(phoneNumber, newCashback);
-  // }
+  Future<void> editUserCashback(String phoneNumber, int newCashback) async {
+    await firestoreProvider.editUserCashback(phoneNumber, newCashback);
+  }
 
   //Get user cashback
   Future<int> getUserCashback(String phoneNumber) async {

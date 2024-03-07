@@ -43,7 +43,7 @@ class HomeScreenAppBar extends StatelessWidget {
             shape: const CircleBorder(),
           ),
           onPressed: () {
-            Navigator.pushNamed(context, '/myAddresses');
+            Navigator.pushNamed(context, '/checkout');
           },
           child: SizedBox(
             width: 30,

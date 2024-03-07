@@ -94,14 +94,14 @@ class SliverBody extends StatelessWidget {
                     child: Text(title,
                         style: Constants.headlineTextTheme.displayLarge!
                             .copyWith(
-                                color: Constants.primaryColor, fontSize: 30)),
+                                color: Constants.primaryColor, fontSize: 29)),
                   );
                 },
               ),
             ),
           ),
           SliverPadding(
-              padding: EdgeInsets.only(top: Constants.defaultPadding),
+              padding: EdgeInsets.only(top: Constants.defaultPadding * 0.5),
               sliver: SliverToBoxAdapter(child: child))
         ],
       ),

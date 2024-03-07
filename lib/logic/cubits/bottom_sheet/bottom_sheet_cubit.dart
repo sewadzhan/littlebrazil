@@ -1,5 +1,6 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:littlebrazil/data/models/order.dart';
 
 part 'bottom_sheet_state.dart';
 
@@ -18,9 +19,9 @@ class BottomSheetCubit extends Cubit<BottomSheetState> {
   }
 
   //Showing cashback bottom sheet
-  // showCashbackBottomSheet(Order order) {
-  //   emit(CashbackBottomSheetShowState(order));
-  // }
+  showCashbackBottomSheet(Order order) {
+    emit(CashbackBottomSheetShowState(order));
+  }
 
   //Showing update app bottom sheet
   showUpdateAppBottomSheet(String playMarketUrl, String appStoreUrl) {
