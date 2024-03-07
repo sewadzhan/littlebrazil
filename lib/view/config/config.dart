@@ -106,4 +106,73 @@ class Config {
         throw RestaurantException("Illegal order type");
     }
   }
+
+  static getMonthString(int month) {
+    switch (month) {
+      case 1:
+        return "января";
+      case 2:
+        return "февраля";
+      case 3:
+        return "марта";
+      case 4:
+        return "апреля";
+      case 5:
+        return "мая";
+      case 6:
+        return "июня";
+      case 7:
+        return "июля";
+      case 8:
+        return "августа";
+      case 9:
+        return "сентября";
+      case 10:
+        return "октября";
+      case 11:
+        return "ноября";
+      case 12:
+        return "декабря";
+      default:
+        throw RestaurantException("Illegal month number");
+    }
+  }
+
+  //Get full available time hours for delivery
+  static List<String> getFullTimeRanges(
+      String openHourStr, String closeHourStr) {
+    List<String> fullTimeRanges = [];
+
+    int openHour = int.parse(openHourStr.split(':').first);
+    int closeHour = int.parse(closeHourStr.split(':').first);
+
+    int start = openHour + 2; //Start delivery in 2 hours after open
+    while (start <= closeHour) {
+      fullTimeRanges.add("$start:00");
+      if (start != closeHour) {
+        fullTimeRanges.add("$start:30");
+      }
+      start++;
+    }
+
+    return fullTimeRanges;
+  }
+
+  //Get today's available time hours for delivery
+  static List<String> getTodayTimeRanges(String closeHourStr) {
+    List<String> fullTimeRanges = ["Как можно скорее"];
+
+    int closeHour = int.parse(closeHourStr.split(':').first);
+
+    int start = DateTime.now().hour + 2;
+    while (start <= closeHour) {
+      fullTimeRanges.add("$start:00");
+      if (start != closeHour) {
+        fullTimeRanges.add("$start:30");
+      }
+      start++;
+    }
+
+    return fullTimeRanges;
+  }
 }

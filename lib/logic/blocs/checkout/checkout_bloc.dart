@@ -26,11 +26,12 @@ class CheckoutBloc extends Bloc<CheckoutEvent, Checkout> {
               address: "",
               apartmentOrOffice: "",
               geopoint: MapLatLng(latitude: 0, longitude: 0)),
-          deliveryTime: DeliveryTimeType.none,
+          deliveryTime: DeliveryTimeType.fast,
           numberOfPersons: 1,
           paymentMethod: PaymentMethod.bankCard,
           pickupPoint: null,
           certainTimeOrder: "",
+          certainDayOrder: "",
           deliveryCost: 0,
           organizationID: "",
         )) {
@@ -195,7 +196,9 @@ class CheckoutBloc extends Bloc<CheckoutEvent, Checkout> {
   //Change certain time order
   checkoutCertainTimeOrderChangedToState(
       CheckoutCertainTimeOrderChanged event, Emitter<Checkout> emit) {
-    emit(state.copyWith(certainTimeOrder: event.certainTimeOrder));
+    emit(state.copyWith(
+        certainTimeOrder: event.certainTimeOrder,
+        certainDayOrder: event.certainDayOrder));
   }
 
   //Change saved card for payment

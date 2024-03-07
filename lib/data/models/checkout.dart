@@ -25,6 +25,7 @@ class Checkout extends Equatable {
   final PaymentMethod paymentMethod;
   final DeliveryPoint? pickupPoint;
   final String certainTimeOrder;
+  final String certainDayOrder;
   final int deliveryCost;
   final String organizationID;
   // final Card? savedCard;
@@ -37,6 +38,7 @@ class Checkout extends Equatable {
     required this.paymentMethod,
     required this.pickupPoint,
     required this.certainTimeOrder,
+    required this.certainDayOrder,
     required this.deliveryCost,
     required this.organizationID,
     // required this.savedCard,
@@ -51,6 +53,7 @@ class Checkout extends Equatable {
         paymentMethod,
         pickupPoint,
         certainTimeOrder,
+        certainDayOrder,
         deliveryCost,
         organizationID,
         // savedCard,
@@ -64,6 +67,7 @@ class Checkout extends Equatable {
     PaymentMethod? paymentMethod,
     DeliveryPoint? pickupPoint,
     String? certainTimeOrder,
+    String? certainDayOrder,
     int? deliveryCost,
     String? organizationID,
     String? comments,
@@ -77,6 +81,7 @@ class Checkout extends Equatable {
       paymentMethod: paymentMethod ?? this.paymentMethod,
       pickupPoint: pickupPoint ?? this.pickupPoint,
       certainTimeOrder: certainTimeOrder ?? this.certainTimeOrder,
+      certainDayOrder: certainDayOrder ?? this.certainDayOrder,
       deliveryCost: deliveryCost ?? this.deliveryCost,
       organizationID: organizationID ?? this.organizationID,
       // savedCard: savedCard ?? this.savedCard,

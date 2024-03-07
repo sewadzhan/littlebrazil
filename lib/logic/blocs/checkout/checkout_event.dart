@@ -75,11 +75,13 @@ class CheckoutPickupPointChanged extends CheckoutEvent {
 //Event for changing certain time order
 class CheckoutCertainTimeOrderChanged extends CheckoutEvent {
   final String certainTimeOrder;
+  final String certainDayOrder;
 
-  const CheckoutCertainTimeOrderChanged(this.certainTimeOrder);
+  const CheckoutCertainTimeOrderChanged(
+      {required this.certainTimeOrder, required this.certainDayOrder});
 
   @override
-  List<Object> get props => [certainTimeOrder];
+  List<Object> get props => [certainTimeOrder, certainDayOrder];
 }
 
 // //Event for changing saved card if payment method is Saved Card

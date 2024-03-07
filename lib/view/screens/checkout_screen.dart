@@ -12,6 +12,7 @@ import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/address_bottom_sheet.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/delivery_time_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_text_input_field.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
@@ -359,25 +360,57 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     style: Constants.textTheme.headlineSmall!.copyWith(
                       color: Constants.primaryColor,
                     )),
-                ListTile(
-                  dense: true,
-                  contentPadding: EdgeInsets.zero,
-                  leading: SizedBox(
-                    width: 25,
-                    child: SvgPicture.asset('assets/icons/clock.svg'),
-                  ),
-                  title: Text(
-                    "Как можно скорее",
-                    style: Constants.textTheme.bodyLarge,
-                  ),
-                  subtitle: Text(
-                    "Сегодня",
-                    style: Constants.textTheme.bodyMedium!
-                        .copyWith(color: Constants.middleGrayColor),
-                  ),
-                  trailing: SvgPicture.asset('assets/icons/arrow-right.svg',
-                      colorFilter: const ColorFilter.mode(
-                          Constants.middleGrayColor, BlendMode.srcIn)),
+                BlocBuilder<CheckoutBloc, Checkout>(
+                  builder: (context, state) {
+                    return ListTile(
+                      dense: true,
+                      contentPadding: EdgeInsets.zero,
+                      leading: SizedBox(
+                        width: 25,
+                        child: SvgPicture.asset('assets/icons/clock.svg'),
+                      ),
+                      title: Text(
+                        state.deliveryTime == DeliveryTimeType.fast
+                            ? "Как можно скорее"
+                            : "${state.certainDayOrder}, ${state.certainTimeOrder}",
+                        style: Constants.textTheme.bodyLarge,
+                      ),
+                      subtitle: Text(
+                        state.deliveryTime == DeliveryTimeType.fast
+                            ? "Сегодня"
+                            : "Возможна разница ±15 минут",
+                        style: Constants.textTheme.bodyMedium!
+                            .copyWith(color: Constants.middleGrayColor),
+                      ),
+                      trailing: SvgPicture.asset(
+                        'assets/icons/arrow-right.svg',
+                        colorFilter: const ColorFilter.mode(
+                            Constants.middleGrayColor, BlendMode.srcIn),
+                      ),
+                      onTap: () {
+                        showModalBottomSheet(
+                            context: context,
+                            backgroundColor: Constants.backgroundColor,
+                            elevation: 0,
+                            isScrollControlled: true,
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.vertical(
+                                  top: Radius.circular(12)),
+                            ),
+                            builder: (context1) => MultiBlocProvider(
+                                  providers: [
+                                    BlocProvider.value(
+                                      value: context.read<CheckoutBloc>(),
+                                    ),
+                                    BlocProvider.value(
+                                      value: context.read<ContactsCubit>(),
+                                    ),
+                                  ],
+                                  child: const DeliveryTimeBottomSheet(),
+                                ));
+                      },
+                    );
+                  },
                 ),
                 Padding(
                   padding:
