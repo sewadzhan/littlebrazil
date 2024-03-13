@@ -222,6 +222,7 @@ class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
                 TextButton(
                     onPressed: () {
                       Navigator.pop(context);
+                      Navigator.pushNamed(context, '/checkout');
                     },
                     child: Text(
                       buttonText,
