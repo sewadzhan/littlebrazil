@@ -51,47 +51,56 @@ class CustomTheme {
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.w500,
         fontSize: 36,
+        letterSpacing: 0,
         fontFamily: 'Gotham'),
     displayMedium: TextStyle(
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.w500,
         fontSize: 22,
+        letterSpacing: 0,
         fontFamily: 'Gotham'),
     displaySmall: TextStyle(
       color: Constants.darkGrayColor,
       fontWeight: FontWeight.w500,
       fontSize: 18,
+      letterSpacing: 0,
       fontFamily: 'Gotham',
     ),
     headlineMedium: TextStyle(
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.w500,
         fontSize: 16,
+        letterSpacing: 0,
         fontFamily: 'Gotham'),
     headlineSmall: TextStyle(
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.w500,
         fontSize: 14,
+        letterSpacing: 0,
         fontFamily: 'Gotham'),
     titleLarge: TextStyle(
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.w500,
         fontSize: 12,
+        letterSpacing: 0,
         fontFamily: 'Gotham'),
     bodyLarge: TextStyle(
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.normal,
         fontSize: 14,
+        letterSpacing: 0,
         fontFamily: 'Gotham'),
     bodyMedium: TextStyle(
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.normal,
         fontSize: 12,
+        letterSpacing: 0,
         fontFamily: 'Gotham'),
     bodySmall: TextStyle(
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.normal,
         fontSize: 11,
+        letterSpacing: 0,
         fontFamily: 'Gotham'),
   );
 

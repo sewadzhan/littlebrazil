@@ -7,11 +7,13 @@ import 'package:littlebrazil/data/models/checkout.dart';
 import 'package:littlebrazil/data/models/delivery_point.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
+import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/address_bottom_sheet.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/cashback_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/delivery_time_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_text_input_field.dart';
@@ -180,13 +182,44 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 text: "ОФОРМИТЬ ЗАКАЗ",
                                 isLoading: state is OrderLoading,
                                 function: () {
-                                  var checkoutBloc =
-                                      context.read<CheckoutBloc>();
+                                  // var checkoutBloc =
+                                  //     context.read<CheckoutBloc>();
 
-                                  context.read<OrderBloc>().add(NewOrderPlaced(
-                                      checkout: checkoutBloc.state,
-                                      comments: commentsController.text,
-                                      change: changeController.text));
+                                  // context.read<OrderBloc>().add(NewOrderPlaced(
+                                  //     checkout: checkoutBloc.state,
+                                  //     comments: commentsController.text,
+                                  //     change: changeController.text));
+
+                                  showModalBottomSheet(
+                                      context: context,
+                                      backgroundColor:
+                                          Constants.backgroundColor,
+                                      elevation: 0,
+                                      isScrollControlled: true,
+                                      shape: const RoundedRectangleBorder(
+                                        borderRadius: BorderRadius.vertical(
+                                            top: Radius.circular(12)),
+                                      ),
+                                      builder: (context1) => MultiBlocProvider(
+                                            providers: [
+                                              BlocProvider.value(
+                                                value: context
+                                                    .read<CheckoutBloc>(),
+                                              ),
+                                              BlocProvider.value(
+                                                value: context
+                                                    .read<ContactsCubit>(),
+                                              ),
+                                              BlocProvider.value(
+                                                value: context
+                                                    .read<CashbackBloc>(),
+                                              ),
+                                              BlocProvider.value(
+                                                value: context.read<CartBloc>(),
+                                              ),
+                                            ],
+                                            child: const CashbackBottomSheet(),
+                                          ));
                                 }),
                           );
                         },

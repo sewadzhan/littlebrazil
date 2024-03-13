@@ -64,6 +64,30 @@ class Config {
     }
   }
 
+  static String getPaymentMethodIconPath(
+      {bool isIOS = false, required PaymentMethod paymentMethod}) {
+    switch (paymentMethod) {
+      case PaymentMethod.bankCard:
+        return "assets/icons/card.svg";
+      case PaymentMethod.kaspi:
+        return "assets/icons/kaspi.svg";
+      default:
+        return "assets/icons/card.svg";
+    }
+  }
+
+  static String getPaymentMethodDescription(
+      {bool isIOS = false, required PaymentMethod paymentMethod}) {
+    switch (paymentMethod) {
+      case PaymentMethod.bankCard:
+        return "";
+      case PaymentMethod.kaspi:
+        return "в банковском приложении";
+      default:
+        return "";
+    }
+  }
+
   static PaymentMethod paymentMethodFromString(String paymentMethod) {
     switch (paymentMethod) {
       case "Apple Pay":

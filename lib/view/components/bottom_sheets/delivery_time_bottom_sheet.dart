@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/checkout.dart';
@@ -41,247 +42,256 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
   Widget build(BuildContext context) {
     return Wrap(
       children: [
-        BlocBuilder<ContactsCubit, ContactsState>(
-          builder: (context, state) {
-            if (state is ContactsLoadedState) {
-              List<String> todayDeliveryHours =
-                  Config.getTodayTimeRanges(state.contactsModel.closeHour);
-              if (fullTimeRanges.isEmpty) {
-                fullTimeRanges = Config.getFullTimeRanges(
-                    state.contactsModel.openHour,
-                    state.contactsModel.closeHour);
-              }
-              return Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: EdgeInsets.only(
-                        top: Constants.defaultPadding * 2,
-                        bottom: Constants.defaultPadding * 1.5,
-                        left: Constants.defaultPadding),
-                    child: Text("Укажите время доставки",
-                        style:
-                            Constants.headlineTextTheme.displayMedium!.copyWith(
-                          color: Constants.primaryColor,
-                        )),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
+        SafeArea(
+          child: BlocBuilder<ContactsCubit, ContactsState>(
+            builder: (context, state) {
+              if (state is ContactsLoadedState) {
+                List<String> todayDeliveryHours =
+                    Config.getTodayTimeRanges(state.contactsModel.closeHour);
+                if (fullTimeRanges.isEmpty) {
+                  fullTimeRanges = Config.getFullTimeRanges(
+                      state.contactsModel.openHour,
+                      state.contactsModel.closeHour);
+                }
+                return Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          top: Constants.defaultPadding * 2,
+                          bottom: Constants.defaultPadding * 1.5,
+                          left: Constants.defaultPadding),
+                      child: Text("Укажите время доставки",
+                          style: Constants.headlineTextTheme.displayMedium!
+                              .copyWith(
+                            color: Constants.primaryColor,
+                          )),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: Constants.defaultPadding,
+                          left: Constants.defaultPadding),
+                      child: Text(
+                        "Будем стараться доставить Ваш заказ максимально быстро (с погрешностью ±10 минут)",
+                        style: Constants.textTheme.bodyLarge!
+                            .copyWith(height: 1.25),
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
                         bottom: Constants.defaultPadding,
-                        left: Constants.defaultPadding),
-                    child: Text(
-                      "Будем стараться доставить Ваш заказ максимально быстро (с погрешностью ±10 минут)",
-                      style:
-                          Constants.textTheme.bodyLarge!.copyWith(height: 1.25),
-                    ),
-                  ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: Constants.defaultPadding,
-                    ),
-                    child: SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          children: List.generate(
-                              deliveryDays.length,
-                              (index) => InkWell(
-                                    onTap: () {
-                                      setState(() {
-                                        selectedDeliveryDay = index;
-                                        selectedDeliveryHour = 0;
-                                      });
-                                    },
-                                    child: Container(
-                                      margin: EdgeInsets.only(
-                                          left: index == 0
-                                              ? Constants.defaultPadding
-                                              : 0,
-                                          right:
-                                              Constants.defaultPadding * 0.75),
-                                      decoration: BoxDecoration(
-                                          color:
-                                              Constants.secondBackgroundColor,
-                                          border: Border.all(
-                                              width: 1,
-                                              color: index ==
-                                                      selectedDeliveryDay
-                                                  ? Constants.secondPrimaryColor
-                                                  : Colors.transparent),
-                                          borderRadius: const BorderRadius.all(
-                                              Radius.circular(6))),
-                                      padding: const EdgeInsets.symmetric(
-                                          horizontal: 10, vertical: 5),
-                                      child: Text(
-                                        deliveryDays[index],
-                                        style: Constants
-                                            .textTheme.headlineSmall!
-                                            .copyWith(
-                                                fontWeight: FontWeight.w500,
-                                                color: index ==
-                                                        selectedDeliveryDay
-                                                    ? Constants
-                                                        .secondPrimaryColor
-                                                    : Constants.darkGrayColor),
+                      ),
+                      child: SingleChildScrollView(
+                        physics: const ClampingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children: List.generate(
+                                deliveryDays.length,
+                                (index) => InkWell(
+                                      onTap: () {
+                                        setState(() {
+                                          selectedDeliveryDay = index;
+                                          selectedDeliveryHour = 0;
+                                        });
+                                      },
+                                      child: Container(
+                                        margin: EdgeInsets.only(
+                                            left: index == 0
+                                                ? Constants.defaultPadding
+                                                : 0,
+                                            right: Constants.defaultPadding *
+                                                0.75),
+                                        decoration: BoxDecoration(
+                                            color:
+                                                Constants.secondBackgroundColor,
+                                            border: Border.all(
+                                                width: 1,
+                                                color:
+                                                    index == selectedDeliveryDay
+                                                        ? Constants
+                                                            .secondPrimaryColor
+                                                        : Colors.transparent),
+                                            borderRadius:
+                                                const BorderRadius.all(
+                                                    Radius.circular(6))),
+                                        padding: const EdgeInsets.symmetric(
+                                            horizontal: 10, vertical: 5),
+                                        child: Text(
+                                          deliveryDays[index],
+                                          style: Constants
+                                              .textTheme.headlineSmall!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w500,
+                                                  color: index ==
+                                                          selectedDeliveryDay
+                                                      ? Constants
+                                                          .secondPrimaryColor
+                                                      : Constants
+                                                          .darkGrayColor),
+                                        ),
                                       ),
-                                    ),
-                                  ))),
+                                    ))),
+                      ),
                     ),
-                  ),
-                  Padding(
-                    padding:
-                        EdgeInsets.only(bottom: Constants.defaultPadding * 2),
-                    child: SingleChildScrollView(
-                      physics: const ClampingScrollPhysics(),
-                      scrollDirection: Axis.horizontal,
-                      child: Row(
-                          children: selectedDeliveryDay != 0
-                              ? List.generate(
-                                  fullTimeRanges.length,
-                                  (index) => InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedDeliveryHour = index;
-                                          });
-                                        },
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: index == 0
-                                                  ? Constants.defaultPadding
-                                                  : 0,
-                                              right: Constants.defaultPadding *
-                                                  0.75),
-                                          decoration: BoxDecoration(
-                                              color: Constants
-                                                  .secondBackgroundColor,
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: index ==
-                                                          selectedDeliveryHour
-                                                      ? Constants
-                                                          .secondPrimaryColor
-                                                      : Colors.transparent),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(6))),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
-                                          child: Text(
-                                            fullTimeRanges[index],
-                                            style: Constants
-                                                .textTheme.headlineSmall!
-                                                .copyWith(
-                                                    fontWeight: FontWeight.w500,
+                    Padding(
+                      padding:
+                          EdgeInsets.only(bottom: Constants.defaultPadding * 2),
+                      child: SingleChildScrollView(
+                        physics: const ClampingScrollPhysics(),
+                        scrollDirection: Axis.horizontal,
+                        child: Row(
+                            children: selectedDeliveryDay != 0
+                                ? List.generate(
+                                    fullTimeRanges.length,
+                                    (index) => InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedDeliveryHour = index;
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: index == 0
+                                                    ? Constants.defaultPadding
+                                                    : 0,
+                                                right:
+                                                    Constants.defaultPadding *
+                                                        0.75),
+                                            decoration: BoxDecoration(
+                                                color: Constants
+                                                    .secondBackgroundColor,
+                                                border: Border.all(
+                                                    width: 1,
                                                     color: index ==
                                                             selectedDeliveryHour
                                                         ? Constants
                                                             .secondPrimaryColor
-                                                        : Constants
-                                                            .darkGrayColor),
+                                                        : Colors.transparent),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(6))),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 5),
+                                            child: Text(
+                                              fullTimeRanges[index],
+                                              style: Constants
+                                                  .textTheme.headlineSmall!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: index ==
+                                                              selectedDeliveryHour
+                                                          ? Constants
+                                                              .secondPrimaryColor
+                                                          : Constants
+                                                              .darkGrayColor),
+                                            ),
                                           ),
-                                        ),
-                                      ))
-                              : List.generate(
-                                  todayDeliveryHours.length,
-                                  (index) => InkWell(
-                                        onTap: () {
-                                          setState(() {
-                                            selectedDeliveryHour = index;
-                                          });
-                                        },
-                                        child: Container(
-                                          margin: EdgeInsets.only(
-                                              left: index == 0
-                                                  ? Constants.defaultPadding
-                                                  : 0,
-                                              right: Constants.defaultPadding *
-                                                  0.75),
-                                          decoration: BoxDecoration(
-                                              color: Constants
-                                                  .secondBackgroundColor,
-                                              border: Border.all(
-                                                  width: 1,
-                                                  color: index ==
-                                                          selectedDeliveryHour
-                                                      ? Constants
-                                                          .secondPrimaryColor
-                                                      : Colors.transparent),
-                                              borderRadius:
-                                                  const BorderRadius.all(
-                                                      Radius.circular(6))),
-                                          padding: const EdgeInsets.symmetric(
-                                              horizontal: 10, vertical: 5),
-                                          child: Text(
-                                            todayDeliveryHours[index],
-                                            style: Constants
-                                                .textTheme.headlineSmall!
-                                                .copyWith(
-                                                    fontWeight: FontWeight.w500,
+                                        ))
+                                : List.generate(
+                                    todayDeliveryHours.length,
+                                    (index) => InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              selectedDeliveryHour = index;
+                                            });
+                                          },
+                                          child: Container(
+                                            margin: EdgeInsets.only(
+                                                left: index == 0
+                                                    ? Constants.defaultPadding
+                                                    : 0,
+                                                right:
+                                                    Constants.defaultPadding *
+                                                        0.75),
+                                            decoration: BoxDecoration(
+                                                color: Constants
+                                                    .secondBackgroundColor,
+                                                border: Border.all(
+                                                    width: 1,
                                                     color: index ==
                                                             selectedDeliveryHour
                                                         ? Constants
                                                             .secondPrimaryColor
-                                                        : Constants
-                                                            .darkGrayColor),
+                                                        : Colors.transparent),
+                                                borderRadius:
+                                                    const BorderRadius.all(
+                                                        Radius.circular(6))),
+                                            padding: const EdgeInsets.symmetric(
+                                                horizontal: 10, vertical: 5),
+                                            child: Text(
+                                              todayDeliveryHours[index],
+                                              style: Constants
+                                                  .textTheme.headlineSmall!
+                                                  .copyWith(
+                                                      fontWeight:
+                                                          FontWeight.w500,
+                                                      color: index ==
+                                                              selectedDeliveryHour
+                                                          ? Constants
+                                                              .secondPrimaryColor
+                                                          : Constants
+                                                              .darkGrayColor),
+                                            ),
                                           ),
-                                        ),
-                                      ))),
+                                        ))),
+                      ),
                     ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          left: Constants.defaultPadding,
+                          right: Constants.defaultPadding,
+                          bottom: Constants.defaultPadding * 0.25),
+                      child: CustomElevatedButton(
+                          text: "ВЫБРАТЬ",
+                          function: () {
+                            if (selectedDeliveryDay == 0 &&
+                                selectedDeliveryHour == 0) {
+                              context.read<CheckoutBloc>().add(
+                                  const CheckoutDeliveryTimeTypeChanged(
+                                      DeliveryTimeType.fast));
+                            } else if (selectedDeliveryDay == 0) {
+                              var checkoutBloc = context.read<CheckoutBloc>();
+                              checkoutBloc.add(
+                                  const CheckoutDeliveryTimeTypeChanged(
+                                      DeliveryTimeType.certainTime));
+                              checkoutBloc.add(CheckoutCertainTimeOrderChanged(
+                                  certainDayOrder:
+                                      deliveryDays[selectedDeliveryDay],
+                                  certainTimeOrder: todayDeliveryHours[
+                                      selectedDeliveryHour]));
+                            } else {
+                              var checkoutBloc = context.read<CheckoutBloc>();
+                              checkoutBloc.add(
+                                  const CheckoutDeliveryTimeTypeChanged(
+                                      DeliveryTimeType.certainTime));
+                              checkoutBloc.add(CheckoutCertainTimeOrderChanged(
+                                  certainDayOrder:
+                                      deliveryDays[selectedDeliveryDay],
+                                  certainTimeOrder:
+                                      fullTimeRanges[selectedDeliveryHour]));
+                            }
+                            Navigator.pop(context);
+                          }),
+                    )
+                  ],
+                );
+              }
+              return Padding(
+                padding:
+                    EdgeInsets.symmetric(horizontal: Constants.defaultPadding),
+                child: ListView.builder(
+                  shrinkWrap: true,
+                  itemCount: 3,
+                  itemBuilder: (context, index) => Padding(
+                    padding: EdgeInsets.symmetric(
+                        vertical: Constants.defaultPadding * 0.75),
+                    child: const ShimmerListTile(),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        bottom: Constants.defaultPadding * 2,
-                        left: Constants.defaultPadding,
-                        right: Constants.defaultPadding),
-                    child: CustomElevatedButton(
-                        text: "ВЫБРАТЬ",
-                        function: () {
-                          if (selectedDeliveryDay == 0 &&
-                              selectedDeliveryHour == 0) {
-                            context.read<CheckoutBloc>().add(
-                                const CheckoutDeliveryTimeTypeChanged(
-                                    DeliveryTimeType.fast));
-                          } else if (selectedDeliveryDay == 0) {
-                            var checkoutBloc = context.read<CheckoutBloc>();
-                            checkoutBloc.add(
-                                const CheckoutDeliveryTimeTypeChanged(
-                                    DeliveryTimeType.certainTime));
-                            checkoutBloc.add(CheckoutCertainTimeOrderChanged(
-                                certainDayOrder:
-                                    deliveryDays[selectedDeliveryDay],
-                                certainTimeOrder:
-                                    todayDeliveryHours[selectedDeliveryHour]));
-                          } else {
-                            var checkoutBloc = context.read<CheckoutBloc>();
-                            checkoutBloc.add(
-                                const CheckoutDeliveryTimeTypeChanged(
-                                    DeliveryTimeType.certainTime));
-                            checkoutBloc.add(CheckoutCertainTimeOrderChanged(
-                                certainDayOrder:
-                                    deliveryDays[selectedDeliveryDay],
-                                certainTimeOrder:
-                                    fullTimeRanges[selectedDeliveryHour]));
-                          }
-                          Navigator.pop(context);
-                        }),
-                  )
-                ],
-              );
-            }
-            return Padding(
-              padding:
-                  EdgeInsets.symmetric(horizontal: Constants.defaultPadding),
-              child: ListView.builder(
-                shrinkWrap: true,
-                itemCount: 3,
-                itemBuilder: (context, index) => Padding(
-                  padding: EdgeInsets.symmetric(
-                      vertical: Constants.defaultPadding * 0.75),
-                  child: const ShimmerListTile(),
                 ),
-              ),
-            );
-          },
+              );
+            },
+          ),
         ),
       ],
     );
