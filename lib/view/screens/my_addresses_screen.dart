@@ -20,11 +20,7 @@ class MyAddressesScreen extends StatelessWidget {
     return SliverBody(
       title: "Мои адреса",
       bottomBar: Container(
-          padding: EdgeInsets.only(
-              left: Constants.defaultPadding,
-              right: Constants.defaultPadding,
-              top: Constants.defaultPadding,
-              bottom: Constants.defaultPadding * 2),
+          padding: EdgeInsets.all(Constants.defaultPadding),
           decoration: const BoxDecoration(
               color: Constants.backgroundColor,
               border: Border(
@@ -120,8 +116,7 @@ class MyAddressesScreen extends StatelessWidget {
                                     ),
                                     child: Padding(
                                       padding: EdgeInsets.symmetric(
-                                          horizontal:
-                                              Constants.defaultPadding * 0.75),
+                                          horizontal: Constants.defaultPadding),
                                       child: AddressListTile(
                                           address: state.addresses[index]),
                                     ),

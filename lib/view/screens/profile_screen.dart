@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/language_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/loyal_system_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/list_tiles/profile_list_tile.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -53,7 +54,7 @@ class ProfileScreen extends StatelessWidget {
                               tapTargetSize: MaterialTapTargetSize.shrinkWrap,
                             ),
                             onPressed: () {
-                              Navigator.pushNamed(context, '/editUser');
+                              Navigator.pushNamed(context, '/userProfile');
                             },
                             child: SvgPicture.asset(
                               'assets/icons/pencil.svg',
@@ -111,20 +112,53 @@ class ProfileScreen extends StatelessWidget {
                     children: [
                       const ProfileListTile(
                           title: "История заказов", routeName: ''),
-                      const ProfileListTile(title: "Мои адреса", routeName: ''),
+                      const ProfileListTile(
+                          title: "Мои адреса", routeName: '/myAddresses'),
                       const ProfileListTile(
                           title: "Забронировать стол", routeName: ''),
                       const ProfileListTile(
                           title: "Часто задаваемые вопросы", routeName: ''),
-                      const ProfileListTile(
-                          title: "Сменить язык", routeName: ''),
+                      Column(
+                        children: [
+                          ListTile(
+                            dense: true,
+                            contentPadding: EdgeInsets.zero,
+                            title: Text(
+                              "Сменить язык",
+                              style: Constants.textTheme.headlineSmall,
+                            ),
+                            trailing: Padding(
+                              padding: EdgeInsets.only(
+                                  right: Constants.defaultPadding * 0.5),
+                              child: SvgPicture.asset(
+                                  'assets/icons/arrow-right.svg',
+                                  colorFilter: const ColorFilter.mode(
+                                      Constants.middleGrayColor,
+                                      BlendMode.srcIn)),
+                            ),
+                            onTap: () async {
+                              await showModalBottomSheet(
+                                  context: context,
+                                  builder: (context1) =>
+                                      const LanguageBottomSheet());
+                            },
+                          ),
+                          const Divider(
+                            height: 1,
+                            color: Constants.lightGrayColor,
+                          )
+                        ],
+                      ),
                       SizedBox(
                         height: Constants.defaultPadding,
                       ),
                       const ProfileListTile(
                           title: "О разработчике", routeName: ''),
                       const ProfileListTile(
-                          title: "Выйти из аккаунта", routeName: ''),
+                        title: "Выйти из аккаунта",
+                        routeName: '',
+                        pushWithRemove: true,
+                      ),
                       InkWell(
                         onTap: () {},
                         child: Container(

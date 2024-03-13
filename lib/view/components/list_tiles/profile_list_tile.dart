@@ -49,7 +49,7 @@ class ProfileListTile extends StatelessWidget {
               Constants.showBottomSheetAlert(
                   context: context,
                   title: "Вы хотите выйти из аккаунта?",
-                  submit: "Выйти",
+                  submit: "ВЫЙТИ",
                   function: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed('/auth');

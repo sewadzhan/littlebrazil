@@ -74,11 +74,13 @@ class CustomTextInputField extends StatelessWidget {
           : Constants.textTheme.bodyMedium,
       decoration: InputDecoration(
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          label: Text(
-            titleText,
-            style: Constants.textTheme.bodyLarge!
-                .copyWith(color: Constants.darkGrayColor),
-          ),
+          label: maxLines > 1
+              ? Text(
+                  titleText,
+                  style: Constants.textTheme.bodyLarge!
+                      .copyWith(color: Constants.darkGrayColor),
+                )
+              : null,
           hintText: hintText,
           hintStyle: Constants.textTheme.bodyLarge!
               .copyWith(color: Constants.textInputColor),

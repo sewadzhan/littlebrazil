@@ -11,6 +11,7 @@ import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
+import 'package:littlebrazil/logic/blocs/edit_user/edit_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
@@ -28,6 +29,7 @@ import 'package:littlebrazil/view/screens/cart_screen.dart';
 import 'package:littlebrazil/view/screens/checkout_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
 import 'package:littlebrazil/view/screens/my_addresses_screen.dart';
+import 'package:littlebrazil/view/screens/my_profile_screen.dart';
 import 'package:littlebrazil/view/screens/product_details_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
 import 'package:littlebrazil/view/screens/search_screen.dart';
@@ -88,12 +90,12 @@ class AppRouter {
       case "/qr":
         return PageTransition(
             type: PageTransitionType.bottomToTop,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 250),
             child: const QRScannerScreen());
       case "/search":
         return PageTransition(
             type: PageTransitionType.bottomToTop,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 250),
             child: MultiBlocProvider(
               providers: [
                 BlocProvider(create: (context) => SearchBloc(menuCubit))
@@ -103,7 +105,7 @@ class AppRouter {
       case "/cart":
         return PageTransition(
             type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 250),
             child: MultiBlocProvider(
               providers: [
                 BlocProvider.value(value: menuCubit),
@@ -128,7 +130,7 @@ class AppRouter {
       case "/myAddresses":
         return PageTransition(
             type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 250),
             child: BlocProvider.value(
               value: addressBloc,
               child: const MyAddressesScreen(),
@@ -136,7 +138,7 @@ class AppRouter {
       case "/addAddress":
         return PageTransition(
             type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 250),
             child: MultiBlocProvider(
               providers: [
                 BlocProvider.value(value: addressBloc),
@@ -156,7 +158,7 @@ class AppRouter {
               child: const SuggestAddressScreen(),
             ),
             type: PageTransitionType.bottomToTop,
-            duration: const Duration(milliseconds: 150));
+            duration: const Duration(milliseconds: 250));
       case "/checkout":
         return PageTransition(
             type: PageTransitionType.fade,
@@ -175,6 +177,20 @@ class AppRouter {
                 BlocProvider.value(value: extraCutleryCubit),
               ],
               child: const CheckoutScreen(),
+            ));
+      case "/userProfile":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 250),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => EditUserBloc(firestoreRepository),
+                ),
+                BlocProvider.value(value: currentUserBloc),
+                BlocProvider.value(value: contactsCubit),
+              ],
+              child: const MyProfileScreen(),
             ));
       default:
         return _errorRoute();

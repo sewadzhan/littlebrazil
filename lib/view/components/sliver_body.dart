@@ -45,67 +45,69 @@ class SliverBody extends StatelessWidget {
       titlePaddingNotifier.value = horizontalTitlePadding;
     });
 
-    return Scaffold(
-      floatingActionButton: floatingActionButton,
-      extendBodyBehindAppBar: !showBackButton,
-      backgroundColor: Constants.backgroundColor,
-      body: CustomScrollView(
-        physics: const ClampingScrollPhysics(),
-        controller: scrollController,
-        slivers: [
-          SliverAppBar(
-            leading: showBackButton
-                ? TextButton(
-                    style: TextButton.styleFrom(
-                      shape: const CircleBorder(),
-                    ),
-                    child: SizedBox(
-                      width: 25,
-                      child: SvgPicture.asset('assets/icons/arrow-left.svg',
-                          colorFilter: const ColorFilter.mode(
-                              Constants.darkGrayColor, BlendMode.srcIn)),
-                    ),
-                    onPressed: () {
-                      Navigator.pop(context);
-                    },
-                  )
-                : const SizedBox.shrink(),
-            actions: actions,
-            backgroundColor: Constants.backgroundColor,
-            expandedHeight: showBackButton ? 140 : 90,
-            scrolledUnderElevation: 0,
-            forceElevated: true,
-            floating: false,
-            pinned: true,
-            flexibleSpace: FlexibleSpaceBar(
-              expandedTitleScale: 1.25,
-              collapseMode: CollapseMode.pin,
-              centerTitle: false,
-              titlePadding: EdgeInsets.only(
-                  top: Constants.defaultPadding * 0.75,
-                  bottom: Constants.defaultPadding * 0.6,
-                  left: 0,
-                  right: 0),
-              title: ValueListenableBuilder(
-                valueListenable: titlePaddingNotifier,
-                builder: (context, double value, child) {
-                  return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: value),
-                    child: Text(title,
-                        style: Constants.headlineTextTheme.displayLarge!
-                            .copyWith(
-                                color: Constants.primaryColor, fontSize: 29)),
-                  );
-                },
+    return SafeArea(
+      child: Scaffold(
+        floatingActionButton: floatingActionButton,
+        extendBodyBehindAppBar: !showBackButton,
+        backgroundColor: Constants.backgroundColor,
+        body: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
+          controller: scrollController,
+          slivers: [
+            SliverAppBar(
+              leading: showBackButton
+                  ? TextButton(
+                      style: TextButton.styleFrom(
+                        shape: const CircleBorder(),
+                      ),
+                      child: SizedBox(
+                        width: 25,
+                        child: SvgPicture.asset('assets/icons/arrow-left.svg',
+                            colorFilter: const ColorFilter.mode(
+                                Constants.darkGrayColor, BlendMode.srcIn)),
+                      ),
+                      onPressed: () {
+                        Navigator.pop(context);
+                      },
+                    )
+                  : const SizedBox.shrink(),
+              actions: actions,
+              backgroundColor: Constants.backgroundColor,
+              expandedHeight: showBackButton ? 140 : 90,
+              scrolledUnderElevation: 0,
+              forceElevated: true,
+              floating: false,
+              pinned: true,
+              flexibleSpace: FlexibleSpaceBar(
+                expandedTitleScale: 1.25,
+                collapseMode: CollapseMode.pin,
+                centerTitle: false,
+                titlePadding: EdgeInsets.only(
+                    top: Constants.defaultPadding * 0.75,
+                    bottom: Constants.defaultPadding * 0.6,
+                    left: 0,
+                    right: 0),
+                title: ValueListenableBuilder(
+                  valueListenable: titlePaddingNotifier,
+                  builder: (context, double value, child) {
+                    return Padding(
+                      padding: EdgeInsets.symmetric(horizontal: value),
+                      child: Text(title,
+                          style: Constants.headlineTextTheme.displayLarge!
+                              .copyWith(
+                                  color: Constants.primaryColor, fontSize: 29)),
+                    );
+                  },
+                ),
               ),
             ),
-          ),
-          SliverPadding(
-              padding: EdgeInsets.only(top: Constants.defaultPadding * 0.5),
-              sliver: SliverToBoxAdapter(child: child))
-        ],
+            SliverPadding(
+                padding: EdgeInsets.only(top: Constants.defaultPadding * 0.5),
+                sliver: SliverToBoxAdapter(child: child))
+          ],
+        ),
+        bottomNavigationBar: bottomBar,
       ),
-      bottomNavigationBar: bottomBar,
     );
   }
 }

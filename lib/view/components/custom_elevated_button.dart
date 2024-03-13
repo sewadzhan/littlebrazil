@@ -48,7 +48,7 @@ class CustomElevatedButton extends StatelessWidget {
                   ),
                 )
               : Text(
-                  text,
+                  text.toUpperCase(),
                   style: Constants.headlineTextTheme.displaySmall!.copyWith(
                       color: Constants.backgroundColor,
                       fontSize: 17,
