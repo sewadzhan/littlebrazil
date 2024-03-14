@@ -111,7 +111,8 @@ class ProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const ProfileListTile(
-                          title: "История заказов", routeName: ''),
+                          title: "История заказов",
+                          routeName: '/ordersHistory'),
                       const ProfileListTile(
                           title: "Мои адреса", routeName: '/myAddresses'),
                       const ProfileListTile(

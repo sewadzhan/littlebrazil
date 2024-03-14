@@ -2,6 +2,7 @@ import 'package:littlebrazil/data/models/address.dart';
 import 'package:littlebrazil/data/models/cashback_data.dart';
 import 'package:littlebrazil/data/models/contacts.dart';
 import 'package:littlebrazil/data/models/delivery_zone.dart';
+import 'package:littlebrazil/data/models/order.dart';
 import 'package:littlebrazil/data/models/promocode.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
@@ -95,13 +96,13 @@ class FirestoreRepository {
   // }
 
   //Get order history of certain user
-  // Future<List<Order>> getOrderHistoryOfUser(String phoneNumber) async {
-  //   var ordersDocs = await firestoreProvider.getOrderHistoryOfUser(phoneNumber);
+  Future<List<Order>> getOrderHistoryOfUser(String phoneNumber) async {
+    var ordersDocs = await firestoreProvider.getOrderHistoryOfUser(phoneNumber);
 
-  //   return ordersDocs
-  //       .map((snapshot) => Order.fromMap(snapshot.data()))
-  //       .toList();
-  // }
+    return ordersDocs
+        .map((snapshot) => Order.fromMap(snapshot.data()))
+        .toList();
+  }
 
   //Get cashback system data (percent value, is enabled or not)
   Future<CashbackData> getCashbackData() async {

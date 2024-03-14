@@ -14,6 +14,7 @@ import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/edit_user/edit_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
+import 'package:littlebrazil/logic/blocs/order_history/order_history_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
@@ -30,6 +31,7 @@ import 'package:littlebrazil/view/screens/checkout_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
 import 'package:littlebrazil/view/screens/my_addresses_screen.dart';
 import 'package:littlebrazil/view/screens/my_profile_screen.dart';
+import 'package:littlebrazil/view/screens/orders_history_screen.dart';
 import 'package:littlebrazil/view/screens/product_details_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
 import 'package:littlebrazil/view/screens/search_screen.dart';
@@ -191,6 +193,14 @@ class AppRouter {
                 BlocProvider.value(value: contactsCubit),
               ],
               child: const MyProfileScreen(),
+            ));
+      case "/ordersHistory":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 200),
+            child: BlocProvider(
+              create: (context) => OrderHistoryBloc(firestoreRepository),
+              child: const OrdersHistoryScreen(),
             ));
       default:
         return _errorRoute();

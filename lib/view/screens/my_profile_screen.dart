@@ -13,10 +13,10 @@ class MyProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var currentUserState = context.read<CurrentUserBloc>().state;
-    var currentUser = currentUserState is CurrentUserRetrieveSuccessful
-        ? currentUserState.user
-        : null;
+    //var currentUserState = context.read<CurrentUserBloc>().state;
+    // var currentUser = currentUserState is CurrentUserRetrieveSuccessful
+    //     ? currentUserState.user
+    //     : null;
     // var nameController = TextEditingController(text: currentUser!.name);
     // var emailController = TextEditingController(text: currentUser.email);
     // var birthdayController = TextEditingController(text: currentUser.birthday);

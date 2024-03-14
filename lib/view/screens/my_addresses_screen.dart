@@ -19,17 +19,20 @@ class MyAddressesScreen extends StatelessWidget {
         "+77086053541"; /*context.read<AuthCubit>().state!.phoneNumber!;*/
     return SliverBody(
       title: "Мои адреса",
-      bottomBar: Container(
-          padding: EdgeInsets.all(Constants.defaultPadding),
-          decoration: const BoxDecoration(
-              color: Constants.backgroundColor,
-              border: Border(
-                  top: BorderSide(color: Constants.lightGrayColor, width: 1))),
-          child: CustomOutlinedButton(
-              text: "ДОБАВИТЬ НОВЫЙ АДРЕС",
-              function: () {
-                Navigator.pushNamed(context, '/addAddress');
-              })),
+      bottomBar: SafeArea(
+        child: Container(
+            padding: EdgeInsets.all(Constants.defaultPadding),
+            decoration: const BoxDecoration(
+                color: Constants.backgroundColor,
+                border: Border(
+                    top:
+                        BorderSide(color: Constants.lightGrayColor, width: 1))),
+            child: CustomOutlinedButton(
+                text: "ДОБАВИТЬ НОВЫЙ АДРЕС",
+                function: () {
+                  Navigator.pushNamed(context, '/addAddress');
+                })),
+      ),
       child: MediaQuery.removePadding(
         context: context,
         removeTop: true,

@@ -58,98 +58,98 @@ class CartScreen extends StatelessWidget {
         builder: (context, state) {
           if (state is CartLoaded) {
             if (state.cart.items.isNotEmpty) {
-              return Container(
-                  padding: EdgeInsets.only(
-                      left: Constants.defaultPadding,
-                      right: Constants.defaultPadding,
-                      top: Constants.defaultPadding,
-                      bottom: Constants.defaultPadding * 2),
-                  decoration: const BoxDecoration(
-                      color: Constants.backgroundColor,
-                      border: Border(
-                          top: BorderSide(
-                              color: Constants.lightGrayColor, width: 1))),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: Constants.defaultPadding * 0.75),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Скидка",
-                              style: Constants.textTheme.headlineSmall,
-                            ),
-                            Text(
-                              "${state.cart.discount} ₸",
-                              style: Constants.textTheme.headlineSmall,
-                            ),
-                          ],
+              return SafeArea(
+                child: Container(
+                    padding: EdgeInsets.all(
+                      Constants.defaultPadding,
+                    ),
+                    decoration: const BoxDecoration(
+                        color: Constants.backgroundColor,
+                        border: Border(
+                            top: BorderSide(
+                                color: Constants.lightGrayColor, width: 1))),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: Constants.defaultPadding * 0.75),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Скидка",
+                                style: Constants.textTheme.headlineSmall,
+                              ),
+                              Text(
+                                "${state.cart.discount} ₸",
+                                style: Constants.textTheme.headlineSmall,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: Constants.defaultPadding * 0.75),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Подытог",
-                              style: Constants.textTheme.headlineSmall,
-                            ),
-                            Text(
-                              "${state.cart.subtotal} ₸",
-                              style: Constants.textTheme.headlineSmall,
-                            ),
-                          ],
+                        Padding(
+                          padding: EdgeInsets.only(
+                              bottom: Constants.defaultPadding * 0.75),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Подытог",
+                                style: Constants.textTheme.headlineSmall,
+                              ),
+                              Text(
+                                "${state.cart.subtotal} ₸",
+                                style: Constants.textTheme.headlineSmall,
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                      CustomElevatedButton(
-                          text: "ОФОРМИТЬ ЗАКАЗ",
-                          function: () async {
-                            // var isAuthenticated =
-                            //     context.read<AuthCubit>().state != null;
+                        CustomElevatedButton(
+                            text: "ОФОРМИТЬ ЗАКАЗ",
+                            function: () async {
+                              // var isAuthenticated =
+                              //     context.read<AuthCubit>().state != null;
 
-                            // if (!isAuthenticated) {
-                            //   Navigator.pushNamed(context, '/auth');
-                            //   return;
-                            // }
-                            // Navigator.pushNamed(context, "/checkout");
-//NOT WORKING BOTTOM SHEET
-                            // showModalBottomSheet(
-                            //     backgroundColor: Constants.backgroundColor,
-                            //     elevation: 0,
-                            //     shape: const RoundedRectangleBorder(
-                            //       borderRadius: BorderRadius.vertical(
-                            //           top: Radius.circular(12)),
-                            //     ),
-                            //     context: context,
-                            //     builder: (context) =>
-                            //         const NotWorkingBottomSheet(
-                            //             openHour: "10:00", closeHour: "22:00"));
+                              // if (!isAuthenticated) {
+                              //   Navigator.pushNamed(context, '/auth');
+                              //   return;
+                              // }
+                              // Navigator.pushNamed(context, "/checkout");
+                              //NOT WORKING BOTTOM SHEET
+                              // showModalBottomSheet(
+                              //     backgroundColor: Constants.backgroundColor,
+                              //     elevation: 0,
+                              //     shape: const RoundedRectangleBorder(
+                              //       borderRadius: BorderRadius.vertical(
+                              //           top: Radius.circular(12)),
+                              //     ),
+                              //     context: context,
+                              //     builder: (context) =>
+                              //         const NotWorkingBottomSheet(
+                              //             openHour: "10:00", closeHour: "22:00"));
 
-                            showModalBottomSheet(
-                                backgroundColor: Constants.backgroundColor,
-                                elevation: 0,
-                                shape: const RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.vertical(
-                                      top: Radius.circular(12)),
-                                ),
-                                context: context,
-                                builder: (context1) => MultiBlocProvider(
-                                      providers: [
-                                        BlocProvider.value(
-                                            value: context.read<MenuCubit>()),
-                                        BlocProvider.value(
-                                            value: context.read<CartBloc>())
-                                      ],
-                                      child: const ExtraSalesBottomSheet(),
-                                    ));
-                          }),
-                    ],
-                  ));
+                              showModalBottomSheet(
+                                  backgroundColor: Constants.backgroundColor,
+                                  elevation: 0,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(12)),
+                                  ),
+                                  context: context,
+                                  builder: (context1) => MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider.value(
+                                              value: context.read<MenuCubit>()),
+                                          BlocProvider.value(
+                                              value: context.read<CartBloc>())
+                                        ],
+                                        child: const ExtraSalesBottomSheet(),
+                                      ));
+                            }),
+                      ],
+                    )),
+              );
             }
           }
           //if empty cart
@@ -271,7 +271,7 @@ class CartScreen extends StatelessWidget {
             //Empty cart
             return SizedBox(
               width: size.width,
-              height: size.height * 0.74,
+              height: size.height * 0.8,
               child: Stack(
                 alignment: AlignmentDirectional.center,
                 children: [
