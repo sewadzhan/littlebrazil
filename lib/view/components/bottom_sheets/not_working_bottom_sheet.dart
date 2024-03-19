@@ -4,10 +4,10 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 class NotWorkingBottomSheet extends StatelessWidget {
   const NotWorkingBottomSheet({
-    Key? key,
+    super.key,
     required this.openHour,
     required this.closeHour,
-  }) : super(key: key);
+  });
 
   final String openHour;
   final String closeHour;

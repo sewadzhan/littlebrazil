@@ -6,7 +6,7 @@ import 'package:littlebrazil/view/components/product_card.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({Key? key}) : super(key: key);
+  const SearchScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

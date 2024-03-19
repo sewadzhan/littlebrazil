@@ -21,7 +21,7 @@ import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
 class CheckoutScreen extends StatefulWidget {
-  const CheckoutScreen({Key? key}) : super(key: key);
+  const CheckoutScreen({super.key});
 
   @override
   State<CheckoutScreen> createState() => _CheckoutScreenState();

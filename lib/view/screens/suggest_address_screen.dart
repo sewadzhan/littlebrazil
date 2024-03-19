@@ -5,7 +5,7 @@ import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.da
 import 'package:littlebrazil/view/config/constants.dart';
 
 class SuggestAddressScreen extends StatelessWidget {
-  const SuggestAddressScreen({Key? key}) : super(key: key);
+  const SuggestAddressScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

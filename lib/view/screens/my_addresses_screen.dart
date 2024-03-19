@@ -10,7 +10,7 @@ import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
 class MyAddressesScreen extends StatelessWidget {
-  const MyAddressesScreen({Key? key}) : super(key: key);
+  const MyAddressesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

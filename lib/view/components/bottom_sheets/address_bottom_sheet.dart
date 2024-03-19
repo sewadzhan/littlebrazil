@@ -10,7 +10,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 //Address bottom sheet for chossing delivey address in Checkout Screen
 class AddressBottomSheet extends StatelessWidget {
-  const AddressBottomSheet({Key? key}) : super(key: key);
+  const AddressBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {

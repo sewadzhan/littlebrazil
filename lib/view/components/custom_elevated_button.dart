@@ -3,13 +3,12 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 class CustomElevatedButton extends StatelessWidget {
   const CustomElevatedButton(
-      {Key? key,
+      {super.key,
       required this.text,
       required this.function,
       this.fullWidth = true,
       this.isEnabled = true,
-      this.isLoading = false})
-      : super(key: key);
+      this.isLoading = false});
 
   final String text;
   final bool isLoading;

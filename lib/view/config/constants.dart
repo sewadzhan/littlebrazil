@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_outlined_button.dart';
 import 'package:littlebrazil/view/config/theme.dart';
@@ -102,5 +103,34 @@ class Constants {
                     ])
               ],
             )));
+  }
+
+  static SnackBar noWifiSnackBar(BuildContext context) {
+    return SnackBar(
+      dismissDirection: DismissDirection.none,
+      backgroundColor: Constants.primaryColor,
+      duration: const Duration(days: 7),
+      content: Padding(
+        padding:
+            EdgeInsets.symmetric(horizontal: Constants.defaultPadding * 0.3),
+        child: Row(
+          children: [
+            SizedBox(
+              width: 21,
+              height: 21,
+              child: SvgPicture.asset('assets/icons/no-wifi.svg',
+                  colorFilter:
+                      const ColorFilter.mode(Colors.white, BlendMode.srcIn)),
+            ),
+            const SizedBox(width: 10),
+            Text(
+              "Нет подключения к интернету",
+              style: Constants.textTheme.headlineSmall!
+                  .copyWith(color: Colors.white),
+            ),
+          ],
+        ),
+      ),
+    );
   }
 }

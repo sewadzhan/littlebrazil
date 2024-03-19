@@ -36,7 +36,6 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
         emit(AddAddressLoading());
         if (deliveryZonesCubit.state is DeliveryZonesLoadedState) {
           MapLatLng point = event.geopoint;
-          print(point);
           String address = await getAddress(point);
           List<DeliveryZone> zones =
               (deliveryZonesCubit.state as DeliveryZonesLoadedState)
@@ -78,7 +77,7 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
               await getGeocodePoint(event.address);
 
           if (geocodeResponse.firstPoint == null) {
-            print("Address point was not found in Yandex");
+            //Address point was not found in Yandex
             return;
           }
           MapLatLng geopoint = MapLatLng(

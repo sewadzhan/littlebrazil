@@ -9,8 +9,8 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 class ExtraSalesBottomSheet extends StatefulWidget {
   const ExtraSalesBottomSheet({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   State<ExtraSalesBottomSheet> createState() => _ExtraSalesBottomSheetState();

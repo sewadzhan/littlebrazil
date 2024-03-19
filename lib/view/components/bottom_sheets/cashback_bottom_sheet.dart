@@ -15,7 +15,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 //Cashback bottom sheet in Checkout Screen
 class CashbackBottomSheet extends StatelessWidget {
-  const CashbackBottomSheet({Key? key}) : super(key: key);
+  const CashbackBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {

@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/checkout.dart';
@@ -11,7 +10,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 //Delivery time bottom sheet for chossing delivey time in Checkout Screen
 class DeliveryTimeBottomSheet extends StatefulWidget {
-  const DeliveryTimeBottomSheet({Key? key}) : super(key: key);
+  const DeliveryTimeBottomSheet({super.key});
 
   @override
   State<DeliveryTimeBottomSheet> createState() =>

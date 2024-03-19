@@ -3,7 +3,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 //Loyal System info bottom sheet
 class LoyalSystemBottomSheet extends StatelessWidget {
-  const LoyalSystemBottomSheet({Key? key}) : super(key: key);
+  const LoyalSystemBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {

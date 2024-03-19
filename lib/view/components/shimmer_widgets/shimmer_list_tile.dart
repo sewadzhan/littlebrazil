@@ -3,8 +3,8 @@ import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_widget.dart
 
 class ShimmerListTile extends StatelessWidget {
   const ShimmerListTile({
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {

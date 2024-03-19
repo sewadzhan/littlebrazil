@@ -7,9 +7,9 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 class OrderHistoryListTile extends StatelessWidget {
   const OrderHistoryListTile({
-    Key? key,
+    super.key,
     required this.order,
-  }) : super(key: key);
+  });
 
   final Order order;
 

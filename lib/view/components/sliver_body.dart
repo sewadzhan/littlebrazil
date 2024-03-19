@@ -5,14 +5,13 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 class SliverBody extends StatelessWidget {
   const SliverBody(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.child,
       this.bottomBar,
       this.actions = const [],
       this.showBackButton = true,
-      this.floatingActionButton})
-      : super(key: key);
+      this.floatingActionButton});
 
   final String title;
   final Widget child;

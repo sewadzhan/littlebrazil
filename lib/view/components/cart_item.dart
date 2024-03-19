@@ -10,9 +10,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class CartItem extends StatelessWidget {
   const CartItem({
-    Key? key,
+    super.key,
     required this.cartItem,
-  }) : super(key: key);
+  });
 
   final CartItemModel cartItem;
 

@@ -13,7 +13,7 @@ import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
 
 class AddAddressScreen extends StatefulWidget {
-  const AddAddressScreen({Key? key}) : super(key: key);
+  const AddAddressScreen({super.key});
 
   @override
   State<AddAddressScreen> createState() => _AddAddressScreenState();

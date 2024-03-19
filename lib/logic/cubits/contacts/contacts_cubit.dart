@@ -32,7 +32,6 @@ class ContactsCubit extends Cubit<ContactsState> {
       //Check current time if the restaurant is open or not
       checkWorkingTime(contactsModel);
     } catch (e) {
-      print(e);
       emit(ContactsErrorState());
     }
   }

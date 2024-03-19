@@ -8,7 +8,7 @@ import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
 class OrdersHistoryScreen extends StatelessWidget {
-  const OrdersHistoryScreen({Key? key}) : super(key: key);
+  const OrdersHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

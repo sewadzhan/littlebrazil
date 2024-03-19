@@ -8,12 +8,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 class ProfileListTile extends StatelessWidget {
   const ProfileListTile(
-      {Key? key,
+      {super.key,
       required this.title,
       required this.routeName,
       this.pushWithRemove = false,
-      this.urlForLaunch = ""})
-      : super(key: key);
+      this.urlForLaunch = ""});
 
   final String title;
   final String routeName;

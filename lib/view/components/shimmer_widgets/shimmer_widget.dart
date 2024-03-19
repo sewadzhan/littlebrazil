@@ -4,14 +4,14 @@ import 'package:shimmer/shimmer.dart';
 
 class ShimmerWidget extends StatelessWidget {
   const ShimmerWidget.rectangular({
-    Key? key,
+    super.key,
     this.width = double.infinity,
     this.height = 10,
     this.decoration = const BoxDecoration(
       color: Constants.lightGrayColor,
       borderRadius: BorderRadius.all(Radius.circular(6)),
     ),
-  }) : super(key: key);
+  });
 
   final double width;
   final double height;

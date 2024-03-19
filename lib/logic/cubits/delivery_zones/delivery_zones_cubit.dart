@@ -17,7 +17,6 @@ class DeliveryZonesCubit extends Cubit<DeliveryZonesState> {
           await firestoreRepository.getDeliveryZones();
       emit(DeliveryZonesLoadedState(deliveryZones: deliveryZones));
     } catch (e) {
-      print(e);
       emit(DeliveryZonesErrorState());
     }
   }

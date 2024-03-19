@@ -6,7 +6,7 @@ enum Picker { none, date, time }
 
 class CustomTextInputField extends StatelessWidget {
   const CustomTextInputField(
-      {Key? key,
+      {super.key,
       required this.titleText,
       required this.hintText,
       required this.controller,
@@ -14,8 +14,7 @@ class CustomTextInputField extends StatelessWidget {
       this.pickerType = Picker.none,
       this.onlyRead = false,
       this.maxLines = 1,
-      this.onTap})
-      : super(key: key);
+      this.onTap});
 
   final String titleText;
   final String? hintText;

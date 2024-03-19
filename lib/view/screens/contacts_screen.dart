@@ -9,7 +9,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class ContactsScreen extends StatelessWidget {
-  const ContactsScreen({Key? key}) : super(key: key);
+  const ContactsScreen({super.key});
 
   void launchURL(String str) async {
     var url = Uri.parse(str);

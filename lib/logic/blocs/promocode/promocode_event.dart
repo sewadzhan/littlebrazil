@@ -12,7 +12,7 @@ class LoadPromocodes extends PromocodeEvent {}
 class PromocodeSubmited extends PromocodeEvent {
   final String code;
 
-  PromocodeSubmited(this.code);
+  const PromocodeSubmited(this.code);
 
   @override
   List<Object> get props => [code];

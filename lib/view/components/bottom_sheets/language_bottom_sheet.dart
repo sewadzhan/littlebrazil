@@ -4,7 +4,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 //Language changing bottom sheet
 class LanguageBottomSheet extends StatelessWidget {
-  const LanguageBottomSheet({Key? key}) : super(key: key);
+  const LanguageBottomSheet({super.key});
 
   @override
   Widget build(BuildContext context) {

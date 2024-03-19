@@ -12,7 +12,7 @@ class PromocodeInitial extends PromocodeState {}
 class PromocodeLoadSuccess extends PromocodeState {
   final List<Promocode> promocodes;
 
-  PromocodeLoadSuccess(this.promocodes);
+  const PromocodeLoadSuccess(this.promocodes);
 
   @override
   List<Object> get props => [promocodes];
@@ -25,7 +25,7 @@ class PromocodeSubmitLoading extends PromocodeState {}
 class PromocodeFailure extends PromocodeState {
   final String message;
 
-  PromocodeFailure(this.message);
+  const PromocodeFailure(this.message);
 
   @override
   List<Object> get props => [message];

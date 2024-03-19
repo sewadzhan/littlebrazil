@@ -5,10 +5,10 @@ import 'package:littlebrazil/data/models/address.dart';
 
 class AddressListTile extends StatelessWidget {
   const AddressListTile({
-    Key? key,
+    super.key,
     required this.address,
     this.function,
-  }) : super(key: key);
+  });
 
   final Address address;
   final Function()? function;

@@ -13,8 +13,8 @@ class UpdateAppBottomSheet extends StatelessWidget {
   const UpdateAppBottomSheet({
     required this.playMarketUrl,
     required this.appStoreUrl,
-    Key? key,
-  }) : super(key: key);
+    super.key,
+  });
 
   void _launchURL(String str) async {
     var url = Uri.parse(str);

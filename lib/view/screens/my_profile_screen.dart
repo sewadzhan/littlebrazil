@@ -9,7 +9,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 class MyProfileScreen extends StatelessWidget {
-  const MyProfileScreen({Key? key}) : super(key: key);
+  const MyProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

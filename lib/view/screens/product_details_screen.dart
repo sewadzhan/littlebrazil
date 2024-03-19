@@ -13,8 +13,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/data/models/product.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
-  const ProductDetailsScreen({Key? key, required this.product})
-      : super(key: key);
+  const ProductDetailsScreen({super.key, required this.product});
 
   final Product product;
 
