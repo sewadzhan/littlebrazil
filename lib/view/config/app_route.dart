@@ -1,8 +1,11 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:littlebrazil/data/models/product.dart';
+import 'package:littlebrazil/data/providers/auth_firebase_provider.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
 import 'package:littlebrazil/data/providers/yandex_provider.dart';
+import 'package:littlebrazil/data/repositories/auth_repository.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
 import 'package:littlebrazil/data/repositories/yandex_repository.dart';
 import 'package:littlebrazil/logic/blocs/add_address/add_address_bloc.dart';
@@ -13,8 +16,10 @@ import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/edit_user/edit_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
+import 'package:littlebrazil/logic/blocs/network/network_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order_history/order_history_bloc.dart';
+import 'package:littlebrazil/logic/blocs/phone_auth/phone_auth_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
@@ -26,6 +31,7 @@ import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
+import 'package:littlebrazil/view/screens/auth_screen.dart';
 import 'package:littlebrazil/view/screens/cart_screen.dart';
 import 'package:littlebrazil/view/screens/checkout_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
@@ -57,6 +63,7 @@ class AppRouter {
   static final AddressBloc addressBloc =
       AddressBloc(firestoreRepository, checkoutBloc)
         ..add(LoadAddresses("+77086053541"));
+
   static final CashbackBloc cashbackBloc =
       CashbackBloc(firestoreRepository, currentUserBloc)
         ..add(LoadCashbackData());
@@ -72,6 +79,11 @@ class AppRouter {
       currentUserBloc: currentUserBloc,
       cashbackBloc: cashbackBloc,
       bottomSheetCubit: bottomSheetCubit);
+  final NetworkBloc networkBloc = NetworkBloc();
+  final PhoneAuthBloc phoneAuthBloc = PhoneAuthBloc(
+      authRepository:
+          AuthRepository(AuthFirebaseProvider(FirebaseAuth.instance)),
+      firestoreRepository: firestoreRepository);
 
   Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {
@@ -85,10 +97,18 @@ class AppRouter {
               BlocProvider.value(value: cartBloc),
               BlocProvider.value(value: bottomSheetCubit),
               BlocProvider.value(value: contactsCubit),
+              BlocProvider.value(value: networkBloc),
             ],
             child: const MainScreen(),
           ),
         );
+      case "/auth":
+        return PageTransition(
+            type: PageTransitionType.fade,
+            child: MultiBlocProvider(providers: [
+              BlocProvider.value(value: phoneAuthBloc),
+              BlocProvider.value(value: networkBloc),
+            ], child: const AuthScreen()));
       case "/qr":
         return PageTransition(
             type: PageTransitionType.bottomToTop,

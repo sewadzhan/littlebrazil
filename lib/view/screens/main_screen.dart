@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:littlebrazil/logic/blocs/network/network_bloc.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/view/screens/contacts_screen.dart';
@@ -22,7 +23,7 @@ class MainScreen extends StatelessWidget {
     // }
 
     //Check initial connection status
-    //context.read<NetworkBloc>().add(ConnectionInitialChecked());
+    context.read<NetworkBloc>().add(ConnectionInitialChecked());
 
     return BlocBuilder<NavigationCubit, int>(
       builder: (context, state) {

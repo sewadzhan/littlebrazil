@@ -5,9 +5,9 @@ import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/not_working_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/update_app_bottom_sheet.dart';
-import 'package:littlebrazil/view/components/category_menu.dart';
-import 'package:littlebrazil/view/components/category_section.dart';
-import 'package:littlebrazil/view/components/home_screen_app_bar.dart';
+import 'package:littlebrazil/view/components/home_screen/category_menu.dart';
+import 'package:littlebrazil/view/components/home_screen/category_section.dart';
+import 'package:littlebrazil/view/components/home_screen/home_screen_app_bar.dart';
 import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_widget.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
@@ -19,77 +19,21 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-  final scrollController = ScrollController();
-  int selectedCategoryIndex = 0;
-
-  double promotionHeight = 99 + 52; //52 (CategoryMenu height)
-  double productCardHeight = Constants.defaultPadding * 9.125 + 6;
-
-  List<double> breakPoints = []; //BreakPoints of each CategorySection
+  late ScrollController scrollController;
   late void Function() scrollControllerListener;
+  late int selectedCategoryIndex;
+  late double promotionHeight;
+  late double productCardHeight;
+  late List<double> breakPoints; //BreakPoints of each CategorySection
 
-  //Scroll page to certain product category
-  void scrollToCategory(int index, List<Category> categories) {
-    if (selectedCategoryIndex != index) {
-      int totalRows = 0;
-
-      for (var i = 0; i < index; i++) {
-        totalRows += categories[i].products.length;
-      }
-
-      setState(() {
-        selectedCategoryIndex = index;
-      });
-
-      scrollController.removeListener(scrollControllerListener);
-      scrollController.jumpTo(promotionHeight +
-          totalRows * productCardHeight +
-          index *
-              (Constants.defaultPadding * 2.65 +
-                  Constants.headlineTextTheme.displayMedium!.fontSize!));
-
-      scrollController.addListener(scrollControllerListener);
-    }
-  }
-
-  //Create all breakpoints of each category section for automatic selected category change
-  void createBreakPoints(List<Category> categories) {
-    if (categories.isNotEmpty) {
-      int totalRows1 = categories[0].products.length;
-      double firstBreakPoint = promotionHeight +
-          (totalRows1 * productCardHeight) +
-          (Constants.defaultPadding * 2.65 +
-              Constants.headlineTextTheme.displayMedium!.fontSize!);
-      breakPoints.add(firstBreakPoint);
-
-      for (var i = 1; i < categories.length; i++) {
-        int totalRows = categories[i].products.length;
-        double breakPoint = breakPoints.last +
-            (totalRows * productCardHeight) +
-            (Constants.defaultPadding * 2.65 +
-                Constants.headlineTextTheme.displayMedium!.fontSize!);
-        breakPoints.add(breakPoint);
-      }
-    }
-  }
-
-  //Update selected category index on scroll of page
-  void updateCategoryIndexOnScroll(double offset, List<Category> categories) {
-    for (var i = 0; i < categories.length; i++) {
-      if (i == 0) {
-        if ((offset < breakPoints.first) && (selectedCategoryIndex != 0)) {
-          setState(() {
-            selectedCategoryIndex = 0;
-          });
-        }
-      } else if ((breakPoints[i - 1] <= offset) && (offset < breakPoints[i])) {
-        if (selectedCategoryIndex != i) {
-          setState(() {
-            selectedCategoryIndex = i;
-          });
-        }
-      }
-    }
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    selectedCategoryIndex = 0;
+    promotionHeight = 99 + 52; //52 (CategoryMenu height)
+    productCardHeight = Constants.defaultPadding * 9.125 + 6;
+    breakPoints = [];
+    super.initState();
   }
 
   @override
@@ -229,5 +173,69 @@ class _HomeScreenState extends State<HomeScreen> {
         ),
       ),
     );
+  }
+
+  //Scroll page to certain product category
+  void scrollToCategory(int index, List<Category> categories) {
+    if (selectedCategoryIndex != index) {
+      int totalRows = 0;
+
+      for (var i = 0; i < index; i++) {
+        totalRows += categories[i].products.length;
+      }
+
+      setState(() {
+        selectedCategoryIndex = index;
+      });
+
+      scrollController.removeListener(scrollControllerListener);
+      scrollController.jumpTo(promotionHeight +
+          totalRows * productCardHeight +
+          index *
+              (Constants.defaultPadding * 2.65 +
+                  Constants.headlineTextTheme.displayMedium!.fontSize!));
+
+      scrollController.addListener(scrollControllerListener);
+    }
+  }
+
+  //Create all breakpoints of each category section for automatic selected category change
+  void createBreakPoints(List<Category> categories) {
+    if (categories.isNotEmpty) {
+      int totalRows1 = categories[0].products.length;
+      double firstBreakPoint = promotionHeight +
+          (totalRows1 * productCardHeight) +
+          (Constants.defaultPadding * 2.65 +
+              Constants.headlineTextTheme.displayMedium!.fontSize!);
+      breakPoints.add(firstBreakPoint);
+
+      for (var i = 1; i < categories.length; i++) {
+        int totalRows = categories[i].products.length;
+        double breakPoint = breakPoints.last +
+            (totalRows * productCardHeight) +
+            (Constants.defaultPadding * 2.65 +
+                Constants.headlineTextTheme.displayMedium!.fontSize!);
+        breakPoints.add(breakPoint);
+      }
+    }
+  }
+
+  //Update selected category index on scroll of page
+  void updateCategoryIndexOnScroll(double offset, List<Category> categories) {
+    for (var i = 0; i < categories.length; i++) {
+      if (i == 0) {
+        if ((offset < breakPoints.first) && (selectedCategoryIndex != 0)) {
+          setState(() {
+            selectedCategoryIndex = 0;
+          });
+        }
+      } else if ((breakPoints[i - 1] <= offset) && (offset < breakPoints[i])) {
+        if (selectedCategoryIndex != i) {
+          setState(() {
+            selectedCategoryIndex = i;
+          });
+        }
+      }
+    }
   }
 }

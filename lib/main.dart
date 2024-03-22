@@ -24,7 +24,7 @@ class MyApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: CustomTheme.theme,
       onGenerateRoute: AppRouter().onGenerateRoute,
-      initialRoute: '/', //isAuthenticated ? '/' : '/auth',
+      initialRoute: '/auth', //isAuthenticated ? '/' : '/auth',
     );
   }
 }

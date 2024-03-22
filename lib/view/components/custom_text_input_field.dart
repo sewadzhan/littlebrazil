@@ -7,7 +7,7 @@ enum Picker { none, date, time }
 class CustomTextInputField extends StatelessWidget {
   const CustomTextInputField(
       {super.key,
-      required this.titleText,
+      this.titleText = "",
       required this.hintText,
       required this.controller,
       this.keyboardType = TextInputType.text,
@@ -16,7 +16,7 @@ class CustomTextInputField extends StatelessWidget {
       this.maxLines = 1,
       this.onTap});
 
-  final String titleText;
+  final String? titleText;
   final String? hintText;
   final TextEditingController controller;
   final TextInputType keyboardType;
@@ -72,10 +72,13 @@ class CustomTextInputField extends StatelessWidget {
           ? Constants.textTheme.bodyLarge
           : Constants.textTheme.bodyMedium,
       decoration: InputDecoration(
+          contentPadding: EdgeInsets.symmetric(
+              horizontal: Constants.defaultPadding * 0.75,
+              vertical: Constants.defaultPadding),
           floatingLabelBehavior: FloatingLabelBehavior.always,
-          label: maxLines > 1
+          label: maxLines > 1 && titleText != null
               ? Text(
-                  titleText,
+                  titleText!,
                   style: Constants.textTheme.bodyLarge!
                       .copyWith(color: Constants.darkGrayColor),
                 )
