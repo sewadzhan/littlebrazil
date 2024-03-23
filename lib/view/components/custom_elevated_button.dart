@@ -31,7 +31,7 @@ class CustomElevatedButton extends StatelessWidget {
                 borderRadius: BorderRadius.circular(6),
               ),
               disabledBackgroundColor:
-                  Constants.secondPrimaryColor.withAlpha(50)),
+                  Constants.secondPrimaryColor.withAlpha(65)),
           onPressed: isEnabled
               ? () {
                   function();

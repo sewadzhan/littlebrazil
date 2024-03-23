@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
+import 'package:littlebrazil/view/config/constants.dart';
 
 enum Picker { none, date, time }
 
@@ -9,41 +10,46 @@ class CustomTextInputField extends StatelessWidget {
       {super.key,
       this.titleText = "",
       required this.hintText,
-      required this.controller,
+      this.controller,
       this.keyboardType = TextInputType.text,
       this.pickerType = Picker.none,
       this.onlyRead = false,
       this.maxLines = 1,
+      this.inputFormatters,
       this.onTap});
 
   final String? titleText;
   final String? hintText;
-  final TextEditingController controller;
+  final TextEditingController? controller;
   final TextInputType keyboardType;
   final Picker pickerType;
   final bool onlyRead;
   final int maxLines;
   final Function? onTap;
+  final List<TextInputFormatter>? inputFormatters;
 
   @override
   Widget build(BuildContext context) {
     return TextFormField(
       controller: controller,
       onTap: () async {
+        if (controller == null) {
+          return;
+        }
         if (pickerType == Picker.date) {
           DateTime? date = await showDatePicker(
             //locale: const Locale("ru", "RU"),
             cancelText: "Отмена",
             confirmText: "Выбрать",
             context: context,
-            initialDate: controller.text.isEmpty
+            initialDate: controller!.text.isEmpty
                 ? DateTime.now()
-                : DateFormat('dd.MM.yyyy').parse(controller.text),
+                : DateFormat('dd.MM.yyyy').parse(controller!.text),
             firstDate: DateTime(1925),
             lastDate: DateTime(2025),
           );
           if (date != null) {
-            controller.text = DateFormat('dd.MM.yyyy').format(date);
+            controller!.text = DateFormat('dd.MM.yyyy').format(date);
           }
         } else if (pickerType == Picker.time) {
           final TimeOfDay? timeOfDay = await showTimePicker(
@@ -58,7 +64,7 @@ class CustomTextInputField extends StatelessWidget {
               });
 
           if (timeOfDay != null) {
-            controller.text = timeOfDay.format(context);
+            controller!.text = timeOfDay.format(context);
           }
         }
         if (onTap != null) {
@@ -68,6 +74,7 @@ class CustomTextInputField extends StatelessWidget {
       readOnly: onlyRead || pickerType != Picker.none,
       keyboardType: keyboardType,
       maxLines: maxLines,
+      inputFormatters: inputFormatters,
       style: maxLines == 1
           ? Constants.textTheme.bodyLarge
           : Constants.textTheme.bodyMedium,

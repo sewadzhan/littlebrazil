@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/language_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/loyal_system_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/list_tiles/profile_list_tile.dart';
@@ -39,12 +41,20 @@ class ProfileScreen extends StatelessWidget {
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          Text(
-                            "Se Von",
-                            style: Constants.headlineTextTheme.displayLarge!
-                                .copyWith(
-                                    color: Constants.primaryColor,
-                                    fontWeight: FontWeight.w600),
+                          BlocBuilder<CurrentUserBloc, CurrentUserState>(
+                            builder: (context, state) {
+                              if (state is CurrentUserRetrieveSuccessful) {
+                                return Text(
+                                  state.user.name,
+                                  style: Constants
+                                      .headlineTextTheme.displayLarge!
+                                      .copyWith(
+                                          color: Constants.primaryColor,
+                                          fontWeight: FontWeight.w600),
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            },
                           ),
                           TextButton(
                             style: TextButton.styleFrom(
@@ -68,18 +78,26 @@ class ProfileScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.end,
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
-                          RichText(
-                              text: TextSpan(
-                                  text: "Ваш баланс\n",
-                                  style: Constants.textTheme.bodyMedium!
-                                      .copyWith(height: 1.2),
-                                  children: [
-                                TextSpan(
-                                    text: "3200 Б",
-                                    style: Constants
-                                        .headlineTextTheme.displayLarge!
-                                        .copyWith(fontWeight: FontWeight.w600))
-                              ])),
+                          BlocBuilder<CurrentUserBloc, CurrentUserState>(
+                            builder: (context, state) {
+                              if (state is CurrentUserRetrieveSuccessful) {
+                                return RichText(
+                                    text: TextSpan(
+                                        text: "Ваш баланс\n",
+                                        style: Constants.textTheme.bodyMedium!
+                                            .copyWith(height: 1.2),
+                                        children: [
+                                      TextSpan(
+                                          text: "${state.user.cashback} Б",
+                                          style: Constants
+                                              .headlineTextTheme.displayLarge!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.w600))
+                                    ]));
+                              }
+                              return const SizedBox.shrink();
+                            },
+                          ),
                           TextButton(
                               style: TextButton.styleFrom(
                                 minimumSize: Size.zero,

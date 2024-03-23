@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/logic/blocs/order_history/order_history_bloc.dart';
+import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/view/components/list_tiles/order_history_list_tile.dart';
-// import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
@@ -13,8 +13,7 @@ class OrdersHistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
-    // var phoneNumber = context.read<AuthCubit>().state!.phoneNumber!;
-    var phoneNumber = "+77086053541";
+    var phoneNumber = context.read<AuthCubit>().state!.phoneNumber!;
     context.read<OrderHistoryBloc>().add(LoadOrderHistory(phoneNumber));
     return SliverBody(
       title: "История заказов",

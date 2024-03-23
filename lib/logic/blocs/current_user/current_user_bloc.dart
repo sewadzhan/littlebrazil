@@ -1,5 +1,5 @@
-import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
@@ -26,11 +26,11 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
       CurrentUserRetrieved event, Emitter<CurrentUserState> emit) async {
     if (state is CurrentUserInitial) {
       try {
-        // RestaurantUser user =
-        //     await firestoreRepository.retrieveUser(event.phoneNumber);
-        // emit(CurrentUserRetrieveSuccessful(user));
+        RestaurantUser user =
+            await firestoreRepository.retrieveUser(event.phoneNumber);
+        emit(CurrentUserRetrieveSuccessful(user));
         //Retrieving all user addresses
-        addressBloc.add(LoadAddresses("+77086053541"));
+        addressBloc.add(LoadAddresses(event.phoneNumber));
       } catch (e) {
         emit(CurrentUserRetrieveFailure());
       }
@@ -63,8 +63,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
       CurrentUserSignedOut event, Emitter<CurrentUserState> emit) {
     if (state is CurrentUserRetrieveSuccessful) {
       emit(CurrentUserInitial());
-      // addressBloc.add(AddressSetToInitial());
-      // payboxCardBloc.add(PayboxCardSetToInitial());
+      addressBloc.add(AddressSetToInitial());
     }
   }
 
@@ -75,8 +74,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
       var phoneNumber =
           (state as CurrentUserRetrieveSuccessful).user.phoneNumber;
       emit(CurrentUserInitial());
-      // addressBloc.add(AddressSetToInitial());
-      // payboxCardBloc.add(PayboxCardSetToInitial());
+      addressBloc.add(AddressSetToInitial());
       firestoreRepository.deleteUser(phoneNumber);
     }
   }

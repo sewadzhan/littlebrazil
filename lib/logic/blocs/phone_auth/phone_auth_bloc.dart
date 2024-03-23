@@ -37,10 +37,10 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
   }
 
   //Verify phone number by sending SMS OTP
-  phoneAuthNumberVerifiedToState(
+  void phoneAuthNumberVerifiedToState(
       PhoneAuthNumberVerified event, Emitter<PhoneAuthState> emit) async {
     try {
-      var phone = event.phoneNumber;
+      var phone = event.phoneNumber.replaceAll(' ', '');
       emit(PhoneAuthLoading());
 
       if (phone.isEmpty) {
@@ -73,7 +73,7 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
   }
 
   //Verify SMS OTP to log in or sign up user
-  phoneAuthCodeVerifiedToState(
+  void phoneAuthCodeVerifiedToState(
       PhoneAuthCodeVerified event, Emitter<PhoneAuthState> emit) async {
     try {
       emit(PhoneAuthLoading());
@@ -138,6 +138,26 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
     ));
   }
 
+  void createNewUserInFirestoreToState(
+      CreateNewUserInFirestore event, Emitter<PhoneAuthState> emit) async {
+    var phone = event.phoneNumber;
+
+    if (phone.substring(0, 1) == '7') {
+      phone = phone.replaceFirst(RegExp(r'7'), '+7');
+    } else if (phone.substring(0, 1) == '8') {
+      phone = phone.replaceFirst(RegExp(r'8'), '+7');
+    }
+
+    try {
+      await firestoreRepository.writeNewUser(
+          phone.replaceAll(' ', ''), event.name);
+      emit(PhoneAuthCreateUserSuccess());
+    } catch (e) {
+      add(const PhoneAuthVerificationFailed(
+          "Не удалось создать нового пользователя. Попробуйте позже."));
+    }
+  }
+
   //Auto retrieval has timed out for verification ID
   void _onCodeAutoRetrievalTimeout(String verificationId) {
     print('Auto retrieval has timed out for verification ID $verificationId');
@@ -150,24 +170,5 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
       r'^((\+7)+([0-9]){10})$',
     );
     return phoneRegExp.hasMatch(phoneNumber);
-  }
-
-  createNewUserInFirestoreToState(
-      CreateNewUserInFirestore event, Emitter<PhoneAuthState> emit) async {
-    var phone = event.phoneNumber;
-
-    if (phone.substring(0, 1) == '7') {
-      phone = phone.replaceFirst(RegExp(r'7'), '+7');
-    } else if (phone.substring(0, 1) == '8') {
-      phone = phone.replaceFirst(RegExp(r'8'), '+7');
-    }
-
-    try {
-      await firestoreRepository.writeNewUser(phone, event.name);
-      emit(PhoneAuthCreateUserSuccess());
-    } catch (e) {
-      add(const PhoneAuthVerificationFailed(
-          "Не удалось создать нового пользователя. Попробуйте позже."));
-    }
   }
 }

@@ -29,6 +29,7 @@ import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.da
 import 'package:littlebrazil/logic/cubits/extra_cutlery/extra_cutlery_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
+import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
 import 'package:littlebrazil/view/screens/auth_screen.dart';
@@ -61,9 +62,7 @@ class AppRouter {
       ExtraCutleryCubit(cartBloc);
 
   static final AddressBloc addressBloc =
-      AddressBloc(firestoreRepository, checkoutBloc)
-        ..add(LoadAddresses("+77086053541"));
-
+      AddressBloc(firestoreRepository, checkoutBloc);
   static final CashbackBloc cashbackBloc =
       CashbackBloc(firestoreRepository, currentUserBloc)
         ..add(LoadCashbackData());
@@ -98,6 +97,7 @@ class AppRouter {
               BlocProvider.value(value: bottomSheetCubit),
               BlocProvider.value(value: contactsCubit),
               BlocProvider.value(value: networkBloc),
+              BlocProvider.value(value: currentUserBloc),
             ],
             child: const MainScreen(),
           ),
@@ -107,7 +107,8 @@ class AppRouter {
             type: PageTransitionType.fade,
             child: MultiBlocProvider(providers: [
               BlocProvider.value(value: phoneAuthBloc),
-              BlocProvider.value(value: networkBloc),
+              BlocProvider.value(value: currentUserBloc),
+              BlocProvider(create: (context) => OTPSectionCubit())
             ], child: const AuthScreen()));
       case "/qr":
         return PageTransition(

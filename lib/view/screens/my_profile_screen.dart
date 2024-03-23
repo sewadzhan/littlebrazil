@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/edit_user/edit_user_bloc.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
@@ -13,18 +14,19 @@ class MyProfileScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //var currentUserState = context.read<CurrentUserBloc>().state;
-    // var currentUser = currentUserState is CurrentUserRetrieveSuccessful
-    //     ? currentUserState.user
-    //     : null;
-    // var nameController = TextEditingController(text: currentUser!.name);
-    // var emailController = TextEditingController(text: currentUser.email);
-    // var birthdayController = TextEditingController(text: currentUser.birthday);
-
-    var nameController = TextEditingController();
-    var phoneController = TextEditingController();
-    var emailController = TextEditingController();
-    var birthdayController = TextEditingController();
+    CurrentUserState currentUserState = context.read<CurrentUserBloc>().state;
+    RestaurantUser? currentUser =
+        currentUserState is CurrentUserRetrieveSuccessful
+            ? currentUserState.user
+            : null;
+    TextEditingController nameController =
+        TextEditingController(text: currentUser!.name);
+    TextEditingController emailController =
+        TextEditingController(text: currentUser.email);
+    TextEditingController birthdayController =
+        TextEditingController(text: currentUser.birthday);
+    TextEditingController phoneController =
+        TextEditingController(text: currentUser.phoneNumber);
 
     return BlocListener<EditUserBloc, EditUserState>(
       listener: (context, state) {
@@ -70,37 +72,39 @@ class MyProfileScreen extends StatelessWidget {
               },
             )
           ],
-          bottomBar: Container(
-            decoration: const BoxDecoration(
-                color: Constants.backgroundColor,
-                border: Border(
-                    top:
-                        BorderSide(color: Constants.lightGrayColor, width: 1))),
-            padding: EdgeInsets.all(Constants.defaultPadding),
-            child: BlocBuilder<CurrentUserBloc, CurrentUserState>(
-                builder: (context, state) {
-              if (state is CurrentUserRetrieveSuccessful) {
-                return CustomElevatedButton(
-                    text: "Сохранить",
-                    function: () {
-                      context.read<EditUserBloc>().add(UserEdited(
-                              phoneNumber: state.user.phoneNumber,
-                              oldData: {
-                                "phoneNumber": state.user.phoneNumber,
-                                "name": state.user.name,
-                                "email": state.user.email,
-                                "birthday": state.user.birthday
-                              },
-                              newData: {
-                                "phoneNumber": state.user.phoneNumber,
-                                "name": nameController.text,
-                                "email": emailController.text,
-                                "birthday": birthdayController.text
-                              }));
-                    });
-              }
-              return const SizedBox.shrink();
-            }),
+          bottomBar: SafeArea(
+            child: Container(
+              decoration: const BoxDecoration(
+                  color: Constants.backgroundColor,
+                  border: Border(
+                      top: BorderSide(
+                          color: Constants.lightGrayColor, width: 1))),
+              padding: EdgeInsets.all(Constants.defaultPadding),
+              child: BlocBuilder<CurrentUserBloc, CurrentUserState>(
+                  builder: (context, state) {
+                if (state is CurrentUserRetrieveSuccessful) {
+                  return CustomElevatedButton(
+                      text: "Сохранить",
+                      function: () {
+                        context.read<EditUserBloc>().add(UserEdited(
+                                phoneNumber: state.user.phoneNumber,
+                                oldData: {
+                                  "phoneNumber": state.user.phoneNumber,
+                                  "name": state.user.name,
+                                  "email": state.user.email,
+                                  "birthday": state.user.birthday
+                                },
+                                newData: {
+                                  "phoneNumber": state.user.phoneNumber,
+                                  "name": nameController.text,
+                                  "email": emailController.text,
+                                  "birthday": birthdayController.text
+                                }));
+                      });
+                }
+                return const SizedBox.shrink();
+              }),
+            ),
           ),
           child: Padding(
               padding: EdgeInsets.only(
@@ -134,8 +138,7 @@ class MyProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                     child: CustomTextInputField(
                       controller: emailController,
-                      titleText: "Email",
-                      hintText: "example@gmail.com",
+                      hintText: "Электронная почта",
                       keyboardType: TextInputType.emailAddress,
                     ),
                   ),
@@ -143,8 +146,7 @@ class MyProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                     child: CustomTextInputField(
                       controller: birthdayController,
-                      titleText: "День рождения",
-                      hintText: "",
+                      hintText: "День рождения",
                       pickerType: Picker.date,
                     ),
                   ),

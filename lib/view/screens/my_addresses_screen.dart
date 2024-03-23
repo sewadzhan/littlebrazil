@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
+import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/view/components/custom_outlined_button.dart';
-// import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/view/components/list_tiles/address_list_tile.dart';
 import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_list_tile.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
@@ -15,8 +15,7 @@ class MyAddressesScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
-    var phoneNumber =
-        "+77086053541"; /*context.read<AuthCubit>().state!.phoneNumber!;*/
+    var phoneNumber = context.read<AuthCubit>().state!.phoneNumber!;
     return SliverBody(
       title: "Мои адреса",
       bottomBar: SafeArea(

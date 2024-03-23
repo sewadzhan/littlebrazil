@@ -5,6 +5,7 @@ import 'package:littlebrazil/data/models/maplatlng.dart';
 import 'package:littlebrazil/logic/blocs/add_address/add_address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
+import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_text_input_field.dart';
@@ -325,10 +326,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         var addAddressState =
                             context.read<AddAddressBloc>().state;
                         if (addAddressState is AddAddressLoaded) {
-                          // var phoneNumber =
-                          //     context.read<AuthCubit>().state!.phoneNumber!;
+                          var phoneNumber =
+                              context.read<AuthCubit>().state!.phoneNumber!;
                           context.read<AddressBloc>().add(AddressAdded(
-                              phoneNumber: "+77086053541",
+                              phoneNumber: phoneNumber,
                               model: addAddressState.addAddressModel,
                               apartment: apartmentController.text));
                         }

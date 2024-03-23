@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
+import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/cross_sales_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/cart_item.dart';
@@ -108,14 +109,13 @@ class CartScreen extends StatelessWidget {
                         CustomElevatedButton(
                             text: "ОФОРМИТЬ ЗАКАЗ",
                             function: () async {
-                              // var isAuthenticated =
-                              //     context.read<AuthCubit>().state != null;
+                              var isAuthenticated =
+                                  context.read<AuthCubit>().state != null;
+                              if (!isAuthenticated) {
+                                Navigator.pushNamed(context, '/auth');
+                                return;
+                              }
 
-                              // if (!isAuthenticated) {
-                              //   Navigator.pushNamed(context, '/auth');
-                              //   return;
-                              // }
-                              // Navigator.pushNamed(context, "/checkout");
                               //NOT WORKING BOTTOM SHEET
                               // showModalBottomSheet(
                               //     backgroundColor: Constants.backgroundColor,

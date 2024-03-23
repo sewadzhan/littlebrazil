@@ -50,6 +50,7 @@ dependencies:
   carousel_slider: ^4.2.1
   sliding_up_panel: ^2.0.0+1
   pin_code_fields: ^8.0.1
+  mask_text_input_formatter: ^2.9.0
 
 dev_dependencies:
   flutter_test:

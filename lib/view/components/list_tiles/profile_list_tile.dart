@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
+import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -52,7 +53,7 @@ class ProfileListTile extends StatelessWidget {
                   function: () {
                     Navigator.of(context).pop();
                     Navigator.of(context).pushNamed('/auth');
-                    // context.read<AuthCubit>().signOut();
+                    context.read<AuthCubit>().signOut();
                     context.read<CurrentUserBloc>().add(CurrentUserSignedOut());
                     context.read<NavigationCubit>().setIndex(0);
                   });

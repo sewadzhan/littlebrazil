@@ -108,7 +108,7 @@ class Constants {
   static SnackBar noWifiSnackBar(BuildContext context) {
     return SnackBar(
       dismissDirection: DismissDirection.none,
-      backgroundColor: Constants.primaryColor,
+      backgroundColor: Constants.errorColor,
       duration: const Duration(days: 7),
       content: Padding(
         padding:
