@@ -27,7 +27,7 @@ class ProfileScreen extends StatelessWidget {
                       borderRadius: BorderRadius.all(Radius.circular(12))),
                   height: 175,
                   margin: EdgeInsets.symmetric(
-                      horizontal: Constants.defaultPadding),
+                      horizontal: Constants.defaultPadding * 1.25),
                   padding: EdgeInsets.only(
                     top: Constants.defaultPadding,
                     bottom: Constants.defaultPadding,

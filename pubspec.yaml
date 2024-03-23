@@ -28,7 +28,6 @@ dependencies:
   new_version_plus: ^0.0.11
   uuid: ^4.3.2
   http: ^1.2.0
-  torch_light: ^1.0.0
 
   #Internet connection
   connectivity_plus: ^5.0.2
@@ -52,6 +51,8 @@ dependencies:
   sliding_up_panel: ^2.0.0+1
   pin_code_fields: ^8.0.1
   mask_text_input_formatter: ^2.9.0
+  qr_code_scanner: ^1.0.1
+  torch_light: ^1.0.0
 
 dev_dependencies:
   flutter_test:
