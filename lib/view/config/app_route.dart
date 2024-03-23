@@ -30,6 +30,7 @@ import 'package:littlebrazil/logic/cubits/extra_cutlery/extra_cutlery_cubit.dart
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
+import 'package:littlebrazil/logic/cubits/rate_app/rate_app_cubit.dart';
 import 'package:littlebrazil/logic/cubits/torch/torch_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
@@ -43,6 +44,7 @@ import 'package:littlebrazil/view/screens/orders_history_screen.dart';
 import 'package:littlebrazil/view/screens/product_details_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
 import 'package:littlebrazil/view/screens/search_screen.dart';
+import 'package:littlebrazil/view/screens/success_order_screen.dart';
 import 'package:littlebrazil/view/screens/suggest_address_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -222,10 +224,18 @@ class AppRouter {
       case "/ordersHistory":
         return PageTransition(
             type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 250),
             child: BlocProvider(
               create: (context) => OrderHistoryBloc(firestoreRepository),
               child: const OrdersHistoryScreen(),
+            ));
+      case "/successOrder":
+        return PageTransition(
+            type: PageTransitionType.bottomToTop,
+            duration: const Duration(milliseconds: 250),
+            child: BlocProvider(
+              create: (context) => RateAppCubit(),
+              child: const SuccessOrderScreen(),
             ));
       default:
         return _errorRoute();
