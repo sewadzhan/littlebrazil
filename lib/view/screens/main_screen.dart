@@ -81,11 +81,9 @@ class MainScreen extends StatelessWidget {
                       (index == 3 && !isAuthenticated)) {
                     Navigator.pushNamed(context, '/auth');
                     return;
-                  }
-                  if (index == 2) {
+                  } else if (index == 2) {
                     Navigator.of(context).pushNamed('/qr');
-                  }
-                  if (index == 4) {
+                  } else if (index == 4) {
                     Navigator.of(context).pushNamed('/cart');
                   } else {
                     context.read<NavigationCubit>().setIndex(index);

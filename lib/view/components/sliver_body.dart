@@ -3,6 +3,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
+enum BackButtonType { arrow, cross }
+
 class SliverBody extends StatelessWidget {
   const SliverBody(
       {super.key,
@@ -11,7 +13,8 @@ class SliverBody extends StatelessWidget {
       this.bottomBar,
       this.actions = const [],
       this.showBackButton = true,
-      this.floatingActionButton});
+      this.floatingActionButton,
+      this.backButtonType = BackButtonType.arrow});
 
   final String title;
   final Widget child;
@@ -19,6 +22,7 @@ class SliverBody extends StatelessWidget {
   final Widget? floatingActionButton;
   final bool showBackButton;
   final List<Widget> actions;
+  final BackButtonType backButtonType;
 
   @override
   Widget build(BuildContext context) {
@@ -59,7 +63,10 @@ class SliverBody extends StatelessWidget {
                     ),
                     child: SizedBox(
                       width: 25,
-                      child: SvgPicture.asset('assets/icons/arrow-left.svg',
+                      child: SvgPicture.asset(
+                          backButtonType == BackButtonType.cross
+                              ? 'assets/icons/cross.svg'
+                              : 'assets/icons/arrow-left.svg',
                           colorFilter: const ColorFilter.mode(
                               Constants.darkGrayColor, BlendMode.srcIn)),
                     ),
