@@ -6,6 +6,7 @@ import 'package:littlebrazil/data/models/checkout.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
+import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/payment_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
@@ -19,9 +20,11 @@ class CashbackBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Wrap(
-      children: [
-        SafeArea(
+    return SizedBox(
+      height: 400,
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        body: SafeArea(
           child: BlocBuilder<CheckoutBloc, Checkout>(
             builder: (context, checkoutState) {
               return Container(
@@ -113,6 +116,10 @@ class CashbackBottomSheet extends StatelessWidget {
                                                       value: context
                                                           .read<CartBloc>(),
                                                     ),
+                                                    BlocProvider.value(
+                                                      value: context
+                                                          .read<OrderBloc>(),
+                                                    ),
                                                   ],
                                                   child:
                                                       const PaymentBottomSheet(),
@@ -142,8 +149,7 @@ class CashbackBottomSheet extends StatelessWidget {
                                               CashbackAction.withdraw,
                                           dense: true,
                                           contentPadding: EdgeInsets.zero,
-                                          activeColor:
-                                              Constants.secondPrimaryColor,
+                                          activeColor: Constants.purpleColor,
                                           inactiveThumbColor:
                                               Constants.middleGrayColor,
                                           inactiveTrackColor:
@@ -192,36 +198,50 @@ class CashbackBottomSheet extends StatelessWidget {
                                 ],
                               ),
                             ),
-                            Container(
-                              padding: EdgeInsets.symmetric(
-                                  horizontal: Constants.defaultPadding * 0.75,
-                                  vertical: Constants.defaultPadding * 0.6),
-                              margin: EdgeInsets.only(
-                                  bottom: Constants.defaultPadding),
-                              decoration: const BoxDecoration(
-                                  color: Constants.lightGreenColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6))),
-                              child: Row(
-                                children: [
-                                  Container(
-                                    width: 30,
+                            BlocBuilder<CashbackBloc, CashbackState>(
+                              builder: (context, cashbackState) {
+                                if (cashbackState is CashbackLoaded &&
+                                    cashbackState.cashbackData.cashbackAction ==
+                                        CashbackAction.deposit) {
+                                  return Container(
+                                    padding: EdgeInsets.symmetric(
+                                        horizontal:
+                                            Constants.defaultPadding * 0.75,
+                                        vertical:
+                                            Constants.defaultPadding * 0.6),
                                     margin: EdgeInsets.only(
-                                        right: Constants.defaultPadding),
-                                    child: SvgPicture.asset(
-                                        'assets/icons/shooting-star.svg',
-                                        colorFilter: const ColorFilter.mode(
-                                            Constants.primaryColor,
-                                            BlendMode.srcIn)),
-                                  ),
-                                  Text(
-                                    "Вы накопите 1120 баллов",
-                                    style: Constants.textTheme.headlineSmall!
-                                        .copyWith(
-                                            color: Constants.primaryColor),
-                                  )
-                                ],
-                              ),
+                                        bottom: Constants.defaultPadding),
+                                    decoration: const BoxDecoration(
+                                        color: Constants.lightGreenColor,
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(6))),
+                                    child: Row(
+                                      children: [
+                                        Container(
+                                          width: 30,
+                                          margin: EdgeInsets.only(
+                                              right: Constants.defaultPadding),
+                                          child: SvgPicture.asset(
+                                              'assets/icons/shooting-star.svg',
+                                              colorFilter:
+                                                  const ColorFilter.mode(
+                                                      Constants.primaryColor,
+                                                      BlendMode.srcIn)),
+                                        ),
+                                        Text(
+                                          "Вы накопите 1120 баллов",
+                                          style: Constants
+                                              .textTheme.headlineSmall!
+                                              .copyWith(
+                                                  color:
+                                                      Constants.primaryColor),
+                                        )
+                                      ],
+                                    ),
+                                  );
+                                }
+                                return const SizedBox.shrink();
+                              },
                             ),
                             BlocBuilder<CartBloc, CartState>(
                               builder: (context, cartState) {
@@ -229,13 +249,36 @@ class CashbackBottomSheet extends StatelessWidget {
                                   return Padding(
                                     padding: EdgeInsets.only(
                                         bottom: Constants.defaultPadding * 0.3),
-                                    child: CustomElevatedButton(
-                                        text:
-                                            "ОПЛАТИТЬ • ${cartState.cart.subtotal - cartState.cart.discount + checkoutState.deliveryCost} ₸",
-                                        function: () {
-                                          Navigator.pushNamed(
-                                              context, '/addAddress');
-                                        }),
+                                    child: BlocConsumer<OrderBloc, OrderState>(
+                                      listener: (context, orderState) {
+                                        if (orderState is OrderFailed) {
+                                          var errorSnackBar =
+                                              Constants.errorSnackBar(
+                                                  context, orderState.message,
+                                                  duration: const Duration(
+                                                      milliseconds: 500));
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(errorSnackBar);
+                                        }
+                                      },
+                                      builder: (context, orderState) {
+                                        return CustomElevatedButton(
+                                            text:
+                                                "ОПЛАТИТЬ • ${cartState.cart.subtotal - cartState.cart.discount + checkoutState.deliveryCost} ₸",
+                                            isLoading:
+                                                orderState is OrderLoading,
+                                            function: () {
+                                              var checkoutBloc =
+                                                  context.read<CheckoutBloc>();
+                                              context
+                                                  .read<OrderBloc>()
+                                                  .add(NewOrderPlaced(
+                                                    checkout:
+                                                        checkoutBloc.state,
+                                                  ));
+                                            });
+                                      },
+                                    ),
                                   );
                                 }
                                 return const SizedBox.shrink();
@@ -262,7 +305,7 @@ class CashbackBottomSheet extends StatelessWidget {
             },
           ),
         ),
-      ],
+      ),
     );
   }
 }

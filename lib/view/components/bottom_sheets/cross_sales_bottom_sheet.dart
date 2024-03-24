@@ -202,15 +202,15 @@ class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
                                                 ),
                                                 side: const BorderSide(
                                                     width: 1,
-                                                    color: Constants
-                                                        .primaryColor)),
+                                                    color:
+                                                        Constants.purpleColor)),
                                             child: Text("В КОРЗИНУ",
                                                 style: Constants
                                                     .headlineTextTheme
                                                     .headlineSmall!
                                                     .copyWith(
                                                         color: Constants
-                                                            .primaryColor,
+                                                            .purpleColor,
                                                         fontWeight:
                                                             FontWeight.bold))))
                                   ],

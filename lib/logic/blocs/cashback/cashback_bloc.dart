@@ -56,7 +56,7 @@ class CashbackBloc extends Bloc<AddressEvent, CashbackState> {
 
         emit(CashbackLoaded((previousState as CashbackLoaded)
             .cashbackData
-            .copyWith(cashbackAction: CashbackAction.none)));
+            .copyWith(cashbackAction: CashbackAction.deposit)));
       } catch (e) {
         print("cashbackDepositedToState EXCEPTION: $e");
       }
@@ -78,7 +78,7 @@ class CashbackBloc extends Bloc<AddressEvent, CashbackState> {
 
         emit(CashbackLoaded((previousState as CashbackLoaded)
             .cashbackData
-            .copyWith(cashbackAction: CashbackAction.none)));
+            .copyWith(cashbackAction: CashbackAction.deposit)));
       } catch (e) {
         print("cashbackWithdrawedToState EXCEPTION: $e");
       }

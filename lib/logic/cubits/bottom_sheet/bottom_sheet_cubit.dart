@@ -19,9 +19,9 @@ class BottomSheetCubit extends Cubit<BottomSheetState> {
   }
 
   //Showing cashback bottom sheet
-  showCashbackBottomSheet(Order order) {
-    emit(CashbackBottomSheetShowState(order));
-  }
+  // showCashbackBottomSheet(Order order) {
+  //   emit(CashbackBottomSheetShowState(order));
+  // }
 
   //Showing update app bottom sheet
   showUpdateAppBottomSheet(String playMarketUrl, String appStoreUrl) {

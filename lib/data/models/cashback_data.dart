@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:equatable/equatable.dart';
 
-enum CashbackAction { deposit, withdraw, none }
+enum CashbackAction { deposit, withdraw }
 
 class CashbackData extends Equatable {
   final int percent;
@@ -13,7 +13,7 @@ class CashbackData extends Equatable {
 
   factory CashbackData.fromMap(Map<String, dynamic> map) {
     return CashbackData(map['percent']?.toInt() ?? 0, map['isEnabled'] ?? false,
-        CashbackAction.none);
+        CashbackAction.deposit);
   }
 
   factory CashbackData.fromJson(String source) =>

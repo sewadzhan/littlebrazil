@@ -127,7 +127,7 @@ class _CategoryMenuState extends State<CategoryMenu> {
                                   border: Border.all(
                                       width: 1,
                                       color: index == widget.selectedIndex
-                                          ? Constants.secondPrimaryColor
+                                          ? Constants.purpleColor
                                           : Colors.transparent),
                                   borderRadius: const BorderRadius.all(
                                       Radius.circular(6))),
@@ -139,7 +139,7 @@ class _CategoryMenuState extends State<CategoryMenu> {
                                     .copyWith(
                                         fontWeight: FontWeight.w500,
                                         color: index == widget.selectedIndex
-                                            ? Constants.secondPrimaryColor
+                                            ? Constants.purpleColor
                                             : Constants.darkGrayColor),
                               ),
                             ),

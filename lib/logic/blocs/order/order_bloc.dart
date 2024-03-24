@@ -1,8 +1,11 @@
+import 'dart:io';
 import 'dart:math';
 
 import 'package:equatable/equatable.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:littlebrazil/data/models/cashback_data.dart';
 import 'package:littlebrazil/data/models/checkout.dart';
 import 'package:littlebrazil/data/models/order.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
@@ -11,6 +14,7 @@ import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
+import 'package:littlebrazil/view/config/restaurant_exception.dart';
 
 part 'order_event.dart';
 part 'order_state.dart';
@@ -33,8 +37,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
       required this.bottomSheetCubit})
       : super(OrderInitial()) {
     on<NewOrderPlaced>(newOrderPlacedToState);
-    on<SuccessfulOrderCreated>(successfulOrderCreatedToState);
     on<OrderPaymentProcessed>(orderPaymentProcessedToState);
+    on<SuccessfulOrderCreated>(successfulOrderCreatedToState);
     on<OrderErrorOccured>(((event, emit) => emit(OrderFailed(event.message))));
   }
 
@@ -43,65 +47,91 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     if (cartBloc.state is CartLoaded &&
         currentUserBloc.state is CurrentUserRetrieveSuccessful) {
       emit(OrderLoading());
-      // try {
-      //   validateCheckout(event.checkout, event.change);
+      try {
+        validateCheckout(event.checkout);
 
-      //   var cartBlocState = cartBloc.state as CartLoaded;
+        var cartBlocState = cartBloc.state as CartLoaded;
 
-      //   String fullAddress = event.checkout.orderType == OrderType.delivery
-      //       ? "${event.checkout.address.address}, кв/оф ${event.checkout.address.apartmentOrOffice}"
-      //       : event.checkout.pickupPoint!.address;
+        String fullAddress = event.checkout.orderType == OrderType.delivery
+            ? "${event.checkout.address.address}, кв/оф ${event.checkout.address.apartmentOrOffice}"
+            : event.checkout.pickupPoint!.address;
+        Order order = Order(
+          phoneNumber: (currentUserBloc.state as CurrentUserRetrieveSuccessful)
+              .user
+              .phoneNumber,
+          fullAddress: fullAddress,
+          deliveryCost: event.checkout.deliveryCost,
+          discount: cartBlocState.cart.discount,
+          subtotal: cartBlocState.cart.subtotal,
+          total: cartBlocState.cart.subtotal -
+              cartBlocState.cart.discount +
+              event.checkout.deliveryCost,
+          paymentMethod: event.checkout.paymentMethod,
+          orderType: event.checkout.orderType,
+          cartItems: cartBlocState.cart.items,
+          id: generateOrderID(),
+          dateTime: DateTime.now(),
+          cashbackUsed: 0,
+          comments: event.checkout.comments,
+          // changeWith: event.change.isNotEmpty ? int.parse(event.change) : null,
+        );
 
-      //   Order order = Order(
-      //       phoneNumber:
-      //           (currentUserBloc.state as CurrentUserRetrieveSuccessful)
-      //               .user
-      //               .phoneNumber,
-      //       fullAddress: fullAddress,
-      //       deliveryCost: event.checkout.deliveryCost,
-      //       discount: cartBlocState.cart.discount,
-      //       subtotal: cartBlocState.cart.subtotal,
-      //       total: cartBlocState.cart.subtotal -
-      //           cartBlocState.cart.discount +
-      //           event.checkout.deliveryCost,
-      //       paymentMethod: event.checkout.paymentMethod,
-      //       orderType: event.checkout.orderType,
-      //       cartItems: cartBlocState.cart.items,
-      //       id: generateOrderID(),
-      //       dateTime: DateTime.now(),
-      //       //status: OrderStatus.unconfirmed,
-      //       cashbackUsed: 0,
-      //       comments: event.comments,
-      //       changeWith:
-      //           event.change.isNotEmpty ? int.parse(event.change) : null);
+        // if (event.checkout.paymentMethod == PaymentMethod.bankCard) {
+        //   //Show the pay instruction bottom sheet
+        //   bottomSheetCubit.showPayInstructionBottomSheet();
+        // }
+        add(OrderPaymentProcessed(checkout: event.checkout, order: order));
+      } on SocketException {
+        emit(const OrderFailed("Возникли проблемы с интернет соединением"));
+        return;
+      } on RestaurantException catch (e) {
+        emit(OrderFailed(e.toString()));
+        return;
+      }
+    }
+  }
 
-      //   //Show cashback bottom sheet
-      //   var cashbackState = cashbackBloc.state;
-      //   if (cashbackState is CashbackLoaded &&
-      //       cashbackState.cashbackData.isEnabled) {
-      //     bottomSheetCubit.showCashbackBottomSheet(order);
+  //Process payment
+  orderPaymentProcessedToState(
+      OrderPaymentProcessed event, Emitter<OrderState> emit) async {
+    CurrentUserState currentUserState = currentUserBloc.state;
+    Order order = event.order;
 
-      //     if (event.checkout.paymentMethod == PaymentMethod.bankCard) {
-      //       //Show the pay instruction bottom sheet
-      //       bottomSheetCubit.showPayInstructionBottomSheet();
-      //     }
-      //     emit(OrderPending(order, event.checkout));
-      //     return;
-      //   }
+    if (currentUserState is CurrentUserRetrieveSuccessful) {
+      try {
+        emit(OrderLoading());
 
-      //   if (event.checkout.paymentMethod == PaymentMethod.bankCard) {
-      //     //Show the pay instruction bottom sheet
-      //     bottomSheetCubit.showPayInstructionBottomSheet();
-      //   }
+        var cashbackAction =
+            (cashbackBloc.state as CashbackLoaded).cashbackData.cashbackAction;
 
-      //   add(OrderPaymentProcessed(checkout: event.checkout, order: order));
-      // } on SocketException {
-      //   emit(const OrderFailed("Возникли проблемы с интернет соединением"));
-      //   return;
-      // } on RestaurantException catch (e) {
-      //   emit(OrderFailed(e.toString()));
-      //   return;
-      // }
+        //Change discount value if cashback action is Withdraw
+        if (cashbackAction == CashbackAction.withdraw) {
+          //Withdraw all cashback of current user
+          var newDiscountValue =
+              currentUserState.user.cashback + event.order.discount;
+          var newTotal = event.order.total - currentUserState.user.cashback;
+          order = event.order.copyWith(
+              discount: newDiscountValue, total: newTotal < 0 ? 0 : newTotal);
+        }
+
+        //Payment process
+        if (order.paymentMethod == PaymentMethod.bankCard) {
+          emit(OrderPayboxInit(order));
+        } else if (order.paymentMethod == PaymentMethod.kaspi) {}
+      } on SocketException {
+        emit(const OrderFailed("Возникли проблемы с интернет соединением"));
+        return;
+      } on PlatformException {
+        emit(const OrderFailed("Не удалось произвести оплату"));
+        emit(OrderInitial());
+        return;
+      } on RestaurantException catch (e) {
+        emit(OrderFailed(e.toString()));
+        return;
+      } catch (e) {
+        emit(OrderFailed("UNKNOWN ERROR $e"));
+        return;
+      }
     }
   }
 
@@ -206,34 +236,34 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   }
 
   //Validate checkout fields
-  void validateCheckout(Checkout checkout, String change) {
-    // if (cartBloc.state is! CartLoaded ||
-    //     contactsCubit.state is! ContactsLoadedState) {
-    //   throw RestaurantException("Произошла непредвиденная ошибка");
-    // }
-    // var minSumOrder =
-    //     (contactsCubit.state as ContactsLoadedState).contactsModel.minOrderSum;
+  void validateCheckout(Checkout checkout) {
+    if (cartBloc.state is! CartLoaded ||
+        contactsCubit.state is! ContactsLoadedState) {
+      throw RestaurantException("Произошла непредвиденная ошибка");
+    }
+    var minSumOrder =
+        (contactsCubit.state as ContactsLoadedState).contactsModel.minOrderSum;
 
-    // //Check minimum sum order when order type is delivery
-    // if (checkout.orderType == OrderType.delivery &&
-    //     (cartBloc.state as CartLoaded).cart.subtotal < minSumOrder) {
-    //   throw RestaurantException(
-    //       "Минимальная сумма заказа составляет $minSumOrder тенге");
-    // }
-    // if (checkout.orderType == OrderType.delivery &&
-    //     (checkout.address.address.isEmpty ||
-    //         checkout.address.apartmentOrOffice.isEmpty)) {
-    //   throw RestaurantException("Укажите адрес доставки");
-    // }
-    // if (checkout.orderType == OrderType.pickup &&
-    //     checkout.pickupPoint == null) {
-    //   throw RestaurantException("Укажите точку самовывоза");
-    // }
-    // if (checkout.deliveryTime == DeliveryTimeType.none ||
-    //     (checkout.deliveryTime == DeliveryTimeType.certainTime &&
-    //         checkout.certainTimeOrder.isEmpty)) {
-    //   throw RestaurantException("Укажите время доставки");
-    // }
+    //Check minimum sum order when order type is delivery
+    if (checkout.orderType == OrderType.delivery &&
+        (cartBloc.state as CartLoaded).cart.subtotal < minSumOrder) {
+      throw RestaurantException(
+          "Минимальная сумма заказа составляет $minSumOrder тенге");
+    }
+    if (checkout.orderType == OrderType.delivery &&
+        (checkout.address.address.isEmpty ||
+            checkout.address.apartmentOrOffice.isEmpty)) {
+      throw RestaurantException("Укажите адрес доставки");
+    }
+    if (checkout.orderType == OrderType.pickup &&
+        checkout.pickupPoint == null) {
+      throw RestaurantException("Укажите точку самовывоза");
+    }
+    if (checkout.deliveryTime == DeliveryTimeType.none ||
+        (checkout.deliveryTime == DeliveryTimeType.certainTime &&
+            checkout.certainTimeOrder.isEmpty)) {
+      throw RestaurantException("Укажите время доставки");
+    }
     // int orderTotal = (cartBloc.state as CartLoaded).cart.subtotal -
     //     (cartBloc.state as CartLoaded).cart.discount +
     //     checkout.deliveryCost;
@@ -249,9 +279,9 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     //       "Укажите корректное значение для поля \"Сдача с\"");
     // }
 
-    // if (checkout.organizationID.isEmpty) {
-    //   throw RestaurantException("Произошла непредвиденная ошибка. Код 1337");
-    // }
+    if (checkout.organizationID.isEmpty) {
+      throw RestaurantException("Произошла непредвиденная ошибка. Код 1337");
+    }
   }
 
   //Generate unique id for order
@@ -259,66 +289,5 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     String id =
         "${DateFormat('yyMMdd').format(DateTime.now())}${1000 + Random().nextInt(9000)}";
     return int.parse(id);
-  }
-
-  //Process payment
-  orderPaymentProcessedToState(
-      OrderPaymentProcessed event, Emitter<OrderState> emit) async {
-    // var currentUserState = currentUserBloc.state;
-    // var order = event.order;
-    // if (currentUserState is CurrentUserRetrieveSuccessful) {
-    //   try {
-    //     emit(OrderLoading());
-
-    //     var cashbackAction =
-    //         (cashbackBloc.state as CashbackLoaded).cashbackData.cashbackAction;
-
-    //     //Change discount value if cashback action is Withdraw
-    //     if (cashbackAction == CashbackAction.withdraw) {
-    //       //Withdraw all cashback of current user
-    //       var newDiscountValue =
-    //           currentUserState.user.cashback + event.order.discount;
-    //       var newTotal = event.order.total - currentUserState.user.cashback;
-    //       order = event.order.copyWith(
-    //           discount: newDiscountValue, total: newTotal < 0 ? 0 : newTotal);
-    //     }
-
-    //     //Payment process
-    //     if (order.paymentMethod == PaymentMethod.cash ||
-    //         order.paymentMethod == PaymentMethod.nonCash) {
-    //       add(SuccessfulOrderCreated(checkout: event.checkout, order: order));
-    //     } else if (order.paymentMethod == PaymentMethod.bankCard ||
-    //         order.paymentMethod == PaymentMethod.savedBankCard) {
-    //       emit(OrderPayboxInit(order));
-    //     } else if (order.paymentMethod == PaymentMethod.applePay) {
-    //       //Map cartitems to payment items for Apple Pay
-    //       // var paymentItems = [
-    //       //   PaymentItem(
-    //       //       label: "Итого",
-    //       //       amount: '${event.order.total}',
-    //       //       status: PaymentItemStatus.final_price,
-    //       //       type: PaymentItemType.total)
-    //       // ];
-    //       // Pay payClient = Pay.withAssets(['applepay.json']);
-    //       // Map<String, dynamic> applePayData =
-    //       //     await payClient.showPaymentSelector(
-    //       //         provider: PayProvider.apple_pay, paymentItems: paymentItems);
-    //       // add(SuccessfulOrderCreated(checkout: event.checkout, order: order));
-    //     } else if (order.paymentMethod == PaymentMethod.googlePay) {}
-    //   } on SocketException {
-    //     emit(const OrderFailed("Возникли проблемы с интернет соединением"));
-    //     return;
-    //   } on PlatformException {
-    //     emit(const OrderFailed("Не удалось произвести оплату"));
-    //     emit(OrderInitial());
-    //     return;
-    //   } on RestaurantException catch (e) {
-    //     emit(OrderFailed(e.toString()));
-    //     return;
-    //   } catch (e) {
-    //     emit(OrderFailed("UNKNOWN ERROR " + e.toString()));
-    //     return;
-    //   }
-    // }
   }
 }

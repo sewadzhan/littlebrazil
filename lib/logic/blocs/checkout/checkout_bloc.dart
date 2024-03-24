@@ -7,7 +7,6 @@ import 'package:littlebrazil/data/models/delivery_zone.dart';
 import 'package:littlebrazil/data/models/maplatlng.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
-import 'package:littlebrazil/logic/cubits/extra_cutlery/extra_cutlery_cubit.dart';
 import 'package:littlebrazil/view/config/map_tools.dart';
 
 part 'checkout_event.dart';
@@ -16,32 +15,35 @@ part 'checkout_event.dart';
 class CheckoutBloc extends Bloc<CheckoutEvent, Checkout> {
   final DeliveryZonesCubit deliveryZonesCubit;
   final CartBloc cartBloc;
-  final ExtraCutleryCubit extraCutleryCubit;
 
-  CheckoutBloc(this.deliveryZonesCubit, this.cartBloc, this.extraCutleryCubit)
+  CheckoutBloc(this.deliveryZonesCubit, this.cartBloc)
       : super(const Checkout(
-          orderType: OrderType.delivery,
-          address: Address(
-              id: "",
-              address: "",
-              apartmentOrOffice: "",
-              geopoint: MapLatLng(latitude: 0, longitude: 0)),
-          deliveryTime: DeliveryTimeType.fast,
-          numberOfPersons: 1,
-          paymentMethod: PaymentMethod.bankCard,
-          pickupPoint: null,
-          certainTimeOrder: "",
-          certainDayOrder: "",
-          deliveryCost: 0,
-          organizationID: "",
-        )) {
+            orderType: OrderType.delivery,
+            address: Address(
+                id: "",
+                address: "",
+                apartmentOrOffice: "",
+                geopoint: MapLatLng(latitude: 0, longitude: 0)),
+            deliveryTime: DeliveryTimeType.fast,
+            numberOfCutlery: 1,
+            paymentMethod: PaymentMethod.bankCard,
+            pickupPoint: null,
+            certainTimeOrder: "",
+            certainDayOrder: "",
+            deliveryCost: 0,
+            organizationID: "",
+            comments: "")) {
     on<CheckoutAddressChanged>(checkoutAddressChangedToState);
     on<CheckoutOrderTypeChanged>(checkoutOrderTypeChangedToState);
     on<CheckoutDeliveryTimeTypeChanged>(checkoutDeliveryTimeTypeChangedToState);
-    on<CheckoutNumberOfPersonsChanged>(checkoutNumberOfPersonsChangedToState);
+    on<CheckoutNumberOfCutleryIncreased>(
+        checkoutNumberOfCutleryIncreasedToState);
+    on<CheckoutNumberOfCutleryDecreased>(
+        checkoutNumberOfCutleryDecreasedToState);
     on<CheckoutPaymentMethodChanged>(checkoutPaymentMethodChangedToState);
     on<CheckoutPickupPointChanged>(checkoutPickupPointChangedToState);
     on<CheckoutCertainTimeOrderChanged>(checkoutCertainTimeOrderChangedToState);
+    on<CheckoutCommentsChanged>(checkoutCommentsChangedToState);
   }
 
   //Change address
@@ -106,76 +108,21 @@ class CheckoutBloc extends Bloc<CheckoutEvent, Checkout> {
     emit(state.copyWith(deliveryTime: event.deliveryTimeType));
   }
 
-  //Change number of persons
-  checkoutNumberOfPersonsChangedToState(
-      CheckoutNumberOfPersonsChanged event, Emitter<Checkout> emit) {
-    //When extra cutlery cubit is not initialized
-    if (extraCutleryCubit.state is ExtraCutleryNotInitState) {
-      if (event.numberOfPersons > 0 && event.numberOfPersons < 50) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-      }
-      return;
+  //Increase number of persons
+  checkoutNumberOfCutleryIncreasedToState(
+      CheckoutNumberOfCutleryIncreased event, Emitter<Checkout> emit) {
+    if (state.numberOfCutlery < 25) {
+      int result = state.numberOfCutlery + 1;
+      emit(state.copyWith(numberOfCutlery: result));
     }
+  }
 
-    if (event.returnToDefault) {
-      emit(state.copyWith(numberOfPersons: 1));
-      extraCutleryCubit.hidePanel();
-      return;
-    }
-    if (event.numberOfPersons > 0 && event.numberOfPersons <= 50) {
-      //Subtotal without extra cutlery position
-      int cartSubtotal = (cartBloc.state as CartLoaded).cart.items.fold(0,
-          (previousValue, element) {
-        if (element.product.rmsID !=
-            (extraCutleryCubit.state as ExtraCutleryLoadedState)
-                .cutleryProduct
-                .rmsID) {
-          return previousValue + element.product.price * element.count;
-        }
-        return previousValue;
-      });
-
-      if (cartSubtotal <= 5000 && event.numberOfPersons < 2) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-        extraCutleryCubit.hidePanel();
-      } else if (cartSubtotal > 5000 &&
-          cartSubtotal <= 10000 &&
-          event.numberOfPersons < 4) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-        extraCutleryCubit.hidePanel();
-      } else if (cartSubtotal > 10000 &&
-          cartSubtotal <= 16000 &&
-          event.numberOfPersons < 8) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-        extraCutleryCubit.hidePanel();
-      } else if (cartSubtotal > 16000 &&
-          cartSubtotal <= 20000 &&
-          event.numberOfPersons < 10) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-        extraCutleryCubit.hidePanel();
-      } else if (cartSubtotal > 20000 &&
-          cartSubtotal <= 30000 &&
-          event.numberOfPersons < 20) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-        extraCutleryCubit.hidePanel();
-      } else if (cartSubtotal > 30000 &&
-          cartSubtotal <= 50000 &&
-          event.numberOfPersons < 30) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-        extraCutleryCubit.hidePanel();
-      } else if (cartSubtotal > 50000) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-        extraCutleryCubit.hidePanel();
-      } else if (event.numberOfPersons == 2 ||
-          event.numberOfPersons == 4 ||
-          event.numberOfPersons == 8 ||
-          event.numberOfPersons == 10 ||
-          event.numberOfPersons == 20 ||
-          event.numberOfPersons == 30) {
-        emit(state.copyWith(numberOfPersons: event.numberOfPersons));
-        //Show the extra cutlery panel
-        extraCutleryCubit.showPanel();
-      }
+  //Decrease number of persons
+  checkoutNumberOfCutleryDecreasedToState(
+      CheckoutNumberOfCutleryDecreased event, Emitter<Checkout> emit) {
+    if (state.numberOfCutlery > 1) {
+      int result = state.numberOfCutlery - 1;
+      emit(state.copyWith(numberOfCutlery: result));
     }
   }
 
@@ -199,6 +146,14 @@ class CheckoutBloc extends Bloc<CheckoutEvent, Checkout> {
     emit(state.copyWith(
         certainTimeOrder: event.certainTimeOrder,
         certainDayOrder: event.certainDayOrder));
+  }
+
+  //Change comments
+  checkoutCommentsChangedToState(
+      CheckoutCommentsChanged event, Emitter<Checkout> emit) {
+    emit(state.copyWith(
+      comments: event.comments,
+    ));
   }
 
   //Change saved card for payment

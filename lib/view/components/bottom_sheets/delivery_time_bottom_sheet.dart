@@ -45,8 +45,9 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
           child: BlocBuilder<ContactsCubit, ContactsState>(
             builder: (context, state) {
               if (state is ContactsLoadedState) {
-                List<String> todayDeliveryHours =
-                    Config.getTodayTimeRanges(state.contactsModel.closeHour);
+                List<String> todayDeliveryHours = Config.getTodayTimeRanges(
+                    state.contactsModel.openHour,
+                    state.contactsModel.closeHour);
                 if (fullTimeRanges.isEmpty) {
                   fullTimeRanges = Config.getFullTimeRanges(
                       state.contactsModel.openHour,

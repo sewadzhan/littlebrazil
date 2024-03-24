@@ -40,14 +40,3 @@ class OrderFailed extends OrderState {
   @override
   List<Object> get props => [message];
 }
-
-//State for pending status (waiting for cashback action choosing)
-class OrderPending extends OrderState {
-  final Order order;
-  final Checkout checkout;
-
-  const OrderPending(this.order, this.checkout);
-
-  @override
-  List<Object> get props => [order, checkout];
-}

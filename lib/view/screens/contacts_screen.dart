@@ -93,8 +93,10 @@ class ContactsScreen extends StatelessWidget {
                             children: [
                               SizedBox(
                                 width: 30,
-                                child:
-                                    SvgPicture.asset('assets/icons/link.svg'),
+                                child: SvgPicture.asset('assets/icons/link.svg',
+                                    colorFilter: const ColorFilter.mode(
+                                        Constants.secondPrimaryColor,
+                                        BlendMode.srcIn)),
                               ),
                               const SizedBox(width: 10),
                               Expanded(

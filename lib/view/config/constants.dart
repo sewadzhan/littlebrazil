@@ -29,9 +29,10 @@ class Constants {
   static TextTheme textTheme = CustomTheme.textTheme;
 
   static SnackBar errorSnackBar(BuildContext context, String text,
-      {duration = const Duration(milliseconds: 500)}) {
+      {duration = const Duration(milliseconds: 500),
+      behavior = SnackBarBehavior.fixed}) {
     return SnackBar(
-      behavior: SnackBarBehavior.fixed,
+      behavior: behavior,
       backgroundColor: Constants.errorColor,
       duration: duration,
       content: Text(
@@ -42,9 +43,10 @@ class Constants {
   }
 
   static SnackBar successSnackBar(BuildContext context, String text,
-      {duration = const Duration(milliseconds: 300)}) {
+      {duration = const Duration(milliseconds: 300),
+      behavior = SnackBarBehavior.fixed}) {
     return SnackBar(
-      behavior: SnackBarBehavior.fixed,
+      behavior: behavior,
       backgroundColor: Constants.successColor,
       duration: duration,
       content: Text(

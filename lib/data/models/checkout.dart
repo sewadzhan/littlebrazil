@@ -21,26 +21,28 @@ class Checkout extends Equatable {
   final OrderType orderType;
   final Address address;
   final DeliveryTimeType deliveryTime;
-  final int numberOfPersons;
+  final int numberOfCutlery;
   final PaymentMethod paymentMethod;
   final DeliveryPoint? pickupPoint;
   final String certainTimeOrder;
   final String certainDayOrder;
   final int deliveryCost;
   final String organizationID;
+  final String comments;
   // final Card? savedCard;
 
   const Checkout({
     required this.orderType,
     required this.address,
     required this.deliveryTime,
-    required this.numberOfPersons,
+    required this.numberOfCutlery,
     required this.paymentMethod,
     required this.pickupPoint,
     required this.certainTimeOrder,
     required this.certainDayOrder,
     required this.deliveryCost,
     required this.organizationID,
+    required this.comments,
     // required this.savedCard,
   });
 
@@ -49,13 +51,14 @@ class Checkout extends Equatable {
         orderType,
         address,
         deliveryTime,
-        numberOfPersons,
+        numberOfCutlery,
         paymentMethod,
         pickupPoint,
         certainTimeOrder,
         certainDayOrder,
         deliveryCost,
         organizationID,
+        comments
         // savedCard,
       ];
 
@@ -63,7 +66,7 @@ class Checkout extends Equatable {
     OrderType? orderType,
     Address? address,
     DeliveryTimeType? deliveryTime,
-    int? numberOfPersons,
+    int? numberOfCutlery,
     PaymentMethod? paymentMethod,
     DeliveryPoint? pickupPoint,
     String? certainTimeOrder,
@@ -77,13 +80,14 @@ class Checkout extends Equatable {
       orderType: orderType ?? this.orderType,
       address: address ?? this.address,
       deliveryTime: deliveryTime ?? this.deliveryTime,
-      numberOfPersons: numberOfPersons ?? this.numberOfPersons,
+      numberOfCutlery: numberOfCutlery ?? this.numberOfCutlery,
       paymentMethod: paymentMethod ?? this.paymentMethod,
       pickupPoint: pickupPoint ?? this.pickupPoint,
       certainTimeOrder: certainTimeOrder ?? this.certainTimeOrder,
       certainDayOrder: certainDayOrder ?? this.certainDayOrder,
       deliveryCost: deliveryCost ?? this.deliveryCost,
       organizationID: organizationID ?? this.organizationID,
+      comments: comments ?? this.comments,
       // savedCard: savedCard ?? this.savedCard,
     );
   }

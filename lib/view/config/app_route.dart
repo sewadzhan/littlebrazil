@@ -26,7 +26,6 @@ import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.da
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
-import 'package:littlebrazil/logic/cubits/extra_cutlery/extra_cutlery_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
@@ -61,8 +60,6 @@ class AppRouter {
       ContactsCubit(firestoreRepository, bottomSheetCubit, updateAppCubit);
   static final DeliveryZonesCubit deliveryZonesCubit =
       DeliveryZonesCubit(firestoreRepository);
-  static final ExtraCutleryCubit extraCutleryCubit =
-      ExtraCutleryCubit(cartBloc);
 
   static final AddressBloc addressBloc =
       AddressBloc(firestoreRepository, checkoutBloc);
@@ -73,7 +70,7 @@ class AppRouter {
       CurrentUserBloc(firestoreRepository, addressBloc);
   static final CartBloc cartBloc = CartBloc()..add(LoadCart());
   static final CheckoutBloc checkoutBloc =
-      CheckoutBloc(deliveryZonesCubit, cartBloc, extraCutleryCubit);
+      CheckoutBloc(deliveryZonesCubit, cartBloc);
   final OrderBloc orderBloc = OrderBloc(
       firestoreRepository: firestoreRepository,
       cartBloc: cartBloc,
@@ -199,11 +196,9 @@ class AppRouter {
                 BlocProvider.value(value: contactsCubit),
                 BlocProvider.value(value: orderBloc),
                 BlocProvider.value(value: deliveryZonesCubit),
-                BlocProvider.value(value: bottomSheetCubit),
                 BlocProvider.value(value: cashbackBloc),
                 BlocProvider.value(value: currentUserBloc),
                 BlocProvider.value(value: contactsCubit),
-                BlocProvider.value(value: extraCutleryCubit),
               ],
               child: const CheckoutScreen(),
             ));

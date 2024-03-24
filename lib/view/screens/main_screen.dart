@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/network/network_bloc.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
@@ -143,15 +144,38 @@ class MainScreen extends StatelessWidget {
                       ),
                       label: "Профиль"),
                   BottomNavigationBarItem(
-                      icon: SizedBox(
-                        width: Constants.defaultPadding * 1.75,
-                        child: SvgPicture.asset('assets/icons/cart.svg',
-                            colorFilter: state == 4
-                                ? const ColorFilter.mode(
-                                    Constants.secondPrimaryColor,
-                                    BlendMode.srcIn)
-                                : const ColorFilter.mode(
-                                    Constants.darkGrayColor, BlendMode.srcIn)),
+                      icon: Stack(
+                        children: [
+                          SizedBox(
+                            width: Constants.defaultPadding * 1.75,
+                            child: SvgPicture.asset('assets/icons/cart.svg',
+                                colorFilter: state == 4
+                                    ? const ColorFilter.mode(
+                                        Constants.secondPrimaryColor,
+                                        BlendMode.srcIn)
+                                    : const ColorFilter.mode(
+                                        Constants.darkGrayColor,
+                                        BlendMode.srcIn)),
+                          ),
+                          BlocBuilder<CartBloc, CartState>(
+                            builder: (context, state) {
+                              if (state is CartLoaded &&
+                                  state.cart.items.isNotEmpty) {
+                                return Positioned(
+                                    left: 18,
+                                    top: 4,
+                                    child: Container(
+                                      width: 10,
+                                      height: 10,
+                                      decoration: const BoxDecoration(
+                                          color: Constants.purpleColor,
+                                          shape: BoxShape.circle),
+                                    ));
+                              }
+                              return const SizedBox.shrink();
+                            },
+                          )
+                        ],
                       ),
                       label: "Корзина")
                 ],

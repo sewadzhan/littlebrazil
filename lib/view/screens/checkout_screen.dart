@@ -10,7 +10,6 @@ import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
-import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/address_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/cashback_bottom_sheet.dart';
@@ -29,283 +28,225 @@ class CheckoutScreen extends StatefulWidget {
 
 class _CheckoutScreenState extends State<CheckoutScreen> {
   final commentsController = TextEditingController();
-  final changeController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-    //return to default value of number of persons
-    context
-        .read<CheckoutBloc>()
-        .add(const CheckoutNumberOfPersonsChanged(1, returnToDefault: true));
-
-    return BlocListener<BottomSheetCubit, BottomSheetState>(
-      listener: (context, bottomSheetState) async {
-        if (bottomSheetState is CashbackBottomSheetShowState) {
-          // var cashbackBloc = context.read<CashbackBloc>()
-          //   ..add(const CashbackActionChanged(
-          //       cashbackAction: CashbackAction.deposit));
-          // await showModalBottomSheet(
-          //     context: context,
-          //     builder: (context1) => MultiBlocProvider(
-          //           providers: [
-          //             BlocProvider.value(
-          //                 value: context.read<CurrentUserBloc>()),
-          //             BlocProvider.value(value: cashbackBloc),
-          //             BlocProvider.value(value: context.read<OrderBloc>()),
-          //           ],
-          //           child: const CashbackBottomSheet(),
-          //         ));
-        }
-      },
-      child: SliverBody(
-        title: "Оформление заказа",
-        bottomBar: BlocBuilder<CartBloc, CartState>(
-          builder: (context, state) {
-            if (state is CartLoaded) {
-              return Container(
-                  padding: EdgeInsets.only(
-                      left: Constants.defaultPadding,
-                      right: Constants.defaultPadding,
-                      top: Constants.defaultPadding,
-                      bottom: Constants.defaultPadding * 2),
-                  decoration: const BoxDecoration(
-                      color: Constants.backgroundColor,
-                      border: Border(
-                          top: BorderSide(
-                              color: Constants.lightGrayColor, width: 1))),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: Constants.defaultPadding * 0.5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Скидка",
-                              style: Constants.textTheme.headlineSmall,
-                            ),
-                            BlocBuilder<CartBloc, CartState>(
-                              builder: (context, state) {
-                                if (state is CartLoaded) {
-                                  return Text(
-                                    "${state.cart.discount} ₸",
-                                    style: Constants.textTheme.headlineSmall,
-                                  );
-                                }
-                                return const SizedBox.shrink();
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: Constants.defaultPadding * 0.5),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Доставка",
-                              style: Constants.textTheme.headlineSmall,
-                            ),
-                            BlocBuilder<CheckoutBloc, Checkout>(
-                              builder: (context, state) {
+    return SliverBody(
+      title: "Оформление заказа",
+      bottomBar: BlocBuilder<CartBloc, CartState>(
+        builder: (context, state) {
+          if (state is CartLoaded) {
+            return Container(
+                padding: EdgeInsets.only(
+                    left: Constants.defaultPadding,
+                    right: Constants.defaultPadding,
+                    top: Constants.defaultPadding,
+                    bottom: Constants.defaultPadding * 2),
+                decoration: const BoxDecoration(
+                    color: Constants.backgroundColor,
+                    border: Border(
+                        top: BorderSide(
+                            color: Constants.lightGrayColor, width: 1))),
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: Constants.defaultPadding * 0.5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Скидка",
+                            style: Constants.textTheme.headlineSmall,
+                          ),
+                          BlocBuilder<CartBloc, CartState>(
+                            builder: (context, state) {
+                              if (state is CartLoaded) {
                                 return Text(
-                                  "${state.deliveryCost} ₸",
+                                  "${state.cart.discount} ₸",
                                   style: Constants.textTheme.headlineSmall,
                                 );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(
-                            bottom: Constants.defaultPadding * 0.75),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "Итого",
-                              style: Constants.textTheme.headlineSmall!
-                                  .copyWith(
-                                      fontWeight: FontWeight.bold,
-                                      letterSpacing: 0.1),
-                            ),
-                            BlocBuilder<CheckoutBloc, Checkout>(
-                              builder: (context, checkoutState) {
-                                return BlocBuilder<CartBloc, CartState>(
-                                  builder: (context, cartState) {
-                                    if (cartState is CartLoaded) {
-                                      return Text(
-                                        "${cartState.cart.subtotal - cartState.cart.discount + checkoutState.deliveryCost} ₸",
-                                        style: Constants
-                                            .textTheme.headlineSmall!
-                                            .copyWith(
-                                                fontWeight: FontWeight.bold,
-                                                letterSpacing: 0.1),
-                                      );
-                                    }
-                                    return const SizedBox.shrink();
-                                  },
-                                );
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                      BlocConsumer<OrderBloc, OrderState>(
-                        listener: (context, state) {
-                          if (state is OrderSuccessful) {
-                            Navigator.of(context).pushNamedAndRemoveUntil(
-                                '/successOrder',
-                                (Route<dynamic> route) => false,
-                                arguments: state.order);
-                          } else if (state is OrderPayboxInit) {
-                            Navigator.of(context).pushNamed('/payboxPayment',
-                                arguments: state.order);
-                          } else if (state is OrderFailed) {
-                            var errorSnackBar = Constants.errorSnackBar(
-                                context, state.message,
-                                duration: const Duration(milliseconds: 800));
-                            ScaffoldMessenger.of(context)
-                                .showSnackBar(errorSnackBar);
-                          }
-                        },
-                        builder: (context, state) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                                bottom: Constants.defaultPadding * 0.5),
-                            child: CustomElevatedButton(
-                                text: "ОФОРМИТЬ ЗАКАЗ",
-                                isLoading: state is OrderLoading,
-                                function: () {
-                                  // var checkoutBloc =
-                                  //     context.read<CheckoutBloc>();
-
-                                  // context.read<OrderBloc>().add(NewOrderPlaced(
-                                  //     checkout: checkoutBloc.state,
-                                  //     comments: commentsController.text,
-                                  //     change: changeController.text));
-
-                                  showModalBottomSheet(
-                                      context: context,
-                                      backgroundColor:
-                                          Constants.backgroundColor,
-                                      elevation: 0,
-                                      isScrollControlled: true,
-                                      shape: const RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.vertical(
-                                            top: Radius.circular(12)),
-                                      ),
-                                      builder: (context1) => MultiBlocProvider(
-                                            providers: [
-                                              BlocProvider.value(
-                                                value: context
-                                                    .read<CheckoutBloc>(),
-                                              ),
-                                              BlocProvider.value(
-                                                value: context
-                                                    .read<ContactsCubit>(),
-                                              ),
-                                              BlocProvider.value(
-                                                value: context
-                                                    .read<CashbackBloc>(),
-                                              ),
-                                              BlocProvider.value(
-                                                value: context.read<CartBloc>(),
-                                              ),
-                                            ],
-                                            child: const CashbackBottomSheet(),
-                                          ));
-                                }),
-                          );
-                        },
-                      ),
-                    ],
-                  ));
-            }
-            return const SizedBox.shrink();
-          },
-        ),
-        child: Padding(
-            padding: EdgeInsets.symmetric(
-                horizontal: Constants.defaultPadding,
-                vertical: Constants.defaultPadding),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(bottom: Constants.defaultPadding * 1.5),
-                  child: SizedBox(
-                    width: double.infinity,
-                    child: BlocBuilder<CheckoutBloc, Checkout>(
-                      builder: (context, state) {
-                        return CupertinoSlidingSegmentedControl(
-                            backgroundColor: Constants.secondBackgroundColor,
-                            thumbColor: Constants.lightGreenColor,
-                            groupValue: state.orderType,
-                            children: <OrderType, Widget>{
-                              OrderType.delivery: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: Constants.defaultPadding * 0.5),
-                                  child: Text(
-                                    'Доставка',
-                                    style: Constants.textTheme.headlineSmall,
-                                  )),
-                              OrderType.pickup: Padding(
-                                  padding: EdgeInsets.symmetric(
-                                      vertical: Constants.defaultPadding * 0.5),
-                                  child: Text('Самовывоз',
-                                      style:
-                                          Constants.textTheme.headlineSmall)),
+                              }
+                              return const SizedBox.shrink();
                             },
-                            onValueChanged: (value) {
-                              context.read<CheckoutBloc>().add(
-                                  CheckoutOrderTypeChanged(value as OrderType));
-                            });
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: Constants.defaultPadding * 0.5),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Доставка",
+                            style: Constants.textTheme.headlineSmall,
+                          ),
+                          BlocBuilder<CheckoutBloc, Checkout>(
+                            builder: (context, state) {
+                              return Text(
+                                "${state.deliveryCost} ₸",
+                                style: Constants.textTheme.headlineSmall,
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.only(
+                          bottom: Constants.defaultPadding * 0.75),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Итого",
+                            style: Constants.textTheme.headlineSmall!.copyWith(
+                                fontWeight: FontWeight.bold,
+                                letterSpacing: 0.1),
+                          ),
+                          BlocBuilder<CheckoutBloc, Checkout>(
+                            builder: (context, checkoutState) {
+                              return BlocBuilder<CartBloc, CartState>(
+                                builder: (context, cartState) {
+                                  if (cartState is CartLoaded) {
+                                    return Text(
+                                      "${cartState.cart.subtotal - cartState.cart.discount + checkoutState.deliveryCost} ₸",
+                                      style: Constants.textTheme.headlineSmall!
+                                          .copyWith(
+                                              fontWeight: FontWeight.bold,
+                                              letterSpacing: 0.1),
+                                    );
+                                  }
+                                  return const SizedBox.shrink();
+                                },
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                    BlocConsumer<OrderBloc, OrderState>(
+                      listener: (context, state) {
+                        if (state is OrderSuccessful) {
+                          Navigator.of(context).pushNamedAndRemoveUntil(
+                              '/successOrder', (Route<dynamic> route) => false,
+                              arguments: state.order);
+                        } else if (state is OrderPayboxInit) {
+                          Navigator.of(context).pushNamed('/payboxPayment',
+                              arguments: state.order);
+                        }
+                      },
+                      builder: (context, state) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              bottom: Constants.defaultPadding * 0.5),
+                          child: CustomElevatedButton(
+                              text: "ОФОРМИТЬ ЗАКАЗ",
+                              isLoading: state is OrderLoading,
+                              function: () {
+                                context.read<CheckoutBloc>().add(
+                                    CheckoutCommentsChanged(
+                                        comments: commentsController.text));
+                                showModalBottomSheet(
+                                    context: context,
+                                    backgroundColor: Constants.backgroundColor,
+                                    elevation: 0,
+                                    isScrollControlled: true,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(12)),
+                                    ),
+                                    builder: (context1) => MultiBlocProvider(
+                                          providers: [
+                                            BlocProvider.value(
+                                              value:
+                                                  context.read<CheckoutBloc>(),
+                                            ),
+                                            BlocProvider.value(
+                                              value:
+                                                  context.read<ContactsCubit>(),
+                                            ),
+                                            BlocProvider.value(
+                                              value:
+                                                  context.read<CashbackBloc>(),
+                                            ),
+                                            BlocProvider.value(
+                                              value: context.read<OrderBloc>(),
+                                            ),
+                                            BlocProvider.value(
+                                              value: context.read<CartBloc>(),
+                                            ),
+                                          ],
+                                          child: const CashbackBottomSheet(),
+                                        ));
+                              }),
+                        );
                       },
                     ),
+                  ],
+                ));
+          }
+          return const SizedBox.shrink();
+        },
+      ),
+      child: Padding(
+          padding: EdgeInsets.symmetric(
+              horizontal: Constants.defaultPadding,
+              vertical: Constants.defaultPadding),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding:
+                    EdgeInsets.only(bottom: Constants.defaultPadding * 1.5),
+                child: SizedBox(
+                  width: double.infinity,
+                  child: BlocBuilder<CheckoutBloc, Checkout>(
+                    builder: (context, state) {
+                      return CupertinoSlidingSegmentedControl(
+                          backgroundColor: Constants.secondBackgroundColor,
+                          thumbColor: Constants.lightGreenColor,
+                          groupValue: state.orderType,
+                          children: <OrderType, Widget>{
+                            OrderType.delivery: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: Constants.defaultPadding * 0.5),
+                                child: Text(
+                                  'Доставка',
+                                  style: Constants.textTheme.headlineSmall,
+                                )),
+                            OrderType.pickup: Padding(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: Constants.defaultPadding * 0.5),
+                                child: Text('Самовывоз',
+                                    style: Constants.textTheme.headlineSmall)),
+                          },
+                          onValueChanged: (value) {
+                            context.read<CheckoutBloc>().add(
+                                CheckoutOrderTypeChanged(value as OrderType));
+                          });
+                    },
                   ),
                 ),
-                BlocBuilder<CheckoutBloc, Checkout>(
-                  builder: (context, state) {
-                    String title = state.orderType == OrderType.delivery
-                        ? "Адрес доставки"
-                        : "Точка самовывоза";
-                    return Text(title,
-                        style: Constants.textTheme.headlineSmall!.copyWith(
-                          color: Constants.primaryColor,
-                        ));
-                  },
-                ),
-                BlocBuilder<CheckoutBloc, Checkout>(
-                  builder: (context, state) {
-                    if (state.orderType == OrderType.delivery) {
-                      if (state.address.address.isEmpty) {
-                        return ListTile(
-                          dense: true,
-                          contentPadding: EdgeInsets.zero,
-                          leading: SizedBox(
-                            width: 25,
-                            child: SvgPicture.asset('assets/icons/bus.svg'),
-                          ),
-                          title: Text(
-                            "Добавьте адрес для доставки",
-                            style: Constants.textTheme.bodyLarge,
-                          ),
-                          trailing: SvgPicture.asset(
-                              'assets/icons/arrow-right.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  Constants.middleGrayColor, BlendMode.srcIn)),
-                          onTap: () {
-                            Navigator.pushNamed(context, '/addAddress');
-                          },
-                        );
-                      }
+              ),
+              BlocBuilder<CheckoutBloc, Checkout>(
+                builder: (context, state) {
+                  String title = state.orderType == OrderType.delivery
+                      ? "Адрес доставки"
+                      : "Точка самовывоза";
+                  return Text(title,
+                      style: Constants.textTheme.headlineSmall!.copyWith(
+                        color: Constants.primaryColor,
+                      ));
+                },
+              ),
+              BlocBuilder<CheckoutBloc, Checkout>(
+                builder: (context, state) {
+                  if (state.orderType == OrderType.delivery) {
+                    if (state.address.address.isEmpty) {
                       return ListTile(
                         dense: true,
                         contentPadding: EdgeInsets.zero,
@@ -314,112 +255,37 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: SvgPicture.asset('assets/icons/bus.svg'),
                         ),
                         title: Text(
-                          state.address.address,
+                          "Добавьте адрес для доставки",
                           style: Constants.textTheme.bodyLarge,
-                        ),
-                        subtitle: Text(
-                          "кв/офис ${state.address.apartmentOrOffice}",
-                          style: Constants.textTheme.bodyMedium!
-                              .copyWith(color: Constants.middleGrayColor),
                         ),
                         trailing: SvgPicture.asset(
                             'assets/icons/arrow-right.svg',
                             colorFilter: const ColorFilter.mode(
                                 Constants.middleGrayColor, BlendMode.srcIn)),
                         onTap: () {
-                          showModalBottomSheet(
-                              context: context,
-                              backgroundColor: Constants.backgroundColor,
-                              elevation: 0,
-                              isScrollControlled: true,
-                              shape: const RoundedRectangleBorder(
-                                borderRadius: BorderRadius.vertical(
-                                    top: Radius.circular(12)),
-                              ),
-                              builder: (context1) => MultiBlocProvider(
-                                    providers: [
-                                      BlocProvider.value(
-                                        value: context.read<CheckoutBloc>(),
-                                      ),
-                                      BlocProvider.value(
-                                        value: context.read<AddressBloc>(),
-                                      ),
-                                    ],
-                                    child: const AddressBottomSheet(),
-                                  ));
+                          Navigator.pushNamed(context, '/addAddress');
                         },
                       );
                     }
-                    return BlocBuilder<ContactsCubit, ContactsState>(
-                      builder: (context, contactState) {
-                        if (contactState is ContactsLoadedState) {
-                          return Padding(
-                            padding: EdgeInsets.only(
-                                bottom: Constants.defaultPadding * 0.25),
-                            child: Column(
-                                children: contactState
-                                    .contactsModel.pickupPoints
-                                    .map((DeliveryPoint point) => RadioListTile(
-                                        visualDensity: const VisualDensity(
-                                          horizontal:
-                                              VisualDensity.minimumDensity,
-                                        ),
-                                        dense: true,
-                                        contentPadding: EdgeInsets.zero,
-                                        activeColor:
-                                            Constants.secondPrimaryColor,
-                                        value: point,
-                                        groupValue: state.pickupPoint,
-                                        title: Text(point.address,
-                                            style: Constants
-                                                .textTheme.headlineSmall!
-                                                .copyWith(
-                                                    fontWeight:
-                                                        FontWeight.normal)),
-                                        onChanged: (Object? value) {
-                                          context.read<CheckoutBloc>().add(
-                                              CheckoutPickupPointChanged(
-                                                  (value as DeliveryPoint)));
-                                        }))
-                                    .toList()),
-                          );
-                        }
-                        return const SizedBox.shrink();
-                      },
-                    );
-                  },
-                ),
-                Text("Время доставки",
-                    style: Constants.textTheme.headlineSmall!.copyWith(
-                      color: Constants.primaryColor,
-                    )),
-                BlocBuilder<CheckoutBloc, Checkout>(
-                  builder: (context, state) {
                     return ListTile(
                       dense: true,
                       contentPadding: EdgeInsets.zero,
                       leading: SizedBox(
                         width: 25,
-                        child: SvgPicture.asset('assets/icons/clock.svg'),
+                        child: SvgPicture.asset('assets/icons/bus.svg'),
                       ),
                       title: Text(
-                        state.deliveryTime == DeliveryTimeType.fast
-                            ? "Как можно скорее"
-                            : "${state.certainDayOrder}, ${state.certainTimeOrder}",
+                        state.address.address,
                         style: Constants.textTheme.bodyLarge,
                       ),
                       subtitle: Text(
-                        state.deliveryTime == DeliveryTimeType.fast
-                            ? "Сегодня"
-                            : "Возможна разница ±15 минут",
+                        "кв/офис ${state.address.apartmentOrOffice}",
                         style: Constants.textTheme.bodyMedium!
                             .copyWith(color: Constants.middleGrayColor),
                       ),
-                      trailing: SvgPicture.asset(
-                        'assets/icons/arrow-right.svg',
-                        colorFilter: const ColorFilter.mode(
-                            Constants.middleGrayColor, BlendMode.srcIn),
-                      ),
+                      trailing: SvgPicture.asset('assets/icons/arrow-right.svg',
+                          colorFilter: const ColorFilter.mode(
+                              Constants.middleGrayColor, BlendMode.srcIn)),
                       onTap: () {
                         showModalBottomSheet(
                             context: context,
@@ -436,136 +302,233 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                       value: context.read<CheckoutBloc>(),
                                     ),
                                     BlocProvider.value(
-                                      value: context.read<ContactsCubit>(),
+                                      value: context.read<AddressBloc>(),
                                     ),
                                   ],
-                                  child: const DeliveryTimeBottomSheet(),
+                                  child: const AddressBottomSheet(),
                                 ));
                       },
                     );
-                  },
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(bottom: Constants.defaultPadding * 0.75),
-                  child: Text("Дополнительно",
-                      style: Constants.textTheme.headlineSmall!.copyWith(
-                        color: Constants.primaryColor,
-                      )),
-                ),
-                Padding(
-                  padding: EdgeInsets.only(bottom: Constants.defaultPadding),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Row(
-                        children: [
-                          Container(
-                            margin: EdgeInsets.only(
-                                right: Constants.defaultPadding),
-                            width: 25,
-                            child: SvgPicture.asset('assets/icons/fork.svg'),
+                  }
+                  return BlocBuilder<ContactsCubit, ContactsState>(
+                    builder: (context, contactState) {
+                      if (contactState is ContactsLoadedState) {
+                        return Padding(
+                          padding: EdgeInsets.only(
+                              bottom: Constants.defaultPadding * 0.25),
+                          child: Column(
+                              children: contactState.contactsModel.pickupPoints
+                                  .map((DeliveryPoint point) => RadioListTile(
+                                      visualDensity: const VisualDensity(
+                                        horizontal:
+                                            VisualDensity.minimumDensity,
+                                      ),
+                                      dense: true,
+                                      contentPadding: EdgeInsets.zero,
+                                      activeColor: Constants.secondPrimaryColor,
+                                      value: point,
+                                      groupValue: state.pickupPoint,
+                                      title: Text(point.address,
+                                          style: Constants
+                                              .textTheme.headlineSmall!
+                                              .copyWith(
+                                                  fontWeight:
+                                                      FontWeight.normal)),
+                                      onChanged: (Object? value) {
+                                        context.read<CheckoutBloc>().add(
+                                            CheckoutPickupPointChanged(
+                                                (value as DeliveryPoint)));
+                                      }))
+                                  .toList()),
+                        );
+                      }
+                      return const SizedBox.shrink();
+                    },
+                  );
+                },
+              ),
+              Text("Время доставки",
+                  style: Constants.textTheme.headlineSmall!.copyWith(
+                    color: Constants.primaryColor,
+                  )),
+              BlocBuilder<CheckoutBloc, Checkout>(
+                builder: (context, state) {
+                  return ListTile(
+                    dense: true,
+                    contentPadding: EdgeInsets.zero,
+                    leading: SizedBox(
+                      width: 25,
+                      child: SvgPicture.asset('assets/icons/clock.svg'),
+                    ),
+                    title: Text(
+                      state.deliveryTime == DeliveryTimeType.fast
+                          ? "Как можно скорее"
+                          : "${state.certainDayOrder}, ${state.certainTimeOrder}",
+                      style: Constants.textTheme.bodyLarge,
+                    ),
+                    subtitle: Text(
+                      state.deliveryTime == DeliveryTimeType.fast
+                          ? "Сегодня"
+                          : "Возможна разница ±15 минут",
+                      style: Constants.textTheme.bodyMedium!
+                          .copyWith(color: Constants.middleGrayColor),
+                    ),
+                    trailing: SvgPicture.asset(
+                      'assets/icons/arrow-right.svg',
+                      colorFilter: const ColorFilter.mode(
+                          Constants.middleGrayColor, BlendMode.srcIn),
+                    ),
+                    onTap: () {
+                      showModalBottomSheet(
+                          context: context,
+                          backgroundColor: Constants.backgroundColor,
+                          elevation: 0,
+                          isScrollControlled: true,
+                          shape: const RoundedRectangleBorder(
+                            borderRadius:
+                                BorderRadius.vertical(top: Radius.circular(12)),
                           ),
-                          Text(
-                            "Приборы",
-                            style: Constants.textTheme.bodyLarge,
+                          builder: (context1) => MultiBlocProvider(
+                                providers: [
+                                  BlocProvider.value(
+                                    value: context.read<CheckoutBloc>(),
+                                  ),
+                                  BlocProvider.value(
+                                    value: context.read<ContactsCubit>(),
+                                  ),
+                                ],
+                                child: const DeliveryTimeBottomSheet(),
+                              ));
+                    },
+                  );
+                },
+              ),
+              Padding(
+                padding:
+                    EdgeInsets.only(bottom: Constants.defaultPadding * 0.75),
+                child: Text("Дополнительно",
+                    style: Constants.textTheme.headlineSmall!.copyWith(
+                      color: Constants.primaryColor,
+                    )),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: Constants.defaultPadding),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          margin:
+                              EdgeInsets.only(right: Constants.defaultPadding),
+                          width: 25,
+                          child: SvgPicture.asset('assets/icons/fork.svg'),
+                        ),
+                        Text(
+                          "Приборы",
+                          style: Constants.textTheme.bodyLarge,
+                        )
+                      ],
+                    ),
+                    Container(
+                      height: 35,
+                      padding: EdgeInsets.zero,
+                      decoration: BoxDecoration(
+                          border: Border.all(
+                              color: Constants.secondPrimaryColor, width: 1),
+                          borderRadius:
+                              const BorderRadius.all(Radius.circular(6))),
+                      child: Row(
+                        children: [
+                          SizedBox(
+                            width: 28,
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                  overlayColor: Constants.secondPrimaryColor,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topLeft: Radius.circular(6),
+                                        bottomLeft: Radius.circular(6)),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  //Small vibration for feedback
+                                  HapticFeedback.lightImpact();
+                                  context.read<CheckoutBloc>().add(
+                                      const CheckoutNumberOfCutleryDecreased());
+                                },
+                                child:
+                                    SvgPicture.asset('assets/icons/minus.svg',
+                                        width: 12,
+                                        colorFilter: const ColorFilter.mode(
+                                          Constants.secondPrimaryColor,
+                                          BlendMode.srcIn,
+                                        ))),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 3),
+                            child: SizedBox(
+                              width: 20,
+                              child: BlocBuilder<CheckoutBloc, Checkout>(
+                                builder: (context, state) {
+                                  return Text(state.numberOfCutlery.toString(),
+                                      textAlign: TextAlign.center,
+                                      style: Constants
+                                          .headlineTextTheme.headlineMedium!
+                                          .copyWith(
+                                        fontWeight: FontWeight.w500,
+                                        color: Constants.secondPrimaryColor,
+                                      ));
+                                },
+                              ),
+                            ),
+                          ),
+                          SizedBox(
+                            width: 28,
+                            child: TextButton(
+                                style: TextButton.styleFrom(
+                                  overlayColor: Constants.secondPrimaryColor,
+                                  padding:
+                                      const EdgeInsets.symmetric(vertical: 10),
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.only(
+                                        topRight: Radius.circular(6),
+                                        bottomRight: Radius.circular(6)),
+                                  ),
+                                ),
+                                onPressed: () {
+                                  //Small vibration for feedback
+                                  HapticFeedback.lightImpact();
+                                  context.read<CheckoutBloc>().add(
+                                      const CheckoutNumberOfCutleryIncreased());
+                                },
+                                child: SvgPicture.asset('assets/icons/plus.svg',
+                                    width: 12,
+                                    colorFilter: const ColorFilter.mode(
+                                        Constants.secondPrimaryColor,
+                                        BlendMode.srcIn))),
                           )
                         ],
                       ),
-                      Container(
-                        height: 35,
-                        padding: EdgeInsets.zero,
-                        decoration: BoxDecoration(
-                            border: Border.all(
-                                color: Constants.secondPrimaryColor, width: 1),
-                            borderRadius:
-                                const BorderRadius.all(Radius.circular(6))),
-                        child: Row(
-                          children: [
-                            SizedBox(
-                              width: 28,
-                              child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    overlayColor: Constants.secondPrimaryColor,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topLeft: Radius.circular(6),
-                                          bottomLeft: Radius.circular(6)),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    //Small vibration for feedback
-                                    HapticFeedback.lightImpact();
-                                  },
-                                  child:
-                                      SvgPicture.asset('assets/icons/minus.svg',
-                                          width: 12,
-                                          colorFilter: const ColorFilter.mode(
-                                            Constants.secondPrimaryColor,
-                                            BlendMode.srcIn,
-                                          ))),
-                            ),
-                            Padding(
-                              padding:
-                                  const EdgeInsets.symmetric(horizontal: 3),
-                              child: SizedBox(
-                                width: 20,
-                                child: Text("1",
-                                    textAlign: TextAlign.center,
-                                    style: Constants
-                                        .headlineTextTheme.headlineMedium!
-                                        .copyWith(
-                                      fontWeight: FontWeight.w500,
-                                      color: Constants.secondPrimaryColor,
-                                    )),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 28,
-                              child: TextButton(
-                                  style: TextButton.styleFrom(
-                                    overlayColor: Constants.secondPrimaryColor,
-                                    padding: const EdgeInsets.symmetric(
-                                        vertical: 10),
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.only(
-                                          topRight: Radius.circular(6),
-                                          bottomRight: Radius.circular(6)),
-                                    ),
-                                  ),
-                                  onPressed: () {
-                                    //Small vibration for feedback
-                                    HapticFeedback.lightImpact();
-                                  },
-                                  child: SvgPicture.asset(
-                                      'assets/icons/plus.svg',
-                                      width: 12,
-                                      colorFilter: const ColorFilter.mode(
-                                          Constants.secondPrimaryColor,
-                                          BlendMode.srcIn))),
-                            )
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-                Padding(
-                  padding: EdgeInsets.only(
-                    bottom: Constants.defaultPadding * 1.25,
-                  ),
-                  child: CustomTextInputField(
-                    controller: commentsController,
-                    titleText: "Комментарии к заказу",
-                    hintText: "",
-                    maxLines: 3,
-                  ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(
+                  bottom: Constants.defaultPadding * 1.25,
                 ),
-              ],
-            )),
-      ),
+                child: CustomTextInputField(
+                  controller: commentsController,
+                  titleText: "Комментарии к заказу",
+                  hintText: "",
+                  maxLines: 3,
+                ),
+              ),
+            ],
+          )),
     );
   }
 }

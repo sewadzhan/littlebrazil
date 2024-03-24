@@ -202,8 +202,7 @@ class ProfileScreen extends StatelessWidget {
                                   child: SvgPicture.asset(
                                     'assets/icons/question.svg',
                                     colorFilter: const ColorFilter.mode(
-                                        Constants.darkGrayColor,
-                                        BlendMode.srcIn),
+                                        Constants.purpleColor, BlendMode.srcIn),
                                   ),
                                 ),
                               ),
@@ -211,6 +210,7 @@ class ProfileScreen extends StatelessWidget {
                                 "Нужна помощь?",
                                 style: Constants.headlineTextTheme.displaySmall!
                                     .copyWith(
+                                        color: Constants.purpleColor,
                                         fontSize: Constants.headlineTextTheme
                                                 .displaySmall!.fontSize! +
                                             2,

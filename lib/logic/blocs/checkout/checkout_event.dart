@@ -40,16 +40,20 @@ class CheckoutDeliveryTimeTypeChanged extends CheckoutEvent {
   List<Object> get props => [deliveryTimeType];
 }
 
-//Event for changing number of persons
-class CheckoutNumberOfPersonsChanged extends CheckoutEvent {
-  final int numberOfPersons;
-  final bool returnToDefault;
-
-  const CheckoutNumberOfPersonsChanged(this.numberOfPersons,
-      {this.returnToDefault = false});
+//Event for increasing number of cutlery
+class CheckoutNumberOfCutleryIncreased extends CheckoutEvent {
+  const CheckoutNumberOfCutleryIncreased();
 
   @override
-  List<Object> get props => [numberOfPersons, returnToDefault];
+  List<Object> get props => [];
+}
+
+//Event for decreasing number of cutlery
+class CheckoutNumberOfCutleryDecreased extends CheckoutEvent {
+  const CheckoutNumberOfCutleryDecreased();
+
+  @override
+  List<Object> get props => [];
 }
 
 //Event for changing payment method
@@ -82,6 +86,16 @@ class CheckoutCertainTimeOrderChanged extends CheckoutEvent {
 
   @override
   List<Object> get props => [certainTimeOrder, certainDayOrder];
+}
+
+//Event for changing custom comments
+class CheckoutCommentsChanged extends CheckoutEvent {
+  final String comments;
+
+  const CheckoutCommentsChanged({required this.comments});
+
+  @override
+  List<Object> get props => [comments];
 }
 
 // //Event for changing saved card if payment method is Saved Card

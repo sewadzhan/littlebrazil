@@ -10,14 +10,11 @@ abstract class OrderEvent extends Equatable {
 //Event for validating order and if it is allright, call SuccessfulOrderCreated
 class NewOrderPlaced extends OrderEvent {
   final Checkout checkout;
-  final String comments;
-  final String change;
 
-  const NewOrderPlaced(
-      {required this.checkout, required this.comments, required this.change});
+  const NewOrderPlaced({required this.checkout});
 
   @override
-  List<Object> get props => [checkout, comments, change];
+  List<Object> get props => [checkout];
 }
 
 //Creating order finally

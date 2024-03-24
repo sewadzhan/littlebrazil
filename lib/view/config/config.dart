@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:littlebrazil/data/models/checkout.dart';
 import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -183,12 +184,20 @@ class Config {
   }
 
   //Get today's available time hours for delivery
-  static List<String> getTodayTimeRanges(String closeHourStr) {
+  static List<String> getTodayTimeRanges(
+      String openHourStr, String closeHourStr) {
     List<String> fullTimeRanges = ["Как можно скорее"];
 
     int closeHour = int.parse(closeHourStr.split(':').first);
+    int openHour = int.parse(openHourStr.split(':').first);
 
-    int start = DateTime.now().hour + 2;
+    var dateTime = DateTime.now();
+    var dateFormat = DateFormat("dd.MM.yyyy HH:mm");
+    var dateTimeOpen = dateFormat.parse(
+        "${dateTime.day}.${dateTime.month}.${dateTime.year} $openHourStr");
+
+    int start =
+        dateTime.isAfter(dateTimeOpen) ? dateTime.hour + 2 : openHour + 2;
     while (start <= closeHour) {
       fullTimeRanges.add("$start:00");
       if (start != closeHour) {
