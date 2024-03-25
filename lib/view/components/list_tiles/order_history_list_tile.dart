@@ -27,18 +27,18 @@ class OrderHistoryListTile extends StatelessWidget {
           subtitle: Text(
             DateFormat('dd.MM.yyyy, kk:mm').format(order.dateTime),
             style: Constants.textTheme.bodySmall!
-                .copyWith(color: Constants.lightGrayColor),
+                .copyWith(color: Constants.middleGrayColor),
           ),
           trailing: Text(
             order.cashbackUsed > 0
                 ? "+${order.cashbackUsed} Б"
-                : "-${order.cashbackUsed} Б",
+                : "${order.cashbackUsed} Б",
             style: Constants.headlineTextTheme.displaySmall!.copyWith(
                 color: Constants.secondPrimaryColor,
                 fontWeight: FontWeight.w600),
           ),
           onTap: () {
-            // Navigator.pushNamed(context, '/orderDetails');
+            Navigator.pushNamed(context, '/orderDetails', arguments: order);
           },
         ),
         const Divider(

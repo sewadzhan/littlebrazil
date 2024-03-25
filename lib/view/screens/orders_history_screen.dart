@@ -78,39 +78,16 @@ class OrdersHistoryScreen extends StatelessWidget {
                         OrderHistoryListTile(order: state.orders[index])),
               );
             }
-            return //Empty cart
-                SizedBox(
-              width: size.width,
-              height: size.height * 0.8,
-              child: Stack(
-                alignment: AlignmentDirectional.center,
-                children: [
-                  Positioned(
-                      top: 0,
-                      left: 00,
-                      child: SvgPicture.asset(
-                        'assets/decorations/order-history-top-left.svg',
-                        width: 210,
-                      )),
-                  Positioned(
-                      bottom: 0,
-                      right: 0,
-                      child: SvgPicture.asset(
-                        'assets/decorations/order-history-bottom-right.svg',
-                        width: 450,
-                      )),
-                  Padding(
-                    padding: EdgeInsets.only(
-                        left: Constants.defaultPadding,
-                        right: Constants.defaultPadding,
-                        bottom: Constants.defaultPadding * 5),
-                    child: Text(
-                      "Похоже, ты еще не пробовал нашу доставку. Пора познакомиться с гастрономическим раем Little Brazil!",
-                      style: Constants.textTheme.headlineMedium,
-                      textAlign: TextAlign.center,
-                    ),
-                  ),
-                ],
+            return Padding(
+              padding: EdgeInsets.all(Constants.defaultPadding),
+              child: const Center(
+                child: SizedBox(
+                    width: 25,
+                    height: 25,
+                    child: CircularProgressIndicator(
+                      color: Constants.secondPrimaryColor,
+                      strokeWidth: 2.5,
+                    )),
               ),
             );
           },

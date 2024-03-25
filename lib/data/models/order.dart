@@ -89,7 +89,7 @@ class Order extends Equatable {
             title: item['productTitle'],
             price: item['productPrice'],
             rmsID: '',
-            imageUrls: '',
+            imageUrls: const <String>[],
             categoryID: '',
             categoryTitle: '',
             description: '', /*features: const []*/

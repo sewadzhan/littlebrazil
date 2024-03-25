@@ -39,6 +39,7 @@ import 'package:littlebrazil/view/screens/checkout_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
 import 'package:littlebrazil/view/screens/my_addresses_screen.dart';
 import 'package:littlebrazil/view/screens/my_profile_screen.dart';
+import 'package:littlebrazil/view/screens/order_details_screen.dart';
 import 'package:littlebrazil/view/screens/orders_history_screen.dart';
 import 'package:littlebrazil/view/screens/product_details_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
@@ -236,6 +237,12 @@ class AppRouter {
                 order: settings.arguments as order.Order,
               ),
             ));
+      case "/orderDetails":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 200),
+            child:
+                OrderDetailsScreen(order: settings.arguments as order.Order));
       default:
         return _errorRoute();
     }

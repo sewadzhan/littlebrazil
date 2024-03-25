@@ -19,6 +19,7 @@ class Constants {
   static const Color textInputColor = Color(0xFFD8D8D8);
   static const Color lightGreenColor = Color(0xFFDAEE8C);
   static const Color purpleColor = Color(0xFF961163);
+  static const Color lightPurpleColor = Color(0xFFE0BBE7);
 
   static const Color successColor = Color(0xFF4CAF50);
   static const Color errorColor = Color(0xFFF44336);

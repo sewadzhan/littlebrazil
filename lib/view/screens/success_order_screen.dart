@@ -69,12 +69,14 @@ class SuccessOrderScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Итог",
-                        style: Constants.textTheme.headlineSmall,
+                        "Итого",
+                        style: Constants.textTheme.headlineSmall!
+                            .copyWith(fontWeight: FontWeight.w600),
                       ),
                       Text(
                         "${order.total} ₸",
-                        style: Constants.textTheme.headlineSmall,
+                        style: Constants.textTheme.headlineSmall!
+                            .copyWith(fontWeight: FontWeight.w600),
                       ),
                     ],
                   ),

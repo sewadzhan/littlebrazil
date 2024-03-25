@@ -18,16 +18,16 @@ class OrderHistoryBloc extends Bloc<OrderHistoryEvent, OrderHistoryState> {
   loadOrderHistoryState(
       LoadOrderHistory event, Emitter<OrderHistoryState> emit) async {
     if (state is OrderHistoryInitial) {
-      try {
-        emit(OrderHistoryLoading());
+      // try {
+      emit(OrderHistoryLoading());
 
-        List<Order> orders =
-            await firestoreRepository.getOrderHistoryOfUser(event.phoneNumber);
+      List<Order> orders =
+          await firestoreRepository.getOrderHistoryOfUser(event.phoneNumber);
 
-        emit(OrderHistoryLoaded(orders));
-      } catch (e) {
-        emit(const OrderHistoryErrorState("Произошла непредвидимая ошибка"));
-      }
+      emit(OrderHistoryLoaded(orders));
+      // } catch (e) {
+      //   emit(const OrderHistoryErrorState("Произошла непредвидимая ошибка"));
+      // }
     }
   }
 }
