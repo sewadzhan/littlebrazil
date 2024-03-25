@@ -16,6 +16,20 @@ class CashbackLoaded extends CashbackState {
 
   const CashbackLoaded(this.cashbackData);
 
+  //Get Cashback sum from final sum
+  int getCashbackFromSum(int finalSum) {
+    int cashback = 0;
+    for (CashbackGradation gradation in cashbackData.gradations) {
+      if (finalSum >= gradation.bound) {
+        cashback = ((finalSum.toDouble() / 100) * gradation.percent).ceil();
+      } else {
+        break;
+      }
+    }
+
+    return cashback;
+  }
+
   @override
   List<Object> get props => [cashbackData];
 }

@@ -1,6 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/cashback_data.dart';
+import 'package:littlebrazil/data/models/cashback_gradation.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 

@@ -10,7 +10,6 @@ class RestaurantUser extends Equatable {
   final String birthday;
   final int cashback;
   final List<String> usedPromocodes;
-  final int? individualCashbackPercent;
   final bool isAdmin;
 
   const RestaurantUser({
@@ -20,7 +19,6 @@ class RestaurantUser extends Equatable {
     required this.birthday,
     this.cashback = 0,
     this.usedPromocodes = const [],
-    this.individualCashbackPercent,
     this.isAdmin = false,
   });
 
@@ -30,7 +28,7 @@ class RestaurantUser extends Equatable {
 
   @override
   String toString() {
-    return "Pikapika user: $phoneNumber name: $name  email: $email birthday: $birthday cashback: $cashback individualCashbackPercent: $individualCashbackPercent";
+    return "Pikapika user: $phoneNumber name: $name  email: $email birthday: $birthday cashback: $cashback";
   }
 
   factory RestaurantUser.fromMap(Map<String, dynamic> map) {
@@ -41,7 +39,6 @@ class RestaurantUser extends Equatable {
         birthday: map["birthday"] ?? "",
         cashback: map["cashback"] ?? 0,
         usedPromocodes: map["usedPromocodes"] ?? [],
-        individualCashbackPercent: map["individualCashbackPercent"],
         isAdmin: map["isAdmin"] ?? false);
   }
 
@@ -61,7 +58,6 @@ class RestaurantUser extends Equatable {
       email: email ?? this.email,
       birthday: birthday ?? this.birthday,
       cashback: cashback ?? this.cashback,
-      individualCashbackPercent: individualCashbackPercent,
     );
   }
 }

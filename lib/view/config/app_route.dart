@@ -47,6 +47,7 @@ import 'package:littlebrazil/view/screens/success_order_screen.dart';
 import 'package:littlebrazil/view/screens/suggest_address_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:littlebrazil/data/models/order.dart' as order;
 
 class AppRouter {
   static final FirestoreRepository firestoreRepository =
@@ -98,6 +99,7 @@ class AppRouter {
               BlocProvider.value(value: contactsCubit),
               BlocProvider.value(value: networkBloc),
               BlocProvider.value(value: currentUserBloc),
+              BlocProvider.value(value: cashbackBloc),
             ],
             child: const MainScreen(),
           ),
@@ -230,7 +232,9 @@ class AppRouter {
             duration: const Duration(milliseconds: 250),
             child: BlocProvider(
               create: (context) => RateAppCubit(),
-              child: const SuccessOrderScreen(),
+              child: SuccessOrderScreen(
+                order: settings.arguments as order.Order,
+              ),
             ));
       default:
         return _errorRoute();

@@ -5,6 +5,7 @@ import 'package:littlebrazil/data/models/checkout.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
+import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/cashback_bottom_sheet.dart';
@@ -211,6 +212,10 @@ class PaymentBottomSheet extends StatelessWidget {
                                                         value: context
                                                             .read<OrderBloc>(),
                                                       ),
+                                                      BlocProvider.value(
+                                                        value: context.read<
+                                                            CurrentUserBloc>(),
+                                                      ),
                                                     ],
                                                     child:
                                                         const CashbackBottomSheet(),
@@ -299,6 +304,10 @@ class PaymentBottomSheet extends StatelessWidget {
                                                       BlocProvider.value(
                                                         value: context
                                                             .read<OrderBloc>(),
+                                                      ),
+                                                      BlocProvider.value(
+                                                        value: context.read<
+                                                            CurrentUserBloc>(),
                                                       ),
                                                     ],
                                                     child:

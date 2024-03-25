@@ -91,9 +91,9 @@ class FirestoreRepository {
   }
 
   //Add order
-  // Future<void> createOrder(Order order) async {
-  //   await firestoreProvider.createOrder(order.toMap());
-  // }
+  Future<void> createOrder(Order order) async {
+    await firestoreProvider.createOrder(order.toMap());
+  }
 
   //Get order history of certain user
   Future<List<Order>> getOrderHistoryOfUser(String phoneNumber) async {

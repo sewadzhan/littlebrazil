@@ -11,11 +11,11 @@ class OrderInitial extends OrderState {}
 
 class OrderLoading extends OrderState {}
 
-//State for opening Paybox widget
-class OrderPayboxInit extends OrderState {
+//State for opening Acquiring widget
+class OrderAcquiringInit extends OrderState {
   final Order order;
 
-  const OrderPayboxInit(this.order);
+  const OrderAcquiringInit(this.order);
 
   @override
   List<Object> get props => [order];

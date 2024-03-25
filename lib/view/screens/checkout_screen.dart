@@ -9,6 +9,7 @@ import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
+import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/address_bottom_sheet.dart';
@@ -134,9 +135,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           Navigator.of(context).pushNamedAndRemoveUntil(
                               '/successOrder', (Route<dynamic> route) => false,
                               arguments: state.order);
-                        } else if (state is OrderPayboxInit) {
-                          Navigator.of(context).pushNamed('/payboxPayment',
-                              arguments: state.order);
+                        } else if (state is OrderAcquiringInit) {
+                          // Navigator.of(context).pushNamed('/payboxPayment',
+                          //     arguments: state.order);
                         }
                       },
                       builder: (context, state) {
@@ -178,6 +179,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                             ),
                                             BlocProvider.value(
                                               value: context.read<CartBloc>(),
+                                            ),
+                                            BlocProvider.value(
+                                              value: context
+                                                  .read<CurrentUserBloc>(),
                                             ),
                                           ],
                                           child: const CashbackBottomSheet(),

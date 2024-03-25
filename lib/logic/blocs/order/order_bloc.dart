@@ -116,7 +116,8 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
         //Payment process
         if (order.paymentMethod == PaymentMethod.bankCard) {
-          emit(OrderPayboxInit(order));
+          add(SuccessfulOrderCreated(checkout: event.checkout, order: order));
+          //emit(OrderPayboxInit(order));
         } else if (order.paymentMethod == PaymentMethod.kaspi) {}
       } on SocketException {
         emit(const OrderFailed("Возникли проблемы с интернет соединением"));
@@ -137,102 +138,92 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
 
   successfulOrderCreatedToState(
       SuccessfulOrderCreated event, Emitter<OrderState> emit) async {
-    // var currentUserState = currentUserBloc.state;
-    // var cartBlocState = cartBloc.state;
-    // var order = event.order;
-    // if (cartBlocState is CartLoaded &&
-    //     currentUserState is CurrentUserRetrieveSuccessful) {
-    //   try {
-    //     emit(OrderLoading());
+    var currentUserState = currentUserBloc.state;
+    var cartBlocState = cartBloc.state;
+    var order = event.order;
+    if (cartBlocState is CartLoaded &&
+        currentUserState is CurrentUserRetrieveSuccessful) {
+      try {
+        emit(OrderLoading());
 
-    //     //Deposit or withdraw cashback
-    //     var cashbackState = cashbackBloc.state;
-    //     if (cashbackState is CashbackLoaded) {
-    //       if (cashbackState.cashbackData.cashbackAction ==
-    //           CashbackAction.deposit) {
-    //         //Calculate deposit depending on subtotal and cashback percent
-    //         //and check the individual cashback percent
-    //         int newCashback = 0;
-    //         if (currentUserState.user.individualCashbackPercent == null) {
-    //           newCashback = ((cartBlocState.cart.subtotal / 100.0) *
-    //                   cashbackState.cashbackData.percent)
-    //               .toInt();
-    //         } else {
-    //           newCashback = ((cartBlocState.cart.subtotal / 100.0) *
-    //                   currentUserState.user.individualCashbackPercent!)
-    //               .toInt();
-    //         }
+        //Deposit or withdraw cashback
+        var cashbackState = cashbackBloc.state;
+        if (cashbackState is CashbackLoaded) {
+          if (cashbackState.cashbackData.cashbackAction ==
+              CashbackAction.deposit) {
+            //Calculating cashback
+            int newCashback = cashbackState.getCashbackFromSum(order.total);
 
-    //         cashbackBloc.add(CashbackDeposited(
-    //             value: newCashback,
-    //             phoneNumber: currentUserState.user.phoneNumber));
-    //         order = order.copyWith(cashbackUsed: newCashback);
-    //       } else if (cashbackState.cashbackData.cashbackAction ==
-    //           CashbackAction.withdraw) {
-    //         var withdrawValue = currentUserState.user.cashback;
-    //         //Withdraw all cashback of current user
-    //         cashbackBloc.add(CashbackWithdrawed(
-    //             value: currentUserState.user.cashback,
-    //             phoneNumber: currentUserState.user.phoneNumber));
+            cashbackBloc.add(CashbackDeposited(
+                value: newCashback,
+                phoneNumber: currentUserState.user.phoneNumber));
+            order = order.copyWith(cashbackUsed: newCashback);
+          } else if (cashbackState.cashbackData.cashbackAction ==
+              CashbackAction.withdraw) {
+            var withdrawValue = currentUserState.user.cashback;
+            //Withdraw all cashback of current user
+            cashbackBloc.add(CashbackWithdrawed(
+                value: currentUserState.user.cashback,
+                phoneNumber: currentUserState.user.phoneNumber));
 
-    //         order = order.copyWith(cashbackUsed: withdrawValue * -1);
-    //       }
-    //     }
+            order = order.copyWith(cashbackUsed: withdrawValue * -1);
+          }
+        }
 
-    //     //Sending order to telegram chat for orders
-    //     var botTOken = dotenv.env['TELEGRAM_ORDER_BOT_TOKEN'].toString();
-    //     var chatID = dotenv.env['TELEGRAM_ORDER_CHAT_ID'].toString();
-    //     final username = (await Telegram(botTOken).getMe()).username;
-    //     var teledart = TeleDart(botTOken, Event(username!));
+        // //Sending order to telegram chat for orders
+        // var botTOken = dotenv.env['TELEGRAM_ORDER_BOT_TOKEN'].toString();
+        // var chatID = dotenv.env['TELEGRAM_ORDER_CHAT_ID'].toString();
+        // final username = (await Telegram(botTOken).getMe()).username;
+        // var teledart = TeleDart(botTOken, Event(username!));
 
-    //     await teledart.sendMessage(
-    //         chatID, Config.getOrderInfoForTelegram(order, event.checkout));
+        // await teledart.sendMessage(
+        //     chatID, Config.getOrderInfoForTelegram(order, event.checkout));
 
-    //     var token = await iikoRepository.getToken();
-    //     await iikoRepository.createDelivery(
-    //         token: token,
-    //         organizationID: event.checkout.organizationID,
-    //         checkout: event.checkout,
-    //         user: (currentUserBloc.state as CurrentUserRetrieveSuccessful).user,
-    //         cart: (cartBloc.state as CartLoaded).cart,
-    //         comments: event.order.comments,
-    //         changeWith: event.order.changeWith,
-    //         cashbackUsed: order.cashbackUsed,
-    //         numberOfPersons: event.checkout.numberOfPersons);
+        // var token = await iikoRepository.getToken();
+        // await iikoRepository.createDelivery(
+        //     token: token,
+        //     organizationID: event.checkout.organizationID,
+        //     checkout: event.checkout,
+        //     user: (currentUserBloc.state as CurrentUserRetrieveSuccessful).user,
+        //     cart: (cartBloc.state as CartLoaded).cart,
+        //     comments: event.order.comments,
+        //     changeWith: event.order.changeWith,
+        //     cashbackUsed: order.cashbackUsed,
+        //     numberOfPersons: event.checkout.numberOfPersons);
 
-    //     // //Sending email about successful order
-    //     await firestoreRepository.sendEmail(
-    //         "help@pikapika.kz",
-    //         "Новый заказ с приложения №${order.id}",
-    //         Config.getEmailTemplateHTML(order, event.checkout));
+        // // //Sending email about successful order
+        // await firestoreRepository.sendEmail(
+        //     "help@pikapika.kz",
+        //     "Новый заказ с приложения №${order.id}",
+        //     Config.getEmailTemplateHTML(order, event.checkout));
 
-    //     // Write order in Firebase Firestore
-    //     await firestoreRepository.createOrder(order);
+        // Write order in Firebase Firestore
+        await firestoreRepository.createOrder(order);
 
-    //     //Add the used promocode to certain user's collection if it can be used only once
-    //     var activePromocode = cartBlocState.cart.activePromocode;
-    //     if (activePromocode != null && activePromocode.canBeUsedOnlyOnce) {
-    //       await firestoreRepository.addUsedPromocodeToUser(
-    //           currentUserState.user.phoneNumber, activePromocode.code);
-    //       //Update current user state
-    //       currentUserBloc.add(CurrentUserSet(currentUserState.user.copyWith(
-    //           usedPromocodes: List.from(currentUserState.user.usedPromocodes)
-    //             ..add(activePromocode.code))));
-    //     }
+        //Add the used promocode to certain user's collection if it can be used only once
+        var activePromocode = cartBlocState.cart.activePromocode;
+        if (activePromocode != null && activePromocode.canBeUsedOnlyOnce) {
+          await firestoreRepository.addUsedPromocodeToUser(
+              currentUserState.user.phoneNumber, activePromocode.code);
+          //Update current user state
+          currentUserBloc.add(CurrentUserSet(currentUserState.user.copyWith(
+              usedPromocodes: List.from(currentUserState.user.usedPromocodes)
+                ..add(activePromocode.code))));
+        }
 
-    //     emit(OrderSuccessful(order));
-    //     cartBloc.add(CartCleared());
-    //   } on SocketException {
-    //     emit(const OrderFailed("Возникли проблемы с интернет соединением"));
-    //     return;
-    //   } on RestaurantException catch (e) {
-    //     emit(OrderFailed(e.toString()));
-    //     return;
-    //   } catch (e) {
-    //     emit(OrderFailed(e.toString()));
-    //     return;
-    //   }
-    // }
+        emit(OrderSuccessful(order));
+        cartBloc.add(CartCleared());
+      } on SocketException {
+        emit(const OrderFailed("Возникли проблемы с интернет соединением"));
+        return;
+      } on RestaurantException catch (e) {
+        emit(OrderFailed(e.toString()));
+        return;
+      } catch (e) {
+        emit(OrderFailed(e.toString()));
+        return;
+      }
+    }
   }
 
   //Validate checkout fields
