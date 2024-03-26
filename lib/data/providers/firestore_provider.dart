@@ -165,4 +165,13 @@ class FirestoreProvider {
         .get()
         .then((value) => value.docs);
   }
+
+  //Get about restaurant data
+  Future<DocumentSnapshot<Map<String, dynamic>>>
+      getAboutRestaurantData() async {
+    return await firebaseFirestore
+        .collection('config')
+        .doc('about_restaurant')
+        .get();
+  }
 }

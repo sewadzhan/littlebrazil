@@ -274,7 +274,10 @@ class ContactsScreen extends StatelessWidget {
                 Padding(
                   padding: EdgeInsets.only(top: Constants.defaultPadding * 2),
                   child: CustomOutlinedButton(
-                      text: "О РЕСТОРАНЕ", function: () {}),
+                      text: "О РЕСТОРАНЕ",
+                      function: () {
+                        Navigator.pushNamed(context, '/aboutRestaurant');
+                      }),
                 )
               ],
             )));

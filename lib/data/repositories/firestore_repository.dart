@@ -1,3 +1,4 @@
+import 'package:littlebrazil/data/models/about_restaurant_model.dart';
 import 'package:littlebrazil/data/models/address.dart';
 import 'package:littlebrazil/data/models/cashback_data.dart';
 import 'package:littlebrazil/data/models/contacts.dart';
@@ -139,5 +140,14 @@ class FirestoreRepository {
         await firestoreProvider.getUsedPromocodesOfUser(phoneNumber);
 
     return usedPromocodesDocs.map((snapshot) => snapshot.id).toList();
+  }
+
+  //Get about restaurant data
+  Future<AboutRestaurantModel> getAboutRestaurantData() async {
+    var aboutRestaurantSnapshot =
+        await firestoreProvider.getAboutRestaurantData();
+    var data = aboutRestaurantSnapshot.data();
+
+    return AboutRestaurantModel.fromMap(data!);
   }
 }

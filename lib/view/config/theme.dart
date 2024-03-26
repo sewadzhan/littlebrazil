@@ -16,9 +16,14 @@ class CustomTheme {
     displaySmall: TextStyle(
       color: Constants.darkGrayColor,
       fontWeight: FontWeight.bold,
-      fontSize: 18,
+      fontSize: 24,
       fontFamily: 'Opinion',
     ),
+    headlineLarge: TextStyle(
+        color: Constants.darkGrayColor,
+        fontWeight: FontWeight.bold,
+        fontSize: 18,
+        fontFamily: 'Opinion'),
     headlineMedium: TextStyle(
         color: Constants.darkGrayColor,
         fontWeight: FontWeight.bold,

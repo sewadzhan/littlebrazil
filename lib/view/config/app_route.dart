@@ -23,6 +23,7 @@ import 'package:littlebrazil/logic/blocs/phone_auth/phone_auth_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
+import 'package:littlebrazil/logic/cubits/about_restaurant/about_restaurant_cubit.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
@@ -32,6 +33,7 @@ import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
 import 'package:littlebrazil/logic/cubits/rate_app/rate_app_cubit.dart';
 import 'package:littlebrazil/logic/cubits/torch/torch_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
+import 'package:littlebrazil/view/screens/about_restaurant_screen.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
 import 'package:littlebrazil/view/screens/auth_screen.dart';
 import 'package:littlebrazil/view/screens/cart_screen.dart';
@@ -240,9 +242,17 @@ class AppRouter {
       case "/orderDetails":
         return PageTransition(
             type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 200),
+            duration: const Duration(milliseconds: 250),
             child:
                 OrderDetailsScreen(order: settings.arguments as order.Order));
+      case "/aboutRestaurant":
+        return PageTransition(
+            type: PageTransitionType.fade,
+            duration: const Duration(milliseconds: 250),
+            child: BlocProvider(
+              create: (context) => AboutRestaurantCubit(firestoreRepository),
+              child: const AboutRestaurantScreen(),
+            ));
       default:
         return _errorRoute();
     }
