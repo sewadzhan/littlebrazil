@@ -29,6 +29,7 @@ dependencies:
   rate_my_app: ^2.0.0
   uuid: ^4.3.2
   http: ^1.2.0
+  flutter_local_notifications: ^17.0.0
 
   #Internet connection
   connectivity_plus: ^5.0.2

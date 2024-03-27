@@ -224,11 +224,12 @@ class ProfileScreen extends StatelessWidget {
                               ),
                               Text(
                                 "Нужна помощь?",
-                                style: Constants.headlineTextTheme.titleLarge!
+                                style: Constants
+                                    .headlineTextTheme.headlineLarge!
                                     .copyWith(
                                         color: Constants.purpleColor,
                                         fontSize: Constants.headlineTextTheme
-                                                .displaySmall!.fontSize! +
+                                                .headlineLarge!.fontSize! +
                                             2,
                                         height: 0.25),
                               )
