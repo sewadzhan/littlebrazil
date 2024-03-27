@@ -1,8 +1,8 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
-import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/network/network_bloc.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
@@ -16,29 +16,11 @@ class MainScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var firebaseUser = context.read<AuthCubit>();
-    if (firebaseUser.state?.phoneNumber != null) {
-      var phoneNumber = firebaseUser.state!.phoneNumber!;
-      if (phoneNumber.isNotEmpty) {
-        //Retrieving all user data from Firestore
-        context.read<CurrentUserBloc>().add(CurrentUserRetrieved(phoneNumber));
-      }
-    }
-
     //Check initial connection status
     context.read<NetworkBloc>().add(ConnectionInitialChecked());
 
     return MultiBlocListener(
       listeners: [
-        BlocListener<CurrentUserBloc, CurrentUserState>(
-          listener: (context, state) {
-            if (state is CurrentUserRetrieveFailure) {
-              firebaseUser.signOut();
-              Navigator.of(context).pushNamed('/auth');
-              context.read<NavigationCubit>().setIndex(0);
-            }
-          },
-        ),
         BlocListener<NetworkBloc, NetworkState>(
           listener: (context, state) {
             if (state is ConnectionFailure) {
@@ -51,10 +33,10 @@ class MainScreen extends StatelessWidget {
         ),
       ],
       child: BlocBuilder<NavigationCubit, int>(
-        builder: (context, state) {
+        builder: (context, navigationState) {
           return Scaffold(
             body: IndexedStack(
-              index: state,
+              index: navigationState,
               children: const [
                 HomeScreen(),
                 ContactsScreen(),
@@ -67,89 +49,44 @@ class MainScreen extends StatelessWidget {
                   border: Border(
                       top: BorderSide(
                           color: Constants.lightGrayColor, width: 1))),
-              child: BottomNavigationBar(
-                elevation: 0,
-                currentIndex: state,
-                showSelectedLabels: false,
-                showUnselectedLabels: false,
-                type: BottomNavigationBarType.fixed,
-                backgroundColor: Constants.backgroundColor,
-                onTap: (index) {
-                  var isAuthenticated = context.read<AuthCubit>().state != null;
-
-                  //If tapped profile navigation bar or QR item it checks the authentication status
-                  if ((index == 2 && !isAuthenticated) ||
-                      (index == 3 && !isAuthenticated)) {
-                    Navigator.pushNamed(context, '/auth');
-                    return;
-                  } else if (index == 2) {
-                    Navigator.of(context).pushNamed('/qr');
-                  } else if (index == 4) {
-                    Navigator.of(context).pushNamed('/cart');
-                  } else {
-                    context.read<NavigationCubit>().setIndex(index);
+              child: BlocConsumer<AuthCubit, User?>(
+                listener: (context, state) {
+                  if (state == null) {
+                    Navigator.of(context).pushNamed('/auth');
+                    context.read<AuthCubit>().signOut();
+                    context.read<NavigationCubit>().setIndex(0);
                   }
                 },
-                items: [
-                  BottomNavigationBarItem(
-                      icon: SizedBox(
-                        width: Constants.defaultPadding * 1.75,
-                        child: SvgPicture.asset('assets/icons/home.svg',
-                            colorFilter: state == 0
-                                ? const ColorFilter.mode(
-                                    Constants.secondPrimaryColor,
-                                    BlendMode.srcIn)
-                                : const ColorFilter.mode(
-                                    Constants.darkGrayColor, BlendMode.srcIn)),
-                      ),
-                      label: "Главная"),
-                  BottomNavigationBarItem(
-                      icon: SizedBox(
-                        width: Constants.defaultPadding * 1.75,
-                        child: SvgPicture.asset('assets/icons/info.svg',
-                            colorFilter: state == 1
-                                ? const ColorFilter.mode(
-                                    Constants.secondPrimaryColor,
-                                    BlendMode.srcIn)
-                                : const ColorFilter.mode(
-                                    Constants.darkGrayColor, BlendMode.srcIn)),
-                      ),
-                      label: "Контакты"),
-                  BottomNavigationBarItem(
-                      icon: Container(
-                        width: 75,
-                        height: 40,
-                        padding: const EdgeInsets.symmetric(vertical: 10),
-                        decoration: const BoxDecoration(
-                            color: Constants.primaryColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(20))),
-                        child: SizedBox(
-                          child: SvgPicture.asset('assets/icons/qr.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  Colors.white, BlendMode.srcIn)),
-                        ),
-                      ),
-                      label: "QR оплата"),
-                  BottomNavigationBarItem(
-                      icon: SizedBox(
-                        width: Constants.defaultPadding * 1.75,
-                        child: SvgPicture.asset('assets/icons/user.svg',
-                            colorFilter: state == 3
-                                ? const ColorFilter.mode(
-                                    Constants.secondPrimaryColor,
-                                    BlendMode.srcIn)
-                                : const ColorFilter.mode(
-                                    Constants.darkGrayColor, BlendMode.srcIn)),
-                      ),
-                      label: "Профиль"),
-                  BottomNavigationBarItem(
-                      icon: Stack(
-                        children: [
-                          SizedBox(
+                builder: (context, authState) {
+                  return BottomNavigationBar(
+                    elevation: 0,
+                    currentIndex: navigationState,
+                    showSelectedLabels: false,
+                    showUnselectedLabels: false,
+                    type: BottomNavigationBarType.fixed,
+                    backgroundColor: Constants.backgroundColor,
+                    onTap: (index) {
+                      var isAuthenticated = authState != null;
+
+                      //If tapped profile navigation bar or QR item it checks the authentication status
+                      if ((index == 2 && !isAuthenticated) ||
+                          (index == 3 && !isAuthenticated)) {
+                        Navigator.pushNamed(context, '/auth');
+                        return;
+                      } else if (index == 2) {
+                        Navigator.of(context).pushNamed('/qr');
+                      } else if (index == 4) {
+                        Navigator.of(context).pushNamed('/cart');
+                      } else {
+                        context.read<NavigationCubit>().setIndex(index);
+                      }
+                    },
+                    items: [
+                      BottomNavigationBarItem(
+                          icon: SizedBox(
                             width: Constants.defaultPadding * 1.75,
-                            child: SvgPicture.asset('assets/icons/cart.svg',
-                                colorFilter: state == 4
+                            child: SvgPicture.asset('assets/icons/home.svg',
+                                colorFilter: navigationState == 0
                                     ? const ColorFilter.mode(
                                         Constants.secondPrimaryColor,
                                         BlendMode.srcIn)
@@ -157,28 +94,87 @@ class MainScreen extends StatelessWidget {
                                         Constants.darkGrayColor,
                                         BlendMode.srcIn)),
                           ),
-                          BlocBuilder<CartBloc, CartState>(
-                            builder: (context, state) {
-                              if (state is CartLoaded &&
-                                  state.cart.items.isNotEmpty) {
-                                return Positioned(
-                                    left: 18,
-                                    top: 4,
-                                    child: Container(
-                                      width: 10,
-                                      height: 10,
-                                      decoration: const BoxDecoration(
-                                          color: Constants.purpleColor,
-                                          shape: BoxShape.circle),
-                                    ));
-                              }
-                              return const SizedBox.shrink();
-                            },
-                          )
-                        ],
-                      ),
-                      label: "Корзина")
-                ],
+                          label: "Главная"),
+                      BottomNavigationBarItem(
+                          icon: SizedBox(
+                            width: Constants.defaultPadding * 1.75,
+                            child: SvgPicture.asset('assets/icons/info.svg',
+                                colorFilter: navigationState == 1
+                                    ? const ColorFilter.mode(
+                                        Constants.secondPrimaryColor,
+                                        BlendMode.srcIn)
+                                    : const ColorFilter.mode(
+                                        Constants.darkGrayColor,
+                                        BlendMode.srcIn)),
+                          ),
+                          label: "Контакты"),
+                      BottomNavigationBarItem(
+                          icon: Container(
+                            width: 75,
+                            height: 40,
+                            padding: const EdgeInsets.symmetric(vertical: 10),
+                            decoration: const BoxDecoration(
+                                color: Constants.primaryColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(20))),
+                            child: SizedBox(
+                              child: SvgPicture.asset('assets/icons/qr.svg',
+                                  colorFilter: const ColorFilter.mode(
+                                      Colors.white, BlendMode.srcIn)),
+                            ),
+                          ),
+                          label: "QR оплата"),
+                      BottomNavigationBarItem(
+                          icon: SizedBox(
+                            width: Constants.defaultPadding * 1.75,
+                            child: SvgPicture.asset('assets/icons/user.svg',
+                                colorFilter: navigationState == 3
+                                    ? const ColorFilter.mode(
+                                        Constants.secondPrimaryColor,
+                                        BlendMode.srcIn)
+                                    : const ColorFilter.mode(
+                                        Constants.darkGrayColor,
+                                        BlendMode.srcIn)),
+                          ),
+                          label: "Профиль"),
+                      BottomNavigationBarItem(
+                          icon: Stack(
+                            children: [
+                              SizedBox(
+                                width: Constants.defaultPadding * 1.75,
+                                child: SvgPicture.asset('assets/icons/cart.svg',
+                                    colorFilter: navigationState == 4
+                                        ? const ColorFilter.mode(
+                                            Constants.secondPrimaryColor,
+                                            BlendMode.srcIn)
+                                        : const ColorFilter.mode(
+                                            Constants.darkGrayColor,
+                                            BlendMode.srcIn)),
+                              ),
+                              BlocBuilder<CartBloc, CartState>(
+                                builder: (context, cartState) {
+                                  if (cartState is CartLoaded &&
+                                      cartState.cart.items.isNotEmpty) {
+                                    return Positioned(
+                                        left: 18,
+                                        top: 4,
+                                        child: Container(
+                                          width: 10,
+                                          height: 10,
+                                          decoration: const BoxDecoration(
+                                              color: Constants.purpleColor,
+                                              shape: BoxShape.circle),
+                                        ));
+                                  }
+                                  return const SizedBox.shrink();
+                                },
+                              )
+                            ],
+                          ),
+                          label: "Корзина")
+                    ],
+                  );
+                },
               ),
             ),
           );

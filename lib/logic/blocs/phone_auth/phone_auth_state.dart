@@ -8,10 +8,14 @@ abstract class PhoneAuthState extends Equatable {
 }
 
 //Initial state
-class PhoneAuthInitial extends PhoneAuthState {}
+class PhoneAuthInitial extends PhoneAuthState {
+  const PhoneAuthInitial();
+}
 
 //Loading state
-class PhoneAuthLoading extends PhoneAuthState {}
+class PhoneAuthLoading extends PhoneAuthState {
+  const PhoneAuthLoading();
+}
 
 //Failed verification state
 class PhoneAuthNumberVerificationFailure extends PhoneAuthState {
@@ -86,4 +90,6 @@ class PhoneAuthCodeVerificationSuccess extends PhoneAuthState {
 }
 
 //User was successfully created in Firebase Cloud Firestore
-class PhoneAuthCreateUserSuccess extends PhoneAuthState {}
+class PhoneAuthCreateUserSuccess extends PhoneAuthState {
+  const PhoneAuthCreateUserSuccess();
+}

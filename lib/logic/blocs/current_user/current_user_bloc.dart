@@ -1,8 +1,12 @@
+import 'dart:async';
+
 import 'package:equatable/equatable.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
+import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 
 part 'current_user_event.dart';
 part 'current_user_state.dart';
@@ -11,15 +15,23 @@ part 'current_user_state.dart';
 class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   final FirestoreRepository firestoreRepository;
   final AddressBloc addressBloc;
+  final AuthCubit authCubit;
+  late StreamSubscription authSubscription;
   bool isNewUser = false;
 
-  CurrentUserBloc(this.firestoreRepository, this.addressBloc)
+  CurrentUserBloc(this.firestoreRepository, this.addressBloc, this.authCubit)
       : super(CurrentUserInitial()) {
     on<CurrentUserRetrieved>(currentUserRetrievedToState);
     on<CurrentUserSet>(currentUserSetToState);
     on<CurrentUserCashbackChanged>(currentUserCashbackChangedToState);
     on<CurrentUserSignedOut>(currentUserSignedOutToState);
     on<CurrentUserRemoved>(currentUserRemovedToState);
+
+    authSubscription = authCubit.stream.listen((User? authState) {
+      if (authState != null && authState.phoneNumber != null) {
+        add(CurrentUserRetrieved(authState.phoneNumber!));
+      }
+    });
   }
 
   currentUserRetrievedToState(
@@ -77,5 +89,11 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
       addressBloc.add(AddressSetToInitial());
       firestoreRepository.deleteUser(phoneNumber);
     }
+  }
+
+  @override
+  Future<void> close() {
+    authSubscription.cancel();
+    return super.close();
   }
 }

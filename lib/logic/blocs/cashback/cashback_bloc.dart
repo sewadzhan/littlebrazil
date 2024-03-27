@@ -41,26 +41,26 @@ class CashbackBloc extends Bloc<AddressEvent, CashbackState> {
   cashbackDepositedToState(
       CashbackDeposited event, Emitter<CashbackState> emit) async {
     if (state is CashbackLoaded) {
-      try {
-        var previousState = state;
-        emit(CashbackLoading());
+      // try {
+      var previousState = state;
+      emit(CashbackLoading());
 
-        //Read current cashback from Firebase
-        int currentCashback =
-            await firestoreRepository.getUserCashback(event.phoneNumber);
-        int newCashBack = currentCashback + event.value;
-        //Deposit new cashback in Firebase
-        await firestoreRepository.editUserCashback(
-            event.phoneNumber, newCashBack);
-        //Change cashback value in Profile screen
-        currentUserBloc.add(CurrentUserCashbackChanged(newCashBack));
+      //Read current cashback from Firebase
+      int currentCashback =
+          await firestoreRepository.getUserCashback(event.phoneNumber);
+      int newCashBack = currentCashback + event.value;
+      //Deposit new cashback in Firebase
+      await firestoreRepository.editUserCashback(
+          event.phoneNumber, newCashBack);
+      //Change cashback value in Profile screen
+      currentUserBloc.add(CurrentUserCashbackChanged(newCashBack));
 
-        emit(CashbackLoaded((previousState as CashbackLoaded)
-            .cashbackData
-            .copyWith(cashbackAction: CashbackAction.deposit)));
-      } catch (e) {
-        print("cashbackDepositedToState EXCEPTION: $e");
-      }
+      emit(CashbackLoaded((previousState as CashbackLoaded)
+          .cashbackData
+          .copyWith(cashbackAction: CashbackAction.deposit)));
+      // } catch (e) {
+      //   print("cashbackDepositedToState EXCEPTION: $e");
+      // }
     }
   }
 

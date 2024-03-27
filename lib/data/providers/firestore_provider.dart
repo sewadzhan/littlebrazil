@@ -25,12 +25,13 @@ class FirestoreProvider {
   }
 
   //Register new user in Firestore
-  Future<void> writeNewUser(String phoneNumber, String name) async {
-    await firebaseFirestore
-        .collection('users')
-        .doc(phoneNumber)
-        .set({'name': name, 'phoneNumber': phoneNumber, 'cashback': 0}).then(
-            (value) => print("New user added"));
+  Future<void> writeNewUser(
+      String phoneNumber, String name, int? welcomeBonus) async {
+    await firebaseFirestore.collection('users').doc(phoneNumber).set({
+      'name': name,
+      'phoneNumber': phoneNumber,
+      'cashback': welcomeBonus ?? 0
+    }).then((value) => print("New user added"));
   }
 
   //Get all data from current user via phone number

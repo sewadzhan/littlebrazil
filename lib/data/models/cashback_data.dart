@@ -9,8 +9,16 @@ class CashbackData extends Equatable {
   final List<CashbackGradation> gradations;
   final bool isEnabled;
   final CashbackAction cashbackAction;
+  final bool isWelcomeBonusEnabled;
+  final int welcomeBonus;
 
-  const CashbackData(this.gradations, this.isEnabled, this.cashbackAction);
+  const CashbackData({
+    required this.gradations,
+    required this.isEnabled,
+    required this.cashbackAction,
+    required this.isWelcomeBonusEnabled,
+    required this.welcomeBonus,
+  });
 
   factory CashbackData.fromMap(Map<String, dynamic> map) {
     List<CashbackGradation> gradations =
@@ -20,28 +28,40 @@ class CashbackData extends Equatable {
             .toList();
 
     return CashbackData(
-        gradations
+        gradations: gradations
           ..sort((CashbackGradation a, CashbackGradation b) =>
               a.bound.compareTo(b.bound)),
-        map['isEnabled'] ?? false,
-        CashbackAction.deposit);
+        isEnabled: map['isEnabled'] ?? false,
+        cashbackAction: CashbackAction.deposit,
+        isWelcomeBonusEnabled: map['isWelcomeBonusEnabled'] ?? false,
+        welcomeBonus: map['welcomeBonus'] ?? 0);
   }
 
   factory CashbackData.fromJson(String source) =>
       CashbackData.fromMap(json.decode(source));
 
-  CashbackData copyWith({
-    List<CashbackGradation>? gradations,
-    bool? isEnabled,
-    CashbackAction? cashbackAction,
-  }) {
+  CashbackData copyWith(
+      {List<CashbackGradation>? gradations,
+      bool? isEnabled,
+      CashbackAction? cashbackAction,
+      bool? isWelcomeBonusEnabled,
+      int? welcomeBonus}) {
     return CashbackData(
-      gradations ?? this.gradations,
-      isEnabled ?? this.isEnabled,
-      cashbackAction ?? this.cashbackAction,
+      gradations: gradations ?? this.gradations,
+      isEnabled: isEnabled ?? this.isEnabled,
+      cashbackAction: cashbackAction ?? this.cashbackAction,
+      isWelcomeBonusEnabled:
+          isWelcomeBonusEnabled ?? this.isWelcomeBonusEnabled,
+      welcomeBonus: welcomeBonus ?? this.welcomeBonus,
     );
   }
 
   @override
-  List<Object> get props => [gradations, isEnabled, cashbackAction];
+  List<Object> get props => [
+        gradations,
+        isEnabled,
+        cashbackAction,
+        isWelcomeBonusEnabled,
+        welcomeBonus
+      ];
 }

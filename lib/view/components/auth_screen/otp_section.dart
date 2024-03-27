@@ -2,6 +2,7 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/phone_auth/phone_auth_bloc.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
@@ -97,11 +98,14 @@ class OTPSection extends StatelessWidget {
                         listener: (context, phoneAuthState) {
                           if (phoneAuthState
                               is PhoneAuthCodeVerificationSuccess) {
+                            context.read<OTPSectionCubit>().setToInitialState();
                             if (phoneAuthState.isNewUser) {
                               context.read<PhoneAuthBloc>().add(
                                   CreateNewUserInFirestore(
                                       phoneNumber: otpSectionState.phoneNumber,
-                                      name: otpSectionState.name));
+                                      name: otpSectionState.name,
+                                      welcomeBonus:
+                                          checkWelcomeBonus(context)));
                             } else {
                               context.read<AuthCubit>().getCurrentUser();
                               Navigator.of(context).pop();
@@ -251,5 +255,15 @@ class OTPSection extends StatelessWidget {
         )
       ]),
     );
+  }
+
+  int? checkWelcomeBonus(BuildContext context) {
+    var cashbackBlocState = context.read<CashbackBloc>().state;
+    if (cashbackBlocState is CashbackLoaded) {
+      return cashbackBlocState.cashbackData.isWelcomeBonusEnabled
+          ? cashbackBlocState.cashbackData.welcomeBonus
+          : null;
+    }
+    return null;
   }
 }

@@ -31,8 +31,9 @@ class FirestoreRepository {
   // }
 
   //Write new user
-  Future<void> writeNewUser(String phoneNumber, String name) async {
-    await firestoreProvider.writeNewUser(phoneNumber, name);
+  Future<void> writeNewUser(
+      String phoneNumber, String name, int? welcomeBonus) async {
+    await firestoreProvider.writeNewUser(phoneNumber, name, welcomeBonus);
   }
 
   //Edit current user

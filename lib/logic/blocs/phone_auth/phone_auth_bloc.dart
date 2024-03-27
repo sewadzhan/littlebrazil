@@ -14,8 +14,8 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
   final FirestoreRepository firestoreRepository;
   PhoneAuthBloc(
       {required this.authRepository, required this.firestoreRepository})
-      : super(PhoneAuthInitial()) {
-    on<PhoneAuthReset>(((event, emit) => emit(PhoneAuthInitial())));
+      : super(const PhoneAuthInitial()) {
+    on<PhoneAuthReset>(((event, emit) => emit(const PhoneAuthInitial())));
     on<PhoneAuthNumberVerified>(phoneAuthNumberVerifiedToState);
     on<PhoneAuthCodeSent>((event, emit) => emit(
         PhoneAuthNumberVerificationSuccess(
@@ -41,7 +41,7 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
       PhoneAuthNumberVerified event, Emitter<PhoneAuthState> emit) async {
     try {
       var phone = event.phoneNumber.replaceAll(' ', '');
-      emit(PhoneAuthLoading());
+      emit(const PhoneAuthLoading());
 
       if (phone.isEmpty) {
         emit(const PhoneAuthNumberVerificationFailure(
@@ -76,7 +76,7 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
   void phoneAuthCodeVerifiedToState(
       PhoneAuthCodeVerified event, Emitter<PhoneAuthState> emit) async {
     try {
-      emit(PhoneAuthLoading());
+      emit(const PhoneAuthLoading());
       PhoneAuthModel phoneAuthModel =
           await authRepository.loginWithSMSVerificationCode(
               smsCode: event.smsCode, verificationId: event.verificationId);
@@ -113,7 +113,8 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
   void _onVerificationFailed(FirebaseAuthException exception) {
     switch (exception.code) {
       case "network-request-failed":
-        add(const PhoneAuthVerificationFailed("Нет подключения к интернету"));
+        add(const PhoneAuthVerificationFailed(
+            message: "Нет подключения к интернету"));
         break;
     }
   }
@@ -142,19 +143,14 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
       CreateNewUserInFirestore event, Emitter<PhoneAuthState> emit) async {
     var phone = event.phoneNumber;
 
-    if (phone.substring(0, 1) == '7') {
-      phone = phone.replaceFirst(RegExp(r'7'), '+7');
-    } else if (phone.substring(0, 1) == '8') {
-      phone = phone.replaceFirst(RegExp(r'8'), '+7');
-    }
-
     try {
       await firestoreRepository.writeNewUser(
-          phone.replaceAll(' ', ''), event.name);
-      emit(PhoneAuthCreateUserSuccess());
+          phone.replaceAll(' ', ''), event.name, event.welcomeBonus);
+      emit(const PhoneAuthCreateUserSuccess());
     } catch (e) {
       add(const PhoneAuthVerificationFailed(
-          "Не удалось создать нового пользователя. Попробуйте позже."));
+          message:
+              "Не удалось создать нового пользователя. Попробуйте позже."));
     }
   }
 

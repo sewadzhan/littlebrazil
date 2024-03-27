@@ -11,6 +11,9 @@ class OTPSectionCubit extends Cubit<OTPSectionState> {
   //Set the initial state of cubit
   void setToInitialState() {
     emit(const InitialOTPSectionState());
+    if (timer.isActive) {
+      timer.cancel();
+    }
   }
 
   //Save actual data of user during phone verification

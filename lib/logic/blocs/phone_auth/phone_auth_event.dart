@@ -81,7 +81,7 @@ class PhoneAuthCodeResent extends PhoneAuthEvent {
 class PhoneAuthVerificationFailed extends PhoneAuthEvent {
   final String message;
 
-  const PhoneAuthVerificationFailed(this.message);
+  const PhoneAuthVerificationFailed({required this.message});
 
   @override
   List<Object> get props => [message];
@@ -102,10 +102,11 @@ class PhoneAuthVerificationCompleted extends PhoneAuthEvent {
 class CreateNewUserInFirestore extends PhoneAuthEvent {
   final String phoneNumber;
   final String name;
+  final int? welcomeBonus;
 
   const CreateNewUserInFirestore(
-      {required this.phoneNumber, required this.name});
+      {required this.phoneNumber, required this.name, this.welcomeBonus});
 
   @override
-  List<Object?> get props => [phoneNumber, name];
+  List<Object?> get props => [phoneNumber, name, welcomeBonus];
 }

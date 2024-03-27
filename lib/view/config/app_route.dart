@@ -24,6 +24,7 @@ import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
 import 'package:littlebrazil/logic/cubits/about_restaurant/about_restaurant_cubit.dart';
+import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
@@ -53,10 +54,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/order.dart' as order;
 
 class AppRouter {
+  static final AuthRepository authRepository =
+      AuthRepository(AuthFirebaseProvider(FirebaseAuth.instance));
   static final FirestoreRepository firestoreRepository =
       FirestoreRepository(FirestoreProvider(FirebaseFirestore.instance));
 
-  final NavigationCubit navigationCubit = NavigationCubit();
+  static AuthCubit authCubit = AuthCubit(authRepository);
   static final MenuCubit menuCubit = MenuCubit(firestoreRepository)..getMenu();
   static final BottomSheetCubit bottomSheetCubit = BottomSheetCubit();
   static final UpdateAppCubit updateAppCubit = UpdateAppCubit(bottomSheetCubit);
@@ -71,7 +74,7 @@ class AppRouter {
       CashbackBloc(firestoreRepository, currentUserBloc)
         ..add(LoadCashbackData());
   static final CurrentUserBloc currentUserBloc =
-      CurrentUserBloc(firestoreRepository, addressBloc);
+      CurrentUserBloc(firestoreRepository, addressBloc, authCubit);
   static final CartBloc cartBloc = CartBloc()..add(LoadCart());
   static final CheckoutBloc checkoutBloc =
       CheckoutBloc(deliveryZonesCubit, cartBloc);
@@ -95,7 +98,8 @@ class AppRouter {
           type: PageTransitionType.fade,
           child: MultiBlocProvider(
             providers: [
-              BlocProvider.value(value: navigationCubit),
+              BlocProvider(create: (context) => NavigationCubit()),
+              BlocProvider.value(value: authCubit),
               BlocProvider.value(value: menuCubit),
               BlocProvider.value(value: cartBloc),
               BlocProvider.value(value: bottomSheetCubit),
@@ -111,8 +115,10 @@ class AppRouter {
         return PageTransition(
             type: PageTransitionType.fade,
             child: MultiBlocProvider(providers: [
+              BlocProvider.value(value: authCubit),
               BlocProvider.value(value: phoneAuthBloc),
               BlocProvider.value(value: currentUserBloc),
+              BlocProvider.value(value: cashbackBloc),
               BlocProvider(create: (context) => OTPSectionCubit())
             ], child: const AuthScreen()));
       case "/qr":
@@ -139,12 +145,13 @@ class AppRouter {
             duration: const Duration(milliseconds: 250),
             child: MultiBlocProvider(
               providers: [
-                BlocProvider.value(value: menuCubit),
-                BlocProvider.value(value: cartBloc),
                 BlocProvider(
                     create: (context) => PromocodeBloc(
                         firestoreRepository, cartBloc, currentUserBloc)
-                      ..add(LoadPromocodes()))
+                      ..add(LoadPromocodes())),
+                BlocProvider.value(value: authCubit),
+                BlocProvider.value(value: menuCubit),
+                BlocProvider.value(value: cartBloc),
               ],
               child: const CartScreen(),
             ));
@@ -162,8 +169,13 @@ class AppRouter {
         return PageTransition(
             type: PageTransitionType.rightToLeft,
             duration: const Duration(milliseconds: 250),
-            child: BlocProvider.value(
-              value: addressBloc,
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: addressBloc,
+                ),
+                BlocProvider.value(value: authCubit),
+              ],
               child: const MyAddressesScreen(),
             ));
       case "/addAddress":
@@ -216,6 +228,7 @@ class AppRouter {
                 BlocProvider(
                   create: (context) => EditUserBloc(firestoreRepository),
                 ),
+                BlocProvider.value(value: authCubit),
                 BlocProvider.value(value: currentUserBloc),
                 BlocProvider.value(value: contactsCubit),
               ],
@@ -225,8 +238,13 @@ class AppRouter {
         return PageTransition(
             type: PageTransitionType.rightToLeft,
             duration: const Duration(milliseconds: 250),
-            child: BlocProvider(
-              create: (context) => OrderHistoryBloc(firestoreRepository),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider(
+                  create: (context) => OrderHistoryBloc(firestoreRepository),
+                ),
+                BlocProvider.value(value: authCubit),
+              ],
               child: const OrdersHistoryScreen(),
             ));
       case "/successOrder":
