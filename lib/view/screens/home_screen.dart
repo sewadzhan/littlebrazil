@@ -77,6 +77,7 @@ class _HomeScreenState extends State<HomeScreen> {
       },
       child: Scaffold(
         body: CustomScrollView(
+          physics: const ClampingScrollPhysics(),
           controller: scrollController,
           slivers: [
             const HomeScreenAppBar(),

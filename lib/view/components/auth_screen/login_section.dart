@@ -10,19 +10,30 @@ import 'package:littlebrazil/view/config/constants.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class LoginSection extends StatelessWidget {
+class LoginSection extends StatefulWidget {
   const LoginSection({super.key, required this.pageController});
 
   final PageController pageController;
 
   @override
-  Widget build(BuildContext context) {
-    final TextEditingController nameController = TextEditingController();
-    final MaskTextInputFormatter maskFormatter = MaskTextInputFormatter(
-        mask: '+7 ### ### ## ##',
-        filter: {"#": RegExp(r'[0-9]')},
-        type: MaskAutoCompletionType.lazy);
+  State<LoginSection> createState() => _LoginSectionState();
+}
 
+class _LoginSectionState extends State<LoginSection> {
+  final TextEditingController nameController = TextEditingController();
+  final MaskTextInputFormatter maskFormatter = MaskTextInputFormatter(
+      mask: '+7 ### ### ## ##',
+      filter: {"#": RegExp(r'[0-9]')},
+      type: MaskAutoCompletionType.lazy);
+
+  @override
+  void dispose() {
+    nameController.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Constants.defaultPadding),
       child: Stack(children: [
@@ -89,7 +100,7 @@ class LoginSection extends StatelessWidget {
                           duration: const Duration(milliseconds: 500)));
                 } else if (state is PhoneAuthNumberVerificationSuccess) {
                   context.read<OTPSectionCubit>().startResendTimer();
-                  await pageController.nextPage(
+                  await widget.pageController.nextPage(
                       duration: const Duration(milliseconds: 300),
                       curve: Curves.ease);
                 }

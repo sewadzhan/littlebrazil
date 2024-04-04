@@ -34,7 +34,6 @@ import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
 import 'package:littlebrazil/logic/cubits/rate_app/rate_app_cubit.dart';
 import 'package:littlebrazil/logic/cubits/stories/stories_cubit.dart';
-import 'package:littlebrazil/logic/cubits/torch/torch_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/about_restaurant_screen.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
@@ -130,10 +129,7 @@ class AppRouter {
         return PageTransition(
             type: PageTransitionType.bottomToTop,
             duration: const Duration(milliseconds: 250),
-            child: BlocProvider(
-              create: (context) => TorchCubit()..checkAvailability(),
-              child: const QRScannerScreen(),
-            ));
+            child: const QRScannerScreen());
       case "/search":
         return PageTransition(
             type: PageTransitionType.bottomToTop,
