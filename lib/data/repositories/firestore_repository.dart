@@ -6,6 +6,7 @@ import 'package:littlebrazil/data/models/delivery_zone.dart';
 import 'package:littlebrazil/data/models/order.dart';
 import 'package:littlebrazil/data/models/promocode.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
+import 'package:littlebrazil/data/models/story_sections.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
 
 class FirestoreRepository {
@@ -21,14 +22,14 @@ class FirestoreRepository {
     return ContactsModel.fromMap(data!);
   }
 
-  //Get promotions
-  // Future<List<Promotion>> getPromotions() async {
-  //   var promotionsDocs = await firestoreProvider.getPromotions();
+  //Get stories
+  Future<List<StorySection>> getStories() async {
+    var promotionsDocs = await firestoreProvider.getStories();
 
-  //   return promotionsDocs
-  //       .map((snapshot) => Promotion.fromMap(snapshot.data()))
-  //       .toList();
-  // }
+    return promotionsDocs
+        .map((snapshot) => StorySection.fromMap(snapshot.data()))
+        .toList();
+  }
 
   //Write new user
   Future<void> writeNewUser(

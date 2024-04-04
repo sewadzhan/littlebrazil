@@ -10,17 +10,17 @@ class AboutRestaurantCubit extends Cubit<AboutRestaurantState> {
   final FirestoreRepository firestoreRepository;
 
   AboutRestaurantCubit(this.firestoreRepository)
-      : super(AboutRestaurantLoadingState()) {
+      : super(const AboutRestaurantLoadingState()) {
     getAboutRestaurant();
   }
   void getAboutRestaurant() async {
-    // try {
-    final AboutRestaurantModel aboutRestaurantModel =
-        await firestoreRepository.getAboutRestaurantData();
-    emit(
-        AboutRestaurantLoadedState(aboutRestaurantModel: aboutRestaurantModel));
-    // } catch (e) {
-    //   emit(AboutRestaurantErrorState());
-    // }
+    try {
+      final AboutRestaurantModel aboutRestaurantModel =
+          await firestoreRepository.getAboutRestaurantData();
+      emit(AboutRestaurantLoadedState(
+          aboutRestaurantModel: aboutRestaurantModel));
+    } catch (e) {
+      emit(const AboutRestaurantErrorState());
+    }
   }
 }

@@ -7,7 +7,9 @@ abstract class AboutRestaurantState extends Equatable {
   List<Object?> get props => [];
 }
 
-class AboutRestaurantLoadingState extends AboutRestaurantState {}
+class AboutRestaurantLoadingState extends AboutRestaurantState {
+  const AboutRestaurantLoadingState();
+}
 
 class AboutRestaurantLoadedState extends AboutRestaurantState {
   final AboutRestaurantModel aboutRestaurantModel;
@@ -18,4 +20,6 @@ class AboutRestaurantLoadedState extends AboutRestaurantState {
   List<Object?> get props => [aboutRestaurantModel];
 }
 
-class AboutRestaurantErrorState extends AboutRestaurantState {}
+class AboutRestaurantErrorState extends AboutRestaurantState {
+  const AboutRestaurantErrorState();
+}

@@ -304,6 +304,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     width: 45,
                     child: TextButton(
                         style: TextButton.styleFrom(
+                          overlayColor: Constants.secondPrimaryColor,
                           padding: EdgeInsets.symmetric(
                               vertical: Constants.defaultPadding),
                           shape: const RoundedRectangleBorder(
@@ -347,6 +348,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     width: 45,
                     child: TextButton(
                         style: TextButton.styleFrom(
+                          overlayColor: Constants.secondPrimaryColor,
                           padding: EdgeInsets.symmetric(
                               vertical: Constants.defaultPadding),
                           shape: const RoundedRectangleBorder(

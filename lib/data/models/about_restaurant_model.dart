@@ -32,10 +32,10 @@ class AboutRestaurantModel extends Equatable {
     return AboutRestaurantModel(
         images: List.from(map['images']),
         employees: employees,
-        ourHistory: map['ourHistory'],
-        numOfExperience: map['experienceYears'],
-        numOfChiefs: map['numOfChiefs'],
-        numOfEmployees: map['numOfEmployees']);
+        ourHistory: map['ourHistory'] ?? '',
+        numOfExperience: map['experienceYears'] ?? 0,
+        numOfChiefs: map['numOfChiefs'] ?? 0,
+        numOfEmployees: map['numOfEmployees'] ?? 0);
   }
 
   factory AboutRestaurantModel.fromJson(String source) =>

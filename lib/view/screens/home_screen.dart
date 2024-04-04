@@ -3,11 +3,13 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/category.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
+import 'package:littlebrazil/logic/cubits/stories/stories_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/not_working_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/update_app_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/home_screen/category_menu.dart';
 import 'package:littlebrazil/view/components/home_screen/category_section.dart';
 import 'package:littlebrazil/view/components/home_screen/home_screen_app_bar.dart';
+import 'package:littlebrazil/view/components/home_screen/stories_carousel.dart';
 import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_widget.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
@@ -83,22 +85,18 @@ class _HomeScreenState extends State<HomeScreen> {
                 padding: EdgeInsets.only(
                     top: Constants.defaultPadding * 0.75,
                     bottom: Constants.defaultPadding),
-                child: SingleChildScrollView(
-                  scrollDirection: Axis.horizontal,
-                  child: Row(
-                    children: List.generate(
-                        5,
-                        (index) => Container(
-                              width: 90,
-                              height: 115,
-                              margin: EdgeInsets.only(
-                                  left: Constants.defaultPadding),
-                              decoration: const BoxDecoration(
-                                  color: Constants.lightGrayColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(6))),
-                            )),
-                  ),
+                child: BlocBuilder<StoriesCubit, StoriesState>(
+                  builder: (context, storiesState) {
+                    if (storiesState is StoriesLoadedState) {
+                      return StoriesCarousel(
+                        storySections: storiesState.storySections,
+                      );
+                    }
+                    return const StoriesCarousel(
+                      isLoading: true,
+                      storySections: [],
+                    );
+                  },
                 ),
               ),
             ),

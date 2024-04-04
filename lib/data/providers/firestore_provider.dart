@@ -14,12 +14,11 @@ class FirestoreProvider {
     return await firebaseFirestore.collection('config').doc('contacts').get();
   }
 
-  //Get list of promotions
-  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>>
-      getPromotions() async {
+  //Get list of stories
+  Future<List<QueryDocumentSnapshot<Map<String, dynamic>>>> getStories() async {
     return await firebaseFirestore
-        .collection('promotions')
-        .orderBy('order')
+        .collection('stories')
+        // .orderBy('order')
         .get()
         .then((value) => value.docs);
   }

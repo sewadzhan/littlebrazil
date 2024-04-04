@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:littlebrazil/data/models/product.dart';
+import 'package:littlebrazil/data/models/story_screen_argument.dart';
 import 'package:littlebrazil/data/providers/auth_firebase_provider.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
 import 'package:littlebrazil/data/providers/yandex_provider.dart';
@@ -32,6 +33,7 @@ import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
 import 'package:littlebrazil/logic/cubits/rate_app/rate_app_cubit.dart';
+import 'package:littlebrazil/logic/cubits/stories/stories_cubit.dart';
 import 'package:littlebrazil/logic/cubits/torch/torch_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/about_restaurant_screen.dart';
@@ -47,6 +49,7 @@ import 'package:littlebrazil/view/screens/orders_history_screen.dart';
 import 'package:littlebrazil/view/screens/product_details_screen.dart';
 import 'package:littlebrazil/view/screens/qr_scanner.dart';
 import 'package:littlebrazil/view/screens/search_screen.dart';
+import 'package:littlebrazil/view/screens/story_screen.dart';
 import 'package:littlebrazil/view/screens/success_order_screen.dart';
 import 'package:littlebrazil/view/screens/suggest_address_screen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -99,6 +102,8 @@ class AppRouter {
           child: MultiBlocProvider(
             providers: [
               BlocProvider(create: (context) => NavigationCubit()),
+              BlocProvider(
+                  create: (context) => StoriesCubit(firestoreRepository)),
               BlocProvider.value(value: authCubit),
               BlocProvider.value(value: menuCubit),
               BlocProvider.value(value: cartBloc),
@@ -271,6 +276,13 @@ class AppRouter {
               create: (context) => AboutRestaurantCubit(firestoreRepository),
               child: const AboutRestaurantScreen(),
             ));
+      case "/story":
+        return PageTransition(
+            type: PageTransitionType.fade,
+            duration: const Duration(milliseconds: 250),
+            child: StoryScreen(
+                storyScreenArgument:
+                    settings.arguments as StoryScreenArgument));
       default:
         return _errorRoute();
     }
