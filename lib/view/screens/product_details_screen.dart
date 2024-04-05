@@ -280,11 +280,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         ),
       ),
       bottomNavigationBar: Container(
-        padding: EdgeInsets.only(
-            top: Constants.defaultPadding,
-            left: Constants.defaultPadding,
-            right: Constants.defaultPadding,
-            bottom: Constants.defaultPadding * 2),
+        padding: EdgeInsets.all(Constants.defaultPadding),
         decoration: const BoxDecoration(
             color: Constants.backgroundColor,
             border: Border(

@@ -22,7 +22,7 @@ class AddressBottomSheet extends StatelessWidget {
                   top: Constants.defaultPadding * 2,
                   left: Constants.defaultPadding,
                   right: Constants.defaultPadding,
-                  bottom: Constants.defaultPadding * 0.25),
+                  bottom: Constants.defaultPadding),
               child: BlocBuilder<AddressBloc, AddressState>(
                 builder: (context, state) {
                   if (state is AddressLoaded) {

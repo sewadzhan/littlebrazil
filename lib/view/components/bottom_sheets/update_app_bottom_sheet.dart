@@ -28,10 +28,10 @@ class UpdateAppBottomSheet extends StatelessWidget {
                       topLeft: Radius.circular(15),
                       topRight: Radius.circular(15))),
               padding: EdgeInsets.only(
-                left: Constants.defaultPadding,
-                right: Constants.defaultPadding,
-                top: Constants.defaultPadding * 2,
-              ),
+                  top: Constants.defaultPadding * 2,
+                  left: Constants.defaultPadding,
+                  right: Constants.defaultPadding,
+                  bottom: Constants.defaultPadding),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
@@ -59,20 +59,15 @@ class UpdateAppBottomSheet extends StatelessWidget {
                       textAlign: TextAlign.center,
                     ),
                   ),
-                  Padding(
-                    padding: EdgeInsets.only(
-                      bottom: Constants.defaultPadding * 0.25,
-                    ),
-                    child: CustomElevatedButton(
-                        text: "Обновить",
-                        function: () {
-                          if (Platform.isAndroid) {
-                            _launchURL(playMarketUrl);
-                          } else if (Platform.isIOS) {
-                            _launchURL(appStoreUrl);
-                          }
-                        }),
-                  )
+                  CustomElevatedButton(
+                      text: "Обновить",
+                      function: () {
+                        if (Platform.isAndroid) {
+                          _launchURL(playMarketUrl);
+                        } else if (Platform.isIOS) {
+                          _launchURL(appStoreUrl);
+                        }
+                      })
                 ],
               )),
         ),

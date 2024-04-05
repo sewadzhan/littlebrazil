@@ -241,7 +241,7 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
                       padding: EdgeInsets.only(
                           left: Constants.defaultPadding,
                           right: Constants.defaultPadding,
-                          bottom: Constants.defaultPadding * 0.25),
+                          bottom: Constants.defaultPadding),
                       child: CustomElevatedButton(
                           text: "ВЫБРАТЬ",
                           function: () {

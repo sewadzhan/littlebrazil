@@ -39,7 +39,7 @@ class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
             width: MediaQuery.of(context).size.width,
             padding: EdgeInsets.only(
                 top: Constants.defaultPadding * 2,
-                bottom: Constants.defaultPadding * 0.25),
+                bottom: Constants.defaultPadding),
             child: Column(
               children: [
                 Padding(

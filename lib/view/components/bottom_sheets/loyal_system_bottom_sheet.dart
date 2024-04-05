@@ -18,7 +18,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                     top: Constants.defaultPadding * 2,
                     left: Constants.defaultPadding,
                     right: Constants.defaultPadding,
-                    bottom: Constants.defaultPadding * 0.25),
+                    bottom: Constants.defaultPadding),
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [

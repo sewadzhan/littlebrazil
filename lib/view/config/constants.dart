@@ -70,42 +70,46 @@ class Constants {
           borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
         ),
         context: context,
-        builder: (context) => Container(
-            height: 160,
-            padding: EdgeInsets.only(
-                left: Constants.defaultPadding,
-                right: Constants.defaultPadding,
-                bottom: Constants.defaultPadding,
-                top: Constants.defaultPadding * 2),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
+        builder: (context) => Wrap(
               children: [
                 Padding(
-                  padding: EdgeInsets.only(bottom: Constants.defaultPadding),
-                  child: Text(
-                    title,
-                    style: Constants.textTheme.headlineSmall,
-                  ),
-                ),
-                Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceAround,
-                    children: [
-                      Container(
-                        width: 125,
-                        margin: EdgeInsets.only(
-                            right: Constants.defaultPadding * 0.5),
-                        child: CustomOutlinedButton(
-                            text: cancel,
-                            function: () {
-                              Navigator.pop(context);
-                            }),
-                      ),
-                      Expanded(
-                          child: CustomElevatedButton(
-                              text: submit, function: function)),
-                    ])
+                    padding: EdgeInsets.only(
+                        top: Constants.defaultPadding * 1.5,
+                        left: Constants.defaultPadding,
+                        right: Constants.defaultPadding,
+                        bottom: Constants.defaultPadding),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Padding(
+                          padding:
+                              EdgeInsets.only(bottom: Constants.defaultPadding),
+                          child: Text(
+                            title,
+                            style: Constants.textTheme.headlineSmall,
+                          ),
+                        ),
+                        Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceAround,
+                            children: [
+                              Container(
+                                width: 125,
+                                margin: EdgeInsets.only(
+                                    right: Constants.defaultPadding * 0.5),
+                                child: CustomOutlinedButton(
+                                    text: cancel,
+                                    function: () {
+                                      Navigator.pop(context);
+                                    }),
+                              ),
+                              Expanded(
+                                  child: CustomElevatedButton(
+                                      text: submit, function: function)),
+                            ])
+                      ],
+                    )),
               ],
-            )));
+            ));
   }
 
   static SnackBar noWifiSnackBar(BuildContext context) {
