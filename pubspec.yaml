@@ -37,7 +37,7 @@ dependencies:
   internet_connection_checker: ^1.0.0+1
 
   #Map SDK
-  yandex_mapkit_lite: ^1.0.0
+  yandex_mapkit: ^4.0.1
   yandex_geocoder: ^2.3.0+1
   geolocator: ^11.0.0
   

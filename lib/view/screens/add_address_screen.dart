@@ -11,7 +11,7 @@ import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_text_input_field.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
-import 'package:yandex_mapkit_lite/yandex_mapkit_lite.dart';
+import 'package:yandex_mapkit/yandex_mapkit.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -134,8 +134,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             onMapCreated: (controller) async {
                               mapController = controller;
 
-                              await mapController.setMinZoom(zoom: 10);
-                              await mapController.setMaxZoom(zoom: 18.5);
+                              // await mapController.setMinZoom(zoom: 10);
+                              // await mapController.setMaxZoom(zoom: 18.5);
+                              // await mapController.setMapStyle(
+                              //     "{'stylers': {'zoom': [10, 18.5],}}");
 
                               if (geolocationState is GeolocationLoaded) {
                                 //Enabling location user layer
