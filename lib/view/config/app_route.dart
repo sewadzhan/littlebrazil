@@ -185,11 +185,12 @@ class AppRouter {
             duration: const Duration(milliseconds: 250),
             child: MultiBlocProvider(
               providers: [
-                BlocProvider.value(value: addressBloc),
-                BlocProvider.value(value: deliveryZonesCubit),
                 BlocProvider(create: (_) => AddAddressBloc(deliveryZonesCubit)),
                 BlocProvider(
-                    create: (_) => GeolocationBloc()..add(LoadGeolocation()))
+                    create: (_) => GeolocationBloc()..add(LoadGeolocation())),
+                BlocProvider.value(value: authCubit),
+                BlocProvider.value(value: addressBloc),
+                BlocProvider.value(value: deliveryZonesCubit),
               ],
               child: const AddAddressScreen(),
             ));

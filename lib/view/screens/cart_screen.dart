@@ -215,10 +215,9 @@ class CartScreen extends StatelessWidget {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(successSnackBar);
                             } else if (state is PromocodeFailure) {
-                              var errorSnackBar = Constants.errorSnackBar(
-                                  context, state.message);
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(errorSnackBar);
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  Constants.errorSnackBar(
+                                      context, state.message));
                             }
                           },
                           builder: (context, state) {

@@ -59,7 +59,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
       ),
       body: SlidingUpPanel(
         controller: panelController,
-        maxHeight: 420,
+        maxHeight: 380,
         minHeight: 100,
         parallaxEnabled: true,
         parallaxOffset: 0.5,
@@ -99,6 +99,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         latitude: state.geopoint.latitude,
                                         longitude: state.geopoint.longitude),
                                     zoom: 16.65)));
+                          } else if (state is AddAddressFailed) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                Constants.errorSnackBar(
+                                    context, state.message));
                           }
                         },
                         builder: (context, addAddressState) {
@@ -131,14 +135,18 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           }
                           return YandexMap(
                             mapObjects: mapObjects,
+                            cameraBounds: const CameraBounds(
+                                minZoom: 10,
+                                maxZoom: 18.5,
+                                latLngBounds: BoundingBox(
+                                    northEast: Point(
+                                        latitude: 43.473655,
+                                        longitude: 77.238264),
+                                    southWest: Point(
+                                        latitude: 43.057029,
+                                        longitude: 76.811140))),
                             onMapCreated: (controller) async {
                               mapController = controller;
-
-                              // await mapController.setMinZoom(zoom: 10);
-                              // await mapController.setMaxZoom(zoom: 18.5);
-                              // await mapController.setMapStyle(
-                              //     "{'stylers': {'zoom': [10, 18.5],}}");
-
                               if (geolocationState is GeolocationLoaded) {
                                 //Enabling location user layer
                                 await mapController.toggleUserLayer(
