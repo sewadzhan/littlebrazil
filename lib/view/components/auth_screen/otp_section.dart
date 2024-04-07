@@ -96,6 +96,7 @@ class OTPSection extends StatelessWidget {
                     if (otpSectionState is OTPSentState) {
                       return BlocConsumer<PhoneAuthBloc, PhoneAuthState>(
                         listener: (context, phoneAuthState) {
+                          ScaffoldMessenger.of(context).clearSnackBars();
                           if (phoneAuthState
                               is PhoneAuthCodeVerificationSuccess) {
                             context.read<OTPSectionCubit>().setToInitialState();

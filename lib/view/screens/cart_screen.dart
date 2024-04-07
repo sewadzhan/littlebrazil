@@ -82,9 +82,17 @@ class CartScreen extends StatelessWidget {
                                 "Скидка",
                                 style: Constants.textTheme.headlineSmall,
                               ),
-                              Text(
-                                "${state.cart.discount} ₸",
-                                style: Constants.textTheme.headlineSmall,
+                              RichText(
+                                text: TextSpan(
+                                    text: "${state.cart.discount} ",
+                                    style: Constants.textTheme.headlineSmall,
+                                    children: [
+                                      TextSpan(
+                                          text: "₸",
+                                          style: Constants.tengeStyle.copyWith(
+                                              fontSize: Constants.textTheme
+                                                  .bodyLarge!.fontSize)),
+                                    ]),
                               ),
                             ],
                           ),
@@ -99,9 +107,17 @@ class CartScreen extends StatelessWidget {
                                 "Подытог",
                                 style: Constants.textTheme.headlineSmall,
                               ),
-                              Text(
-                                "${state.cart.subtotal} ₸",
-                                style: Constants.textTheme.headlineSmall,
+                              RichText(
+                                text: TextSpan(
+                                    text: "${state.cart.subtotal} ",
+                                    style: Constants.textTheme.headlineSmall,
+                                    children: [
+                                      TextSpan(
+                                          text: "₸",
+                                          style: Constants.tengeStyle.copyWith(
+                                              fontSize: Constants.textTheme
+                                                  .bodyLarge!.fontSize)),
+                                    ]),
                               ),
                             ],
                           ),

@@ -8,10 +8,12 @@ class CustomElevatedButton extends StatelessWidget {
       required this.function,
       this.fullWidth = true,
       this.isEnabled = true,
-      this.isLoading = false});
+      this.isLoading = false,
+      this.withTengeSign = false});
 
   final String text;
   final bool isLoading;
+  final bool withTengeSign;
 
   final Function function;
   final bool fullWidth;
@@ -46,13 +48,23 @@ class CustomElevatedButton extends StatelessWidget {
                     color: Colors.white,
                   ),
                 )
-              : Text(
-                  text.toUpperCase(),
-                  style: Constants.headlineTextTheme.displaySmall!.copyWith(
-                      color: Constants.backgroundColor,
-                      fontSize: 17,
-                      fontWeight: FontWeight.w600,
-                      height: 0.5),
+              : RichText(
+                  text: TextSpan(
+                      text: "${text.toUpperCase()} ",
+                      style: Constants.headlineTextTheme.displaySmall!.copyWith(
+                          color: Colors.white,
+                          fontSize: 17,
+                          fontWeight: FontWeight.w600),
+                      children: [
+                        TextSpan(
+                            text: withTengeSign ? "₸" : "",
+                            style: Constants.tengeStyle.copyWith(
+                              color: Colors.white,
+                              fontSize:
+                                  Constants.textTheme.headlineMedium!.fontSize,
+                              fontWeight: FontWeight.w600,
+                            )),
+                      ]),
                 )),
     );
   }

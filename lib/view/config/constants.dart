@@ -28,6 +28,8 @@ class Constants {
 
   static TextTheme headlineTextTheme = CustomTheme.headlineTextTheme;
   static TextTheme textTheme = CustomTheme.textTheme;
+  static TextStyle tengeStyle = const TextStyle(
+      fontFamily: 'Roboto', color: Constants.darkGrayColor, fontSize: 10);
 
   static SnackBar errorSnackBar(BuildContext context, String text,
       {duration = const Duration(milliseconds: 500),

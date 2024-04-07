@@ -191,9 +191,17 @@ class CartItem extends StatelessWidget {
                                     color: Constants.darkGrayColor),
                               ),
                               const SizedBox(width: 10),
-                              Text(
-                                "${cartItem.product.price} ₸",
-                                style: Constants.textTheme.titleLarge,
+                              RichText(
+                                text: TextSpan(
+                                    text: "${cartItem.product.price} ",
+                                    style: Constants.textTheme.titleLarge,
+                                    children: [
+                                      TextSpan(
+                                          text: "₸",
+                                          style: Constants.tengeStyle.copyWith(
+                                              fontSize: Constants.textTheme
+                                                  .bodyMedium!.fontSize)),
+                                    ]),
                               ),
                             ],
                           )

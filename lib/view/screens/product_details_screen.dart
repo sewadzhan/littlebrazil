@@ -375,7 +375,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ),
           Expanded(
               child: CustomElevatedButton(
-                  text: "В КОРЗИНУ • ${widget.product.price * count}₸",
+                  text: "В КОРЗИНУ • ${widget.product.price * count}",
+                  withTengeSign: true,
                   function: () {
                     context.read<CartBloc>().add(CartItemAdded(CartItemModel(
                         product: widget.product,

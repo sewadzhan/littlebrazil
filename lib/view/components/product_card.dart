@@ -108,11 +108,23 @@ class ProductCard extends StatelessWidget {
                                 color: Constants.blackColor,
                                 height: 1.15),
                           ),
-                          Text(
-                            "${product.price} ₸ • 590 ккал",
-                            style: Constants.textTheme.bodySmall!.copyWith(
-                                color: Constants.darkGrayColor, height: 1.75),
-                          ),
+                          RichText(
+                            text: TextSpan(
+                                text: "${product.price}",
+                                style: Constants.textTheme.bodySmall!.copyWith(
+                                    color: Constants.darkGrayColor,
+                                    height: 1.75),
+                                children: [
+                                  TextSpan(
+                                      text: "₸", style: Constants.tengeStyle),
+                                  TextSpan(
+                                      text: " • 590 ккал",
+                                      style: Constants.textTheme.bodySmall!
+                                          .copyWith(
+                                              color: Constants.darkGrayColor,
+                                              height: 1.75))
+                                ]),
+                          )
                         ],
                       ),
                     ),
@@ -136,10 +148,9 @@ class ProductCard extends StatelessWidget {
                                       count: 1,
                                       orderModifiers: const [])));
 
-                              final successSnackBar = Constants.successSnackBar(
-                                  context, "Товар добавлен в корзину");
-                              ScaffoldMessenger.of(context)
-                                  .showSnackBar(successSnackBar);
+                              // ScaffoldMessenger.of(context)
+                              //     .showSnackBar(Constants.successSnackBar(
+                              //     context, "Товар добавлен в корзину"));
                             },
                             style: OutlinedButton.styleFrom(
                                 overlayColor: Constants.secondPrimaryColor,

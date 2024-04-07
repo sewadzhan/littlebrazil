@@ -36,9 +36,17 @@ class OrderDetailsScreen extends StatelessWidget {
                         "Скидка",
                         style: Constants.textTheme.headlineSmall,
                       ),
-                      Text(
-                        "${order.discount} ₸",
-                        style: Constants.textTheme.headlineSmall,
+                      RichText(
+                        text: TextSpan(
+                            text: "${order.discount} ",
+                            style: Constants.textTheme.headlineSmall,
+                            children: [
+                              TextSpan(
+                                  text: "₸",
+                                  style: Constants.tengeStyle.copyWith(
+                                      fontSize: Constants
+                                          .textTheme.bodyLarge!.fontSize)),
+                            ]),
                       ),
                     ],
                   ),
@@ -53,9 +61,17 @@ class OrderDetailsScreen extends StatelessWidget {
                         "Доставка",
                         style: Constants.textTheme.headlineSmall,
                       ),
-                      Text(
-                        "${order.deliveryCost} ₸",
-                        style: Constants.textTheme.headlineSmall,
+                      RichText(
+                        text: TextSpan(
+                            text: "${order.deliveryCost} ",
+                            style: Constants.textTheme.headlineSmall,
+                            children: [
+                              TextSpan(
+                                  text: "₸",
+                                  style: Constants.tengeStyle.copyWith(
+                                      fontSize: Constants
+                                          .textTheme.bodyLarge!.fontSize)),
+                            ]),
                       ),
                     ],
                   ),
@@ -71,10 +87,19 @@ class OrderDetailsScreen extends StatelessWidget {
                         style: Constants.textTheme.headlineSmall!
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
-                      Text(
-                        "${order.total} ₸",
-                        style: Constants.textTheme.headlineSmall!
-                            .copyWith(fontWeight: FontWeight.w600),
+                      RichText(
+                        text: TextSpan(
+                            text: "${order.total} ",
+                            style: Constants.textTheme.headlineSmall!
+                                .copyWith(fontWeight: FontWeight.w600),
+                            children: [
+                              TextSpan(
+                                  text: "₸",
+                                  style: Constants.tengeStyle.copyWith(
+                                      fontWeight: FontWeight.w600,
+                                      fontSize: Constants
+                                          .textTheme.bodyLarge!.fontSize)),
+                            ]),
                       ),
                     ],
                   ),
@@ -175,9 +200,22 @@ class OrderDetailsScreen extends StatelessWidget {
                                                       .middleGrayColor),
                                         ),
                                         const SizedBox(width: 10),
-                                        Text(
-                                          "${order.cartItems[index].product.price} ₸",
-                                          style: Constants.textTheme.titleLarge,
+                                        RichText(
+                                          text: TextSpan(
+                                              text:
+                                                  "${order.cartItems[index].product.price} ",
+                                              style: Constants
+                                                  .textTheme.titleLarge,
+                                              children: [
+                                                TextSpan(
+                                                    text: "₸",
+                                                    style: Constants.tengeStyle
+                                                        .copyWith(
+                                                            fontSize: Constants
+                                                                .textTheme
+                                                                .bodyMedium!
+                                                                .fontSize)),
+                                              ]),
                                         ),
                                       ],
                                     )

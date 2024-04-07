@@ -38,11 +38,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
         builder: (context, state) {
           if (state is CartLoaded) {
             return Container(
-                padding: EdgeInsets.only(
-                    left: Constants.defaultPadding,
-                    right: Constants.defaultPadding,
-                    top: Constants.defaultPadding,
-                    bottom: Constants.defaultPadding * 2),
+                padding: EdgeInsets.all(Constants.defaultPadding),
                 decoration: const BoxDecoration(
                     color: Constants.backgroundColor,
                     border: Border(
@@ -64,9 +60,20 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           BlocBuilder<CartBloc, CartState>(
                             builder: (context, state) {
                               if (state is CartLoaded) {
-                                return Text(
-                                  "${state.cart.discount} ₸",
-                                  style: Constants.textTheme.headlineSmall,
+                                return RichText(
+                                  text: TextSpan(
+                                      text: "${state.cart.discount} ",
+                                      style: Constants.textTheme.headlineSmall,
+                                      children: [
+                                        TextSpan(
+                                            text: "₸",
+                                            style: Constants.tengeStyle
+                                                .copyWith(
+                                                    fontSize: Constants
+                                                        .textTheme
+                                                        .bodyLarge!
+                                                        .fontSize)),
+                                      ]),
                                 );
                               }
                               return const SizedBox.shrink();
@@ -87,9 +94,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           ),
                           BlocBuilder<CheckoutBloc, Checkout>(
                             builder: (context, state) {
-                              return Text(
-                                "${state.deliveryCost} ₸",
-                                style: Constants.textTheme.headlineSmall,
+                              return RichText(
+                                text: TextSpan(
+                                    text: "${state.deliveryCost} ",
+                                    style: Constants.textTheme.headlineSmall,
+                                    children: [
+                                      TextSpan(
+                                          text: "₸",
+                                          style: Constants.tengeStyle.copyWith(
+                                              fontSize: Constants.textTheme
+                                                  .bodyLarge!.fontSize)),
+                                    ]),
                               );
                             },
                           ),
@@ -113,12 +128,26 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               return BlocBuilder<CartBloc, CartState>(
                                 builder: (context, cartState) {
                                   if (cartState is CartLoaded) {
-                                    return Text(
-                                      "${cartState.cart.subtotal - cartState.cart.discount + checkoutState.deliveryCost} ₸",
-                                      style: Constants.textTheme.headlineSmall!
-                                          .copyWith(
-                                              fontWeight: FontWeight.bold,
-                                              letterSpacing: 0.1),
+                                    return RichText(
+                                      text: TextSpan(
+                                          text:
+                                              "${cartState.cart.subtotal - cartState.cart.discount + checkoutState.deliveryCost} ",
+                                          style: Constants
+                                              .textTheme.headlineSmall!
+                                              .copyWith(
+                                                  fontWeight: FontWeight.bold),
+                                          children: [
+                                            TextSpan(
+                                                text: "₸",
+                                                style: Constants.tengeStyle
+                                                    .copyWith(
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        fontSize: Constants
+                                                            .textTheme
+                                                            .bodyLarge!
+                                                            .fontSize)),
+                                          ]),
                                     );
                                   }
                                   return const SizedBox.shrink();
@@ -141,54 +170,48 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         }
                       },
                       builder: (context, state) {
-                        return Padding(
-                          padding: EdgeInsets.only(
-                              bottom: Constants.defaultPadding * 0.5),
-                          child: CustomElevatedButton(
-                              text: "ОФОРМИТЬ ЗАКАЗ",
-                              isLoading: state is OrderLoading,
-                              function: () {
-                                context.read<CheckoutBloc>().add(
-                                    CheckoutCommentsChanged(
-                                        comments: commentsController.text));
-                                showModalBottomSheet(
-                                    context: context,
-                                    backgroundColor: Constants.backgroundColor,
-                                    elevation: 0,
-                                    isScrollControlled: true,
-                                    shape: const RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.vertical(
-                                          top: Radius.circular(12)),
-                                    ),
-                                    builder: (context1) => MultiBlocProvider(
-                                          providers: [
-                                            BlocProvider.value(
-                                              value:
-                                                  context.read<CheckoutBloc>(),
-                                            ),
-                                            BlocProvider.value(
-                                              value:
-                                                  context.read<ContactsCubit>(),
-                                            ),
-                                            BlocProvider.value(
-                                              value:
-                                                  context.read<CashbackBloc>(),
-                                            ),
-                                            BlocProvider.value(
-                                              value: context.read<OrderBloc>(),
-                                            ),
-                                            BlocProvider.value(
-                                              value: context.read<CartBloc>(),
-                                            ),
-                                            BlocProvider.value(
-                                              value: context
-                                                  .read<CurrentUserBloc>(),
-                                            ),
-                                          ],
-                                          child: const CashbackBottomSheet(),
-                                        ));
-                              }),
-                        );
+                        return CustomElevatedButton(
+                            text: "ОФОРМИТЬ ЗАКАЗ",
+                            isLoading: state is OrderLoading,
+                            function: () {
+                              context.read<CheckoutBloc>().add(
+                                  CheckoutCommentsChanged(
+                                      comments: commentsController.text));
+                              showModalBottomSheet(
+                                  context: context,
+                                  backgroundColor: Constants.backgroundColor,
+                                  elevation: 0,
+                                  isScrollControlled: true,
+                                  shape: const RoundedRectangleBorder(
+                                    borderRadius: BorderRadius.vertical(
+                                        top: Radius.circular(12)),
+                                  ),
+                                  builder: (context1) => MultiBlocProvider(
+                                        providers: [
+                                          BlocProvider.value(
+                                            value: context.read<CheckoutBloc>(),
+                                          ),
+                                          BlocProvider.value(
+                                            value:
+                                                context.read<ContactsCubit>(),
+                                          ),
+                                          BlocProvider.value(
+                                            value: context.read<CashbackBloc>(),
+                                          ),
+                                          BlocProvider.value(
+                                            value: context.read<OrderBloc>(),
+                                          ),
+                                          BlocProvider.value(
+                                            value: context.read<CartBloc>(),
+                                          ),
+                                          BlocProvider.value(
+                                            value:
+                                                context.read<CurrentUserBloc>(),
+                                          ),
+                                        ],
+                                        child: const CashbackBottomSheet(),
+                                      ));
+                            });
                       },
                     ),
                   ],
