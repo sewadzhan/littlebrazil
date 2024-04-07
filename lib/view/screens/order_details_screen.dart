@@ -14,7 +14,7 @@ class OrderDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverBody(
-      title: "Заказ №${order.id}",
+      title: "№${order.id}",
       bottomBar: SafeArea(
         child: Container(
             decoration: const BoxDecoration(

@@ -27,12 +27,12 @@ class SliverBody extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final scrollController = ScrollController();
-    final ValueNotifier<double> titlePaddingNotifier = ValueNotifier(15.0);
+    final ValueNotifier<double> titlePaddingNotifier = ValueNotifier(10.0);
+    const double kBasePadding = 10;
+    const double kCollapsedPadding = 45;
 
     scrollController.addListener(() {
       final kExpandedHeight = showBackButton ? 105 : 75;
-      const double kBasePadding = 13;
-      const double kCollapsedPadding = 65;
       final double horizontalTitlePadding;
 
       if (scrollController.hasClients) {
@@ -48,7 +48,6 @@ class SliverBody extends StatelessWidget {
     });
 
     return Scaffold(
-      floatingActionButton: floatingActionButton,
       extendBodyBehindAppBar: !showBackButton,
       backgroundColor: Constants.backgroundColor,
       body: CustomScrollView(
@@ -82,24 +81,37 @@ class SliverBody extends StatelessWidget {
             forceElevated: true,
             floating: false,
             pinned: true,
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(1.0),
+              child: ValueListenableBuilder<double>(
+                valueListenable: titlePaddingNotifier,
+                builder: (context, value, _) {
+                  return value == kBasePadding + kCollapsedPadding
+                      ? Container(
+                          color: Constants.lightGrayColor,
+                          height: 1,
+                        )
+                      : const SizedBox.shrink();
+                },
+              ),
+            ),
             flexibleSpace: FlexibleSpaceBar(
-              expandedTitleScale: 1.25,
-              collapseMode: CollapseMode.pin,
               centerTitle: false,
+              expandedTitleScale: 1.5,
+              collapseMode: CollapseMode.pin,
               titlePadding: EdgeInsets.only(
-                  top: Constants.defaultPadding * 0.75,
-                  bottom: Constants.defaultPadding * 0.6,
-                  left: 0,
-                  right: 0),
+                bottom: Constants.defaultPadding * 0.75,
+              ),
               title: ValueListenableBuilder(
                 valueListenable: titlePaddingNotifier,
                 builder: (context, double value, child) {
                   return Padding(
-                    padding: EdgeInsets.symmetric(horizontal: value),
-                    child: Text(title,
-                        style: Constants.headlineTextTheme.displayLarge!
-                            .copyWith(
-                                color: Constants.primaryColor, fontSize: 29)),
+                    padding: EdgeInsets.only(left: value),
+                    child: Text(
+                      title,
+                      style: Constants.headlineTextTheme.displayLarge!.copyWith(
+                          color: Constants.primaryColor, fontSize: 24),
+                    ),
                   );
                 },
               ),
@@ -111,6 +123,7 @@ class SliverBody extends StatelessWidget {
         ],
       ),
       bottomNavigationBar: bottomBar,
+      floatingActionButton: floatingActionButton,
     );
   }
 }
