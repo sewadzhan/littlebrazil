@@ -22,6 +22,7 @@ import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order_history/order_history_bloc.dart';
 import 'package:littlebrazil/logic/blocs/phone_auth/phone_auth_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
+import 'package:littlebrazil/logic/blocs/qr_scanner/qr_scanner_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
 import 'package:littlebrazil/logic/cubits/about_restaurant/about_restaurant_cubit.dart';
@@ -129,7 +130,21 @@ class AppRouter {
         return PageTransition(
             type: PageTransitionType.bottomToTop,
             duration: const Duration(milliseconds: 250),
-            child: const QRScannerScreen());
+            child: BlocProvider(
+              create: (context) => QRScannerBloc(),
+              child: const QRScannerScreen(),
+            ));
+      case "/successQRscanned":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 250),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: orderBloc),
+                BlocProvider.value(value: cashbackBloc),
+              ],
+              child: const QRScannerScreen(),
+            ));
       case "/search":
         return PageTransition(
             type: PageTransitionType.bottomToTop,

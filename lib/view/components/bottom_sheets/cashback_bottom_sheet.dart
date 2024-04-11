@@ -37,8 +37,8 @@ class CashbackBottomSheet extends StatelessWidget {
                     height: cashbackState.cashbackData.cashbackAction ==
                                 CashbackAction.deposit &&
                             cashbackValue != 0
-                        ? 400
-                        : 335,
+                        ? 415
+                        : 350,
                     child: Scaffold(
                         backgroundColor: Colors.transparent,
                         body: SafeArea(

@@ -2,8 +2,9 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:littlebrazil/logic/blocs/qr_scanner/qr_scanner_bloc.dart';
 import 'package:littlebrazil/view/components/custom_outlined_button.dart';
-import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -16,7 +17,6 @@ class QRScannerScreen extends StatefulWidget {
 
 class _QRScannerScreenState extends State<QRScannerScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
-  Barcode? result;
   QRViewController? controller;
 
   // In order to get hot reload to work we need to pause the camera if the platform
@@ -33,77 +33,96 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
-    // return SliverBody(
-    //   title: "Оплата QR-кодом",
-    //   backButtonType: BackButtonType.cross,
-    //   bottomBar: BlocConsumer<TorchCubit, TorchState>(
-    //     listener: (context, torchState) {
-    //       if (torchState is TorchError) {
-    //         ScaffoldMessenger.of(context).showSnackBar(Constants.errorSnackBar(
-    //             context, torchState.message,
-    //             duration: const Duration(milliseconds: 500)));
-    //       }
-    //     },
-    //     builder: (context, torchState) {
-    //       if (torchState is TorchActive) {
-    //         return SafeArea(
-    //           child: Container(
-    //               decoration: const BoxDecoration(
-    //                   color: Constants.backgroundColor,
-    //                   border: Border(
-    //                       top: BorderSide(
-    //                           color: Constants.lightGrayColor, width: 1))),
-    //               padding: EdgeInsets.all(Constants.defaultPadding),
-    //               child: CustomOutlinedButton(
-    //                   text: torchState.isEnabled
-    //                       ? "ВЫКЛЮЧИТЬ ФОНАРИК"
-    //                       : "ВКЛЮЧИТЬ ФОНАРИК",
-    //                   function: () {
-    //                     context.read<TorchCubit>().toggleTorch();
-    //                   })),
-    //         );
-    //       }
-    //       return const SizedBox.shrink();
-    //     },
-    //   ),
-    //   child: Padding(
-    //       padding: EdgeInsets.symmetric(
-    //         horizontal: Constants.defaultPadding,
-    //       ),
-    //       child: Column(
-    //         crossAxisAlignment: CrossAxisAlignment.start,
-    //         children: [
-    //           Padding(
-    //             padding: EdgeInsets.only(bottom: Constants.defaultPadding * 2),
-    //             child: Text(
-    //               "Наведите камерой на QR-код для дальнейшей оплаты заказа",
-    //               style: Constants.textTheme.bodyLarge,
-    //             ),
-    //           ),
-    //           // SizedBox(
-    //           //   width: MediaQuery.of(context).size.width,
-    //           //   height: 750,
-    //           //   child: Column(
-    //           //     children: <Widget>[
-    //           //       QRView(
-    //           //         key: qrKey,
-    //           //         onQRViewCreated: _onQRViewCreated,
-    //           //       ),
-    //           //     ],
-    //           //   ),
-    //           // ),
-    //         ],
-    //       )),
-    // );
+    return BlocListener<QRScannerBloc, QRScannerState>(
+      listener: (context, state) {
+        if (state is QRScannerError) {
+          ScaffoldMessenger.of(context)
+              .showSnackBar(Constants.errorSnackBar(context, state.message));
+        } else if (state is QRScannerSuccessScan) {
+          Navigator.pushNamed(context, '/successQRscanned',
+              arguments: state.order);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Constants.backgroundColor,
+        appBar: AppBar(
+          backgroundColor: Constants.backgroundColor,
+          leading: TextButton(
+            style: TextButton.styleFrom(
+              shape: const CircleBorder(),
+            ),
+            child: SizedBox(
+              width: 25,
+              child: SvgPicture.asset('assets/icons/cross.svg',
+                  colorFilter: const ColorFilter.mode(
+                      Constants.darkGrayColor, BlendMode.srcIn)),
+            ),
+            onPressed: () {
+              Navigator.pop(context);
+            },
+          ),
+        ),
+        bottomNavigationBar: SafeArea(
+          child: Container(
+              padding: EdgeInsets.all(Constants.defaultPadding),
+              decoration: const BoxDecoration(
+                  color: Constants.backgroundColor,
+                  border: Border(
+                      top: BorderSide(
+                          color: Constants.lightGrayColor, width: 1))),
+              child: CustomOutlinedButton(
+                  text: "ВКЛЮЧИТЬ ФОНАРИК",
+                  function: () async {
+                    if (controller != null) {
+                      await controller!.toggleFlash();
+                    }
+                  })),
+        ),
+        body: Padding(
+          padding: EdgeInsets.only(
+              left: Constants.defaultPadding,
+              right: Constants.defaultPadding,
+              bottom: Constants.defaultPadding * 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Padding(
+                padding: EdgeInsets.only(bottom: Constants.defaultPadding),
+                child: Text(
+                  "Оплата QR-кодом",
+                  style: Constants.headlineTextTheme.displayLarge!
+                      .copyWith(color: Constants.primaryColor),
+                ),
+              ),
+              Padding(
+                padding: EdgeInsets.only(bottom: Constants.defaultPadding * 2),
+                child: Text(
+                  "Наведите камерой на QR-код для дальнейшей оплаты заказа",
+                  style: Constants.textTheme.bodyLarge,
+                ),
+              ),
+              Expanded(
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(12),
+                  child: QRView(
+                    key: qrKey,
+                    onQRViewCreated: onQRViewCreated,
+                  ),
+                ),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
   }
 
-  void _onQRViewCreated(QRViewController controller) {
+  void onQRViewCreated(QRViewController controller) {
     this.controller = controller;
     controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+      context
+          .read<QRScannerBloc>()
+          .add(QRScannerDataScanned(scanData.code ?? ""));
     });
   }
 
