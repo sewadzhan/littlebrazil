@@ -67,6 +67,7 @@ class _HomeScreenState extends State<HomeScreen> {
               shape: const RoundedRectangleBorder(
                 borderRadius: BorderRadius.vertical(top: Radius.circular(12)),
               ),
+              isScrollControlled: true,
               isDismissible: false,
               enableDrag: false,
               context: context,

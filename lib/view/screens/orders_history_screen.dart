@@ -68,8 +68,11 @@ class OrdersHistoryScreen extends StatelessWidget {
                 );
               }
               return Padding(
-                padding:
-                    EdgeInsets.symmetric(horizontal: Constants.defaultPadding),
+                padding: EdgeInsets.only(
+                  left: Constants.defaultPadding,
+                  right: Constants.defaultPadding,
+                  bottom: Constants.defaultPadding,
+                ),
                 child: ListView.builder(
                     shrinkWrap: true,
                     primary: false,

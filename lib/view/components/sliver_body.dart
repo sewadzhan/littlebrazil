@@ -76,7 +76,9 @@ class SliverBody extends StatelessWidget {
                 : const SizedBox.shrink(),
             actions: actions,
             backgroundColor: Constants.backgroundColor,
-            expandedHeight: showBackButton ? 140 : 90,
+            expandedHeight: showBackButton
+                ? Constants.defaultPadding * 8
+                : Constants.defaultPadding * 5,
             scrolledUnderElevation: 0,
             forceElevated: true,
             floating: false,
@@ -118,7 +120,7 @@ class SliverBody extends StatelessWidget {
             ),
           ),
           SliverPadding(
-              padding: EdgeInsets.only(top: Constants.defaultPadding * 0.5),
+              padding: EdgeInsets.only(top: Constants.defaultPadding * 0),
               sliver: SliverToBoxAdapter(child: child))
         ],
       ),

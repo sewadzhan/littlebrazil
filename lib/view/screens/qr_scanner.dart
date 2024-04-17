@@ -18,6 +18,7 @@ class QRScannerScreen extends StatefulWidget {
 class _QRScannerScreenState extends State<QRScannerScreen> {
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   QRViewController? controller;
+  bool isTorchEnabled = false;
 
   // In order to get hot reload to work we need to pause the camera if the platform
   // is android, or resume the camera if the platform is iOS.
@@ -71,7 +72,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       top: BorderSide(
                           color: Constants.lightGrayColor, width: 1))),
               child: CustomOutlinedButton(
-                  text: "ВКЛЮЧИТЬ ФОНАРИК",
+                  text:
+                      isTorchEnabled ? "ВЫКЛЮЧИТЬ ФОНАРИК" : "ВКЛЮЧИТЬ ФОНАРИК",
                   function: () async {
                     // Navigator.pushNamed(context, '/successQRscanned',
                     //     arguments: Order(
@@ -102,6 +104,9 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                     try {
                       if (controller != null) {
                         await controller!.toggleFlash();
+                        setState(() {
+                          isTorchEnabled = !isTorchEnabled;
+                        });
                       }
                     } catch (e) {
                       if (context.mounted) {

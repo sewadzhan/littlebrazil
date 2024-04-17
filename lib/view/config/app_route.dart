@@ -157,7 +157,8 @@ class AppRouter {
             duration: const Duration(milliseconds: 250),
             child: MultiBlocProvider(
               providers: [
-                BlocProvider(create: (context) => SearchBloc(menuCubit))
+                BlocProvider(create: (context) => SearchBloc(menuCubit)),
+                BlocProvider.value(value: cartBloc),
               ],
               child: const SearchScreen(),
             ));

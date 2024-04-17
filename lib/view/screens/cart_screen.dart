@@ -148,6 +148,7 @@ class CartScreen extends StatelessWidget {
                               showModalBottomSheet(
                                   backgroundColor: Constants.backgroundColor,
                                   elevation: 0,
+                                  isScrollControlled: true,
                                   shape: const RoundedRectangleBorder(
                                     borderRadius: BorderRadius.vertical(
                                         top: Radius.circular(12)),

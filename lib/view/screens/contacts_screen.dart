@@ -272,7 +272,9 @@ class ContactsScreen extends StatelessWidget {
                   },
                 ),
                 Padding(
-                  padding: EdgeInsets.only(top: Constants.defaultPadding * 2),
+                  padding: EdgeInsets.only(
+                      top: Constants.defaultPadding * 2,
+                      bottom: Constants.defaultPadding),
                   child: CustomOutlinedButton(
                       text: "О РЕСТОРАНЕ",
                       function: () {

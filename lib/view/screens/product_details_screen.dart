@@ -382,10 +382,10 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                         product: widget.product,
                         count: count,
                         orderModifiers: modifierControllers)));
-                    var snackBar = Constants.successSnackBar(
-                        context, "Товар добавлен в корзину");
                     Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(snackBar);
+                    ScaffoldMessenger.of(context).showSnackBar(
+                        Constants.successSnackBar(
+                            context, "Товар добавлен в корзину"));
                   })),
         ]),
       ),

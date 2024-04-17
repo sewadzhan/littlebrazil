@@ -284,9 +284,10 @@ class CashbackBottomSheet extends StatelessWidget {
                                         builder: (context, orderState) {
                                           return CustomElevatedButton(
                                               text:
-                                                  "ОПЛАТИТЬ • ${cashbackState.cashbackData.cashbackAction == CashbackAction.deposit ? subfinalValue : subfinalValue - currentUserState.user.cashback} ₸",
+                                                  "ОПЛАТИТЬ • ${cashbackState.cashbackData.cashbackAction == CashbackAction.deposit ? subfinalValue : subfinalValue - currentUserState.user.cashback}",
                                               isLoading:
                                                   orderState is OrderLoading,
+                                              withTengeSign: true,
                                               function: () {
                                                 var checkoutBloc = context
                                                     .read<CheckoutBloc>();

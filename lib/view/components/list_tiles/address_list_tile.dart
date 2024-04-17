@@ -26,12 +26,12 @@ class AddressListTile extends StatelessWidget {
             style: Constants.textTheme.headlineSmall!.copyWith(
                 fontWeight: FontWeight.w500,
                 letterSpacing: 0.1,
-                color: Constants.blackColor),
+                color: Constants.darkGrayColor),
           ),
           subtitle: Text(
             "квартира/офис ${address.apartmentOrOffice}",
             style: Constants.textTheme.bodyMedium!
-                .copyWith(color: Constants.darkGrayColor),
+                .copyWith(color: Constants.middleGrayColor),
           ),
           trailing: SvgPicture.asset('assets/icons/arrow-right.svg',
               colorFilter: const ColorFilter.mode(

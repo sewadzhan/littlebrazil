@@ -85,9 +85,9 @@ class MyAddressesScreen extends StatelessWidget {
                             ],
                           ),
                         )
-                      : MediaQuery.removePadding(
-                          context: context,
-                          removeBottom: true,
+                      : Padding(
+                          padding:
+                              EdgeInsets.only(bottom: Constants.defaultPadding),
                           child: ListView.builder(
                               shrinkWrap: true,
                               primary: false,

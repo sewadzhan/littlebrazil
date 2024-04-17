@@ -233,7 +233,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
                 child: Text("Дата заказа",
                     style: Constants.textTheme.bodyLarge!.copyWith(
-                        color: Constants.primaryColor,
+                        color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
             Padding(
               padding: EdgeInsets.only(bottom: Constants.defaultPadding),
@@ -247,7 +247,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
                 child: Text("Способ получения",
                     style: Constants.textTheme.bodyLarge!.copyWith(
-                        color: Constants.primaryColor,
+                        color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
             Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
@@ -258,7 +258,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
                 child: Text("Адрес заказа",
                     style: Constants.textTheme.bodyLarge!.copyWith(
-                        color: Constants.primaryColor,
+                        color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
             Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
@@ -269,7 +269,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
                 child: Text("Способ оплаты",
                     style: Constants.textTheme.bodyLarge!.copyWith(
-                        color: Constants.primaryColor,
+                        color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
             Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
@@ -282,7 +282,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
                 child: Text("Комментарии",
                     style: Constants.textTheme.bodyLarge!.copyWith(
-                        color: Constants.primaryColor,
+                        color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
             Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
@@ -316,7 +316,7 @@ class OrderDetailsScreen extends StatelessWidget {
               child: SvgPicture.asset('assets/icons/shooting-star.svg',
                   colorFilter: ColorFilter.mode(
                       order.cashbackUsed > 0
-                          ? Constants.primaryColor
+                          ? Constants.darkGrayColor
                           : Constants.purpleColor,
                       BlendMode.srcIn)),
             ),
@@ -326,7 +326,7 @@ class OrderDetailsScreen extends StatelessWidget {
                   : "Вы применили ${order.cashbackUsed * -1} баллов",
               style: Constants.textTheme.headlineSmall!.copyWith(
                   color: order.cashbackUsed > 0
-                      ? Constants.primaryColor
+                      ? Constants.darkGrayColor
                       : Constants.purpleColor),
             )
           ],

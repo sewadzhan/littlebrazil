@@ -111,6 +111,7 @@ class ProfileScreen extends StatelessWidget {
                                     onPressed: () async {
                                       await showModalBottomSheet(
                                           context: context,
+                                          isScrollControlled: true,
                                           builder: (context1) =>
                                               BlocProvider.value(
                                                 value: context
@@ -173,6 +174,7 @@ class ProfileScreen extends StatelessWidget {
                             ),
                             onTap: () async {
                               await showModalBottomSheet(
+                                  isScrollControlled: true,
                                   context: context,
                                   builder: (context1) =>
                                       const LanguageBottomSheet());
@@ -194,46 +196,51 @@ class ProfileScreen extends StatelessWidget {
                         routeName: '',
                         pushWithRemove: true,
                       ),
-                      InkWell(
-                        onTap: () {},
-                        child: Container(
-                          margin: EdgeInsets.only(
-                              top: Constants.defaultPadding * 1.5),
-                          padding: EdgeInsets.symmetric(
-                            vertical: Constants.defaultPadding * 0.75,
-                            horizontal: Constants.defaultPadding * 0.5,
-                          ),
-                          decoration: const BoxDecoration(
-                              color: Constants.lightGrayColor,
-                              borderRadius:
-                                  BorderRadius.all(Radius.circular(6))),
-                          child: Row(
-                            children: [
-                              Padding(
-                                padding: EdgeInsets.only(
-                                    right: Constants.defaultPadding * 0.75),
-                                child: SizedBox(
-                                  width: 30,
-                                  height: 30,
-                                  child: SvgPicture.asset(
-                                    'assets/icons/question.svg',
-                                    colorFilter: const ColorFilter.mode(
-                                        Constants.purpleColor, BlendMode.srcIn),
+                      Padding(
+                        padding:
+                            EdgeInsets.only(bottom: Constants.defaultPadding),
+                        child: InkWell(
+                          onTap: () {},
+                          child: Container(
+                            margin: EdgeInsets.only(
+                                top: Constants.defaultPadding * 1.5),
+                            padding: EdgeInsets.symmetric(
+                              vertical: Constants.defaultPadding * 0.75,
+                              horizontal: Constants.defaultPadding * 0.5,
+                            ),
+                            decoration: const BoxDecoration(
+                                color: Constants.lightGrayColor,
+                                borderRadius:
+                                    BorderRadius.all(Radius.circular(6))),
+                            child: Row(
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.only(
+                                      right: Constants.defaultPadding * 0.75),
+                                  child: SizedBox(
+                                    width: 30,
+                                    height: 30,
+                                    child: SvgPicture.asset(
+                                      'assets/icons/question.svg',
+                                      colorFilter: const ColorFilter.mode(
+                                          Constants.purpleColor,
+                                          BlendMode.srcIn),
+                                    ),
                                   ),
                                 ),
-                              ),
-                              Text(
-                                "Нужна помощь?",
-                                style: Constants
-                                    .headlineTextTheme.headlineLarge!
-                                    .copyWith(
-                                        color: Constants.purpleColor,
-                                        fontSize: Constants.headlineTextTheme
-                                                .headlineLarge!.fontSize! +
-                                            2,
-                                        height: 0.25),
-                              )
-                            ],
+                                Text(
+                                  "Нужна помощь?",
+                                  style: Constants
+                                      .headlineTextTheme.headlineLarge!
+                                      .copyWith(
+                                          color: Constants.purpleColor,
+                                          fontSize: Constants.headlineTextTheme
+                                                  .headlineLarge!.fontSize! +
+                                              2,
+                                          height: 0.25),
+                                )
+                              ],
+                            ),
                           ),
                         ),
                       )

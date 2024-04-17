@@ -31,7 +31,7 @@ class ProductCard extends StatelessWidget {
                 },
                 child: Container(
                   width: Constants.defaultPadding * 10,
-                  height: Constants.defaultPadding * 8.125,
+                  height: Constants.defaultPadding * 8.4,
                   decoration: const BoxDecoration(
                     borderRadius: BorderRadius.all(Radius.circular(6)),
                   ),
@@ -85,7 +85,7 @@ class ProductCard extends StatelessWidget {
                 padding: EdgeInsets.only(
                   left: Constants.defaultPadding * 0.75,
                 ),
-                height: Constants.defaultPadding * 8.125,
+                height: Constants.defaultPadding * 8.4,
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -148,9 +148,11 @@ class ProductCard extends StatelessWidget {
                                       count: 1,
                                       orderModifiers: const [])));
 
-                              // ScaffoldMessenger.of(context)
-                              //     .showSnackBar(Constants.successSnackBar(
-                              //     context, "Товар добавлен в корзину"));
+                              if (isShownInSearchScreen) {
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                    Constants.successSnackBar(
+                                        context, "Товар добавлен в корзину"));
+                              }
                             },
                             style: OutlinedButton.styleFrom(
                                 overlayColor: Constants.secondPrimaryColor,

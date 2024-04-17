@@ -61,7 +61,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                       padding: EdgeInsets.only(
                           bottom: Constants.defaultPadding * 0.5),
                       child: Text(
-                        "• 1 балл = 1 ₸\n• Вы можете использовать баллы для оплаты до 100% стоимости заказа\n• Баллы не сгорают",
+                        "• 1 балл = 1 тенге\n• Вы можете использовать баллы для оплаты до 100% стоимости заказа\n• Баллы не сгорают",
                         style: Constants.textTheme.bodyMedium,
                       ),
                     ),
@@ -82,7 +82,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                             children: List.generate(
                                 state.cashbackData.gradations.length,
                                 (index) => Text(
-                                      "• Свыше ${state.cashbackData.gradations[index].bound} ₸: ${state.cashbackData.gradations[index].percent}% от суммы заказа",
+                                      "• Свыше ${state.cashbackData.gradations[index].bound} тенге: ${state.cashbackData.gradations[index].percent}% от суммы заказа",
                                       style: Constants.textTheme.bodyMedium,
                                     )),
                           );

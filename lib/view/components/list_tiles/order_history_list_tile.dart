@@ -35,7 +35,7 @@ class OrderHistoryListTile extends StatelessWidget {
                 : "${order.cashbackUsed} Б",
             style: Constants.headlineTextTheme.displaySmall!.copyWith(
                 color: Constants.secondPrimaryColor,
-                fontWeight: FontWeight.w600),
+                fontWeight: FontWeight.w500),
           ),
           onTap: () {
             Navigator.pushNamed(context, '/orderDetails', arguments: order);
