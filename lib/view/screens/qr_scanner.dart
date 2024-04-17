@@ -35,13 +35,16 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
   @override
   Widget build(BuildContext context) {
     return BlocListener<QRScannerBloc, QRScannerState>(
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state is QRScannerError) {
           ScaffoldMessenger.of(context)
               .showSnackBar(Constants.errorSnackBar(context, state.message));
         } else if (state is QRScannerSuccessScan) {
-          Navigator.pushNamed(context, '/successQRscanned',
+          await Navigator.pushNamed(context, '/successQRscanned',
               arguments: state.order);
+          if (controller != null) {
+            controller!.resumeCamera();
+          }
         }
       },
       child: Scaffold(
@@ -75,32 +78,6 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                   text:
                       isTorchEnabled ? "ВЫКЛЮЧИТЬ ФОНАРИК" : "ВКЛЮЧИТЬ ФОНАРИК",
                   function: () async {
-                    // Navigator.pushNamed(context, '/successQRscanned',
-                    //     arguments: Order(
-                    //         phoneNumber: 'sdf',
-                    //         fullAddress: 'г. Алматы, пр. Аль-Фараби, 140А',
-                    //         deliveryCost: 0,
-                    //         discount: 0,
-                    //         subtotal: 0,
-                    //         total: 66000,
-                    //         paymentMethod: PaymentMethod.kaspi,
-                    //         orderType: OrderType.delivery,
-                    //         cartItems: const [
-                    //           CartItemModel(
-                    //               product: Product(
-                    //                   categoryID: "",
-                    //                   title: "Рибай Стейк",
-                    //                   categoryTitle: "Стейки",
-                    //                   price: 3500,
-                    //                   rmsID: '',
-                    //                   description: '',
-                    //                   imageUrls: ['']),
-                    //               count: 3)
-                    //         ],
-                    //         id: 1234,
-                    //         dateTime: DateTime.now(),
-                    //         cashbackUsed: 0,
-                    //         comments: ''));
                     try {
                       if (controller != null) {
                         await controller!.toggleFlash();
@@ -162,6 +139,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
       context
           .read<QRScannerBloc>()
           .add(QRScannerDataScanned(scanData.code ?? ""));
+      controller.pauseCamera();
     });
   }
 
