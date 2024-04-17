@@ -60,7 +60,7 @@ class __StorySectionScreenStateState extends State<StorySectionScreen>
   void dispose() {
     pageController.dispose();
     animationController.dispose();
-    //videoController.dispose();
+    videoController.dispose();
     super.dispose();
   }
 
@@ -151,13 +151,6 @@ class __StorySectionScreenStateState extends State<StorySectionScreen>
                         ],
                       ),
                     )
-                    // Padding(
-                    //   padding: const EdgeInsets.symmetric(
-                    //     horizontal: 1.5,
-                    //     vertical: 10.0,
-                    //   ),
-                    //   child: UserInfo(user: story.user),
-                    // ),
                   ],
                 ),
               ),
@@ -214,7 +207,6 @@ class __StorySectionScreenStateState extends State<StorySectionScreen>
         animationController.forward();
         break;
       case StoryMediaType.video:
-        videoController.dispose();
         videoController = VideoPlayerController.networkUrl(Uri.parse(story.url))
           ..initialize().then((_) {
             setState(() {});

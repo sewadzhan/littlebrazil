@@ -3,10 +3,6 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:littlebrazil/data/models/cart_item.dart';
-import 'package:littlebrazil/data/models/checkout.dart';
-import 'package:littlebrazil/data/models/order.dart';
-import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/logic/blocs/qr_scanner/qr_scanner_bloc.dart';
 import 'package:littlebrazil/view/components/custom_outlined_button.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -77,43 +73,43 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               child: CustomOutlinedButton(
                   text: "ВКЛЮЧИТЬ ФОНАРИК",
                   function: () async {
-                    Navigator.pushNamed(context, '/successQRscanned',
-                        arguments: Order(
-                            phoneNumber: 'sdf',
-                            fullAddress: 'г. Алматы, пр. Аль-Фараби, 140А',
-                            deliveryCost: 0,
-                            discount: 0,
-                            subtotal: 0,
-                            total: 66000,
-                            paymentMethod: PaymentMethod.kaspi,
-                            orderType: OrderType.delivery,
-                            cartItems: const [
-                              CartItemModel(
-                                  product: Product(
-                                      categoryID: "",
-                                      title: "Рибай Стейк",
-                                      categoryTitle: "Стейки",
-                                      price: 3500,
-                                      rmsID: '',
-                                      description: '',
-                                      imageUrls: ['']),
-                                  count: 3)
-                            ],
-                            id: 1234,
-                            dateTime: DateTime.now(),
-                            cashbackUsed: 0,
-                            comments: ''));
-                    // try {
-                    //   if (controller != null) {
-                    //     await controller!.toggleFlash();
-                    //   }
-                    // } catch (e) {
-                    //   if (context.mounted) {
-                    //     ScaffoldMessenger.of(context).showSnackBar(
-                    //         Constants.errorSnackBar(context,
-                    //             "Это устройство не поддерживает фонарик"));
-                    //   }
-                    // }
+                    // Navigator.pushNamed(context, '/successQRscanned',
+                    //     arguments: Order(
+                    //         phoneNumber: 'sdf',
+                    //         fullAddress: 'г. Алматы, пр. Аль-Фараби, 140А',
+                    //         deliveryCost: 0,
+                    //         discount: 0,
+                    //         subtotal: 0,
+                    //         total: 66000,
+                    //         paymentMethod: PaymentMethod.kaspi,
+                    //         orderType: OrderType.delivery,
+                    //         cartItems: const [
+                    //           CartItemModel(
+                    //               product: Product(
+                    //                   categoryID: "",
+                    //                   title: "Рибай Стейк",
+                    //                   categoryTitle: "Стейки",
+                    //                   price: 3500,
+                    //                   rmsID: '',
+                    //                   description: '',
+                    //                   imageUrls: ['']),
+                    //               count: 3)
+                    //         ],
+                    //         id: 1234,
+                    //         dateTime: DateTime.now(),
+                    //         cashbackUsed: 0,
+                    //         comments: ''));
+                    try {
+                      if (controller != null) {
+                        await controller!.toggleFlash();
+                      }
+                    } catch (e) {
+                      if (context.mounted) {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            Constants.errorSnackBar(context,
+                                "Это устройство не поддерживает фонарик"));
+                      }
+                    }
                   })),
         ),
         body: Padding(
