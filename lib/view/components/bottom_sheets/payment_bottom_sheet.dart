@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/data/models/checkout.dart';
-import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
@@ -14,7 +13,9 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 //Payment type bottom sheet
 class PaymentBottomSheet extends StatelessWidget {
-  const PaymentBottomSheet({super.key});
+  const PaymentBottomSheet({super.key, required this.subfinalValue});
+
+  final int subfinalValue;
 
   @override
   Widget build(BuildContext context) {
@@ -206,10 +207,6 @@ class PaymentBottomSheet extends StatelessWidget {
                                                       ),
                                                       BlocProvider.value(
                                                         value: context
-                                                            .read<CartBloc>(),
-                                                      ),
-                                                      BlocProvider.value(
-                                                        value: context
                                                             .read<OrderBloc>(),
                                                       ),
                                                       BlocProvider.value(
@@ -217,8 +214,10 @@ class PaymentBottomSheet extends StatelessWidget {
                                                             CurrentUserBloc>(),
                                                       ),
                                                     ],
-                                                    child:
-                                                        const CashbackBottomSheet(),
+                                                    child: CashbackBottomSheet(
+                                                      subfinalValue:
+                                                          subfinalValue,
+                                                    ),
                                                   ));
                                         },
                                       ),
@@ -299,10 +298,6 @@ class PaymentBottomSheet extends StatelessWidget {
                                                       ),
                                                       BlocProvider.value(
                                                         value: context
-                                                            .read<CartBloc>(),
-                                                      ),
-                                                      BlocProvider.value(
-                                                        value: context
                                                             .read<OrderBloc>(),
                                                       ),
                                                       BlocProvider.value(
@@ -310,8 +305,10 @@ class PaymentBottomSheet extends StatelessWidget {
                                                             CurrentUserBloc>(),
                                                       ),
                                                     ],
-                                                    child:
-                                                        const CashbackBottomSheet(),
+                                                    child: CashbackBottomSheet(
+                                                      subfinalValue:
+                                                          subfinalValue,
+                                                    ),
                                                   ));
                                         },
                                       ),

@@ -16,6 +16,7 @@ class QRScannerBloc extends Bloc<QRScannerEvent, QRScannerState> {
       QRScannerDataScanned event, Emitter<QRScannerState> emit) async {
     try {
       // emit(const QRScannerSuccessScan());
+      // emit(const QRScannerInitial()); //Reset Bloc
     } catch (e) {
       emit(const QRScannerError("Произошла непредвиденная ошибка"));
     }

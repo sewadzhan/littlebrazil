@@ -1,13 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
+import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
+import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
+import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
+import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
+import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/cashback_bottom_sheet.dart';
+import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
-import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/data/models/order.dart';
 
-class OrderDetailsScreen extends StatelessWidget {
-  const OrderDetailsScreen({super.key, required this.order});
+class SuccessQRScannedScreen extends StatelessWidget {
+  const SuccessQRScannedScreen({super.key, required this.order});
 
   final Order order;
 
@@ -33,32 +39,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Скидка",
-                        style: Constants.textTheme.headlineSmall,
-                      ),
-                      RichText(
-                        text: TextSpan(
-                            text: "${order.discount} ",
-                            style: Constants.textTheme.headlineSmall,
-                            children: [
-                              TextSpan(
-                                  text: "₸",
-                                  style: Constants.tengeStyle.copyWith(
-                                      fontSize: Constants
-                                          .textTheme.bodyLarge!.fontSize)),
-                            ]),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding:
-                      EdgeInsets.only(bottom: Constants.defaultPadding * 0.75),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Доставка",
+                        "Обслуживание",
                         style: Constants.textTheme.headlineSmall,
                       ),
                       RichText(
@@ -104,7 +85,42 @@ class OrderDetailsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                getCashbackBar(order)
+                CustomElevatedButton(
+                  text: "ВЫБРАТЬ СПОСОБ ОПЛАТЫ",
+                  function: () {
+                    showModalBottomSheet(
+                        context: context,
+                        backgroundColor: Constants.backgroundColor,
+                        elevation: 0,
+                        isScrollControlled: true,
+                        shape: const RoundedRectangleBorder(
+                          borderRadius:
+                              BorderRadius.vertical(top: Radius.circular(12)),
+                        ),
+                        builder: (context1) => MultiBlocProvider(
+                              providers: [
+                                BlocProvider.value(
+                                  value: context.read<CheckoutBloc>(),
+                                ),
+                                BlocProvider.value(
+                                  value: context.read<CashbackBloc>(),
+                                ),
+                                BlocProvider.value(
+                                  value: context.read<OrderBloc>(),
+                                ),
+                                BlocProvider.value(
+                                  value: context.read<CurrentUserBloc>(),
+                                ),
+                                BlocProvider.value(
+                                  value: context.read<ContactsCubit>(),
+                                ),
+                              ],
+                              child: CashbackBottomSheet(
+                                subfinalValue: order.total,
+                              ),
+                            ));
+                  },
+                )
               ],
             )),
       ),
@@ -129,19 +145,6 @@ class OrderDetailsScreen extends StatelessWidget {
                           children: [
                             Row(
                               children: [
-                                // Container(
-                                //   width: 67,
-                                //   height: 40,
-                                //   decoration: const BoxDecoration(
-                                //       borderRadius:
-                                //           BorderRadius.all(Radius.circular(4)),
-                                //       image: DecorationImage(
-                                //           image: NetworkImage(
-                                //               'https://pikapika.kz/wp-content/uploads/2021/08/%D0%A7%D1%83%D0%BA%D0%B0-%D1%80%D0%BE%D0%BB%D0%BB.jpg'),
-                                //           fit: BoxFit.cover)),
-                                // ),
-                                // const SizedBox(
-                                //     width: Constants.defaultPadding * 0.5),
                                 Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
                                   children: [
@@ -245,17 +248,6 @@ class OrderDetailsScreen extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Способ получения",
-                    style: Constants.textTheme.bodyLarge!.copyWith(
-                        color: Constants.primaryColor,
-                        fontWeight: FontWeight.w500))),
-            Padding(
-                padding: EdgeInsets.only(bottom: Constants.defaultPadding),
-                child: Text(Config.orderTypeToString(order.orderType),
-                    style: Constants.textTheme.bodyMedium)),
-            Padding(
-                padding:
-                    EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
                 child: Text("Адрес заказа",
                     style: Constants.textTheme.bodyLarge!.copyWith(
                         color: Constants.primaryColor,
@@ -264,75 +256,9 @@ class OrderDetailsScreen extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                 child: Text(order.fullAddress,
                     style: Constants.textTheme.bodyMedium)),
-            Padding(
-                padding:
-                    EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Способ оплаты",
-                    style: Constants.textTheme.bodyLarge!.copyWith(
-                        color: Constants.primaryColor,
-                        fontWeight: FontWeight.w500))),
-            Padding(
-                padding: EdgeInsets.only(bottom: Constants.defaultPadding),
-                child: Text(
-                    Config.paymentMethodToString(
-                        paymentMethod: order.paymentMethod),
-                    style: Constants.textTheme.bodyMedium)),
-            Padding(
-                padding:
-                    EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Комментарии",
-                    style: Constants.textTheme.bodyLarge!.copyWith(
-                        color: Constants.primaryColor,
-                        fontWeight: FontWeight.w500))),
-            Padding(
-                padding: EdgeInsets.only(bottom: Constants.defaultPadding),
-                child: Text(
-                    order.comments.trim().isEmpty
-                        ? "Комментариев нет"
-                        : order.comments,
-                    style: Constants.textTheme.bodyMedium)),
           ],
         ),
       ),
     );
-  }
-
-  getCashbackBar(Order order) {
-    if (order.cashbackUsed != 0) {
-      return Container(
-        padding: EdgeInsets.symmetric(
-            horizontal: Constants.defaultPadding * 0.75,
-            vertical: Constants.defaultPadding * 0.6),
-        decoration: BoxDecoration(
-            color: order.cashbackUsed > 0
-                ? Constants.lightGreenColor
-                : Constants.lightPurpleColor,
-            borderRadius: const BorderRadius.all(Radius.circular(6))),
-        child: Row(
-          children: [
-            Container(
-              width: 30,
-              margin: EdgeInsets.only(right: Constants.defaultPadding),
-              child: SvgPicture.asset('assets/icons/shooting-star.svg',
-                  colorFilter: ColorFilter.mode(
-                      order.cashbackUsed > 0
-                          ? Constants.primaryColor
-                          : Constants.purpleColor,
-                      BlendMode.srcIn)),
-            ),
-            Text(
-              order.cashbackUsed > 0
-                  ? "Вы накопили ${order.cashbackUsed} баллов"
-                  : "Вы применили ${order.cashbackUsed * -1} баллов",
-              style: Constants.textTheme.headlineSmall!.copyWith(
-                  color: order.cashbackUsed > 0
-                      ? Constants.primaryColor
-                      : Constants.purpleColor),
-            )
-          ],
-        ),
-      );
-    }
-    return const SizedBox.shrink();
   }
 }

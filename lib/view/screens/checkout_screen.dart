@@ -182,9 +182,17 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                               text: "ОФОРМИТЬ ЗАКАЗ",
                               isLoading: state is OrderLoading,
                               function: () {
-                                context.read<CheckoutBloc>().add(
-                                    CheckoutCommentsChanged(
-                                        comments: commentsController.text));
+                                CheckoutBloc checkoutBloc =
+                                    context.read<CheckoutBloc>();
+                                checkoutBloc.add(CheckoutCommentsChanged(
+                                    comments: commentsController.text));
+                                CartLoaded cartState = context
+                                    .read<CartBloc>()
+                                    .state as CartLoaded;
+                                int subfinalValue = cartState.cart.subtotal -
+                                    cartState.cart.discount +
+                                    checkoutBloc.state.deliveryCost;
+
                                 showModalBottomSheet(
                                     context: context,
                                     backgroundColor: Constants.backgroundColor,
@@ -219,7 +227,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                                   .read<CurrentUserBloc>(),
                                             ),
                                           ],
-                                          child: const CashbackBottomSheet(),
+                                          child: CashbackBottomSheet(
+                                            subfinalValue: subfinalValue,
+                                          ),
                                         ));
                               });
                         },

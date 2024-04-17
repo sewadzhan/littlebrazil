@@ -51,6 +51,7 @@ import 'package:littlebrazil/view/screens/qr_scanner.dart';
 import 'package:littlebrazil/view/screens/search_screen.dart';
 import 'package:littlebrazil/view/screens/story_screen.dart';
 import 'package:littlebrazil/view/screens/success_order_screen.dart';
+import 'package:littlebrazil/view/screens/success_qr_scanned_screen.dart.dart';
 import 'package:littlebrazil/view/screens/suggest_address_screen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -142,8 +143,13 @@ class AppRouter {
               providers: [
                 BlocProvider.value(value: orderBloc),
                 BlocProvider.value(value: cashbackBloc),
+                BlocProvider.value(value: contactsCubit),
+                BlocProvider.value(value: checkoutBloc),
+                BlocProvider.value(value: currentUserBloc),
               ],
-              child: const QRScannerScreen(),
+              child: SuccessQRScannedScreen(
+                order: settings.arguments as order.Order,
+              ),
             ));
       case "/search":
         return PageTransition(
