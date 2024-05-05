@@ -158,7 +158,7 @@ class ProfileScreen extends StatelessWidget {
                       ProfileListTile(
                           title: appLocalization.bookTable, routeName: ''),
                       ProfileListTile(
-                          title: appLocalization.faq, routeName: ''),
+                          title: appLocalization.faq, routeName: '/faq'),
                       Column(
                         children: [
                           ListTile(

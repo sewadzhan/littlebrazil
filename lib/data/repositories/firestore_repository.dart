@@ -3,6 +3,7 @@ import 'package:littlebrazil/data/models/address.dart';
 import 'package:littlebrazil/data/models/cashback_data.dart';
 import 'package:littlebrazil/data/models/contacts.dart';
 import 'package:littlebrazil/data/models/delivery_zone.dart';
+import 'package:littlebrazil/data/models/faq_model.dart';
 import 'package:littlebrazil/data/models/order.dart';
 import 'package:littlebrazil/data/models/promocode.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
@@ -151,5 +152,17 @@ class FirestoreRepository {
     var data = aboutRestaurantSnapshot.data();
 
     return AboutRestaurantModel.fromMap(data!);
+  }
+
+  //Get FAQs
+  Future<List<FAQModel>> getFAQs() async {
+    var ordersDocs = await firestoreProvider.getFAQs();
+
+    var faqs = ordersDocs
+        .map((snapshot) => FAQModel.fromMap(snapshot.data()))
+        .toList();
+    faqs.sort((a, b) => a.order.compareTo(b.order));
+
+    return faqs;
   }
 }

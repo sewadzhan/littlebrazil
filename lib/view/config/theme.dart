@@ -114,6 +114,7 @@ class CustomTheme {
       primaryColor: Constants.primaryColor,
       splashColor: Colors.transparent,
       highlightColor: Colors.transparent,
+      unselectedWidgetColor: Constants.middleGrayColor,
       colorScheme: ColorScheme.fromSwatch().copyWith(
         primary: Constants.primaryColor,
         secondary: Constants.secondPrimaryColor,

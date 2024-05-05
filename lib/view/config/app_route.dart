@@ -16,6 +16,7 @@ import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/edit_user/edit_user_bloc.dart';
+import 'package:littlebrazil/logic/blocs/faq/faq_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
 import 'package:littlebrazil/logic/blocs/network/network_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
@@ -41,6 +42,7 @@ import 'package:littlebrazil/view/screens/add_address_screen.dart';
 import 'package:littlebrazil/view/screens/auth_screen.dart';
 import 'package:littlebrazil/view/screens/cart_screen.dart';
 import 'package:littlebrazil/view/screens/checkout_screen.dart';
+import 'package:littlebrazil/view/screens/faq_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
 import 'package:littlebrazil/view/screens/my_addresses_screen.dart';
 import 'package:littlebrazil/view/screens/my_profile_screen.dart';
@@ -302,6 +304,14 @@ class AppRouter {
             child: StoryScreen(
                 storyScreenArgument:
                     settings.arguments as StoryScreenArgument));
+      case "/faq":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 250),
+            child: BlocProvider(
+              create: (context) => FAQBloc(firestoreRepository),
+              child: const FAQScreen(),
+            ));
       default:
         return _errorRoute();
     }
