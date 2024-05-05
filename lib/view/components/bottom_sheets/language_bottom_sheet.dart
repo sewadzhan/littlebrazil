@@ -1,10 +1,27 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
 //Language changing bottom sheet
-class LanguageBottomSheet extends StatelessWidget {
-  const LanguageBottomSheet({super.key});
+class LanguageBottomSheet extends StatefulWidget {
+  const LanguageBottomSheet({super.key, required this.initialLocale});
+
+  final Locale initialLocale;
+
+  @override
+  State<LanguageBottomSheet> createState() => _LanguageBottomSheetState();
+}
+
+class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
+  late Locale selectedLocale;
+
+  @override
+  void initState() {
+    selectedLocale = widget.initialLocale;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,10 +52,16 @@ class LanguageBottomSheet extends StatelessWidget {
                         RadioListTile(
                           dense: true,
                           contentPadding: EdgeInsets.zero,
-                          value: false,
-                          groupValue: false,
+                          value: const Locale('kz'),
+                          groupValue: selectedLocale,
                           activeColor: Constants.secondPrimaryColor,
-                          onChanged: (value) {},
+                          onChanged: (Locale? value) {
+                            if (value != null) {
+                              setState(() {
+                                selectedLocale = value;
+                              });
+                            }
+                          },
                           title: Text(
                             "Қазақша",
                             style: Constants.textTheme.headlineSmall,
@@ -55,10 +78,16 @@ class LanguageBottomSheet extends StatelessWidget {
                         RadioListTile(
                           dense: true,
                           contentPadding: EdgeInsets.zero,
-                          value: false,
-                          groupValue: false,
+                          value: const Locale('ru'),
+                          groupValue: selectedLocale,
                           activeColor: Constants.secondPrimaryColor,
-                          onChanged: (value) {},
+                          onChanged: (Locale? value) {
+                            if (value != null) {
+                              setState(() {
+                                selectedLocale = value;
+                              });
+                            }
+                          },
                           title: Text(
                             "Русский",
                             style: Constants.textTheme.headlineSmall,
@@ -75,10 +104,16 @@ class LanguageBottomSheet extends StatelessWidget {
                         RadioListTile(
                           dense: true,
                           contentPadding: EdgeInsets.zero,
-                          value: false,
-                          groupValue: false,
+                          value: const Locale('en'),
+                          groupValue: selectedLocale,
                           activeColor: Constants.secondPrimaryColor,
-                          onChanged: (value) {},
+                          onChanged: (Locale? value) {
+                            if (value != null) {
+                              setState(() {
+                                selectedLocale = value;
+                              });
+                            }
+                          },
                           title: Text(
                             "English",
                             style: Constants.textTheme.headlineSmall,
@@ -93,7 +128,16 @@ class LanguageBottomSheet extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(top: Constants.defaultPadding),
                       child: CustomElevatedButton(
-                          text: "СОХРАНИТЬ", function: () {}),
+                          text: "СОХРАНИТЬ",
+                          function: () {
+                            context
+                                .read<LocalizationCubit>()
+                                .setLocale(selectedLocale);
+                            Navigator.of(context).pop();
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                Constants.successSnackBar(
+                                    context, "Настройки языка сохранены"));
+                          }),
                     )
                   ],
                 ))),

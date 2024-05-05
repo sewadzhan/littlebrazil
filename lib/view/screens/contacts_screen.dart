@@ -7,6 +7,7 @@ import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_widget.dart
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ContactsScreen extends StatelessWidget {
   const ContactsScreen({super.key});
@@ -21,7 +22,7 @@ class ContactsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return SliverBody(
-        title: "Контакты",
+        title: AppLocalizations.of(context)!.contacts,
         showBackButton: false,
         child: Padding(
             padding: EdgeInsets.only(

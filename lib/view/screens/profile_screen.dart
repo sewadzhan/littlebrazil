@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/language_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/loyal_system_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/list_tiles/profile_list_tile.dart';
@@ -173,11 +174,16 @@ class ProfileScreen extends StatelessWidget {
                                       BlendMode.srcIn)),
                             ),
                             onTap: () async {
+                              final Locale currentLocale = context
+                                  .read<LocalizationCubit>()
+                                  .state
+                                  .locale;
                               await showModalBottomSheet(
                                   isScrollControlled: true,
                                   context: context,
-                                  builder: (context1) =>
-                                      const LanguageBottomSheet());
+                                  builder: (context1) => LanguageBottomSheet(
+                                        initialLocale: currentLocale,
+                                      ));
                             },
                           ),
                           const Divider(

@@ -1,9 +1,12 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/config/app_route.dart';
 import 'package:littlebrazil/view/config/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -28,12 +31,22 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Little Brazil',
-      debugShowCheckedModeBanner: false,
-      theme: CustomTheme.theme,
-      onGenerateRoute: AppRouter().onGenerateRoute,
-      initialRoute: '/',
+    return BlocProvider(
+      create: (context) => LocalizationCubit(),
+      child: BlocBuilder<LocalizationCubit, LocalizationState>(
+        builder: (context, localizationState) {
+          return MaterialApp(
+            title: 'Little Brazil',
+            debugShowCheckedModeBanner: false,
+            theme: CustomTheme.theme,
+            onGenerateRoute: AppRouter().onGenerateRoute,
+            locale: localizationState.locale,
+            localizationsDelegates: AppLocalizations.localizationsDelegates,
+            supportedLocales: AppLocalizations.supportedLocales,
+            initialRoute: '/',
+          );
+        },
+      ),
     );
   }
 }

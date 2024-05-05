@@ -78,7 +78,7 @@ class SliverBody extends StatelessWidget {
             backgroundColor: Constants.backgroundColor,
             expandedHeight: showBackButton
                 ? Constants.defaultPadding * 8
-                : Constants.defaultPadding * 5,
+                : Constants.defaultPadding * 6.5,
             scrolledUnderElevation: 0,
             forceElevated: true,
             floating: false,
