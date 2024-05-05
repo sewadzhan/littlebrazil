@@ -52,7 +52,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                         RadioListTile(
                           dense: true,
                           contentPadding: EdgeInsets.zero,
-                          value: const Locale('kz'),
+                          value: const Locale('kk'),
                           groupValue: selectedLocale,
                           activeColor: Constants.secondPrimaryColor,
                           onChanged: (Locale? value) {

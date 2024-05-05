@@ -8,12 +8,14 @@ import 'package:littlebrazil/view/components/bottom_sheets/language_bottom_sheet
 import 'package:littlebrazil/view/components/bottom_sheets/loyal_system_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/list_tiles/profile_list_tile.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
@@ -85,7 +87,8 @@ class ProfileScreen extends StatelessWidget {
                               if (state is CurrentUserRetrieveSuccessful) {
                                 return RichText(
                                     text: TextSpan(
-                                        text: "Ваш баланс\n",
+                                        text:
+                                            "${appLocalization.yourBalance}\n",
                                         style: Constants.textTheme.bodyMedium!
                                             .copyWith(height: 1.2),
                                         children: [
@@ -122,7 +125,7 @@ class ProfileScreen extends StatelessWidget {
                                               ));
                                     },
                                     child: Text(
-                                      "Подробнее",
+                                      appLocalization.moreDetailed,
                                       style: Constants.textTheme.titleLarge!
                                           .copyWith(
                                               fontSize: 12,
@@ -146,22 +149,23 @@ class ProfileScreen extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      const ProfileListTile(
-                          title: "История заказов",
+                      ProfileListTile(
+                          title: appLocalization.orderHistory,
                           routeName: '/ordersHistory'),
-                      const ProfileListTile(
-                          title: "Мои адреса", routeName: '/myAddresses'),
-                      const ProfileListTile(
-                          title: "Забронировать стол", routeName: ''),
-                      const ProfileListTile(
-                          title: "Часто задаваемые вопросы", routeName: ''),
+                      ProfileListTile(
+                          title: appLocalization.myAddresses,
+                          routeName: '/myAddresses'),
+                      ProfileListTile(
+                          title: appLocalization.bookTable, routeName: ''),
+                      ProfileListTile(
+                          title: appLocalization.faq, routeName: ''),
                       Column(
                         children: [
                           ListTile(
                             dense: true,
                             contentPadding: EdgeInsets.zero,
                             title: Text(
-                              "Сменить язык",
+                              appLocalization.changeLanguage,
                               style: Constants.textTheme.headlineSmall,
                             ),
                             trailing: Padding(
@@ -195,10 +199,10 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: Constants.defaultPadding,
                       ),
-                      const ProfileListTile(
-                          title: "О разработчике", routeName: ''),
-                      const ProfileListTile(
-                        title: "Выйти из аккаунта",
+                      ProfileListTile(
+                          title: appLocalization.aboutDeveloper, routeName: ''),
+                      ProfileListTile(
+                        title: appLocalization.logout,
                         routeName: '',
                         pushWithRemove: true,
                       ),
@@ -235,7 +239,7 @@ class ProfileScreen extends StatelessWidget {
                                   ),
                                 ),
                                 Text(
-                                  "Нужна помощь?",
+                                  appLocalization.needHelp,
                                   style: Constants
                                       .headlineTextTheme.headlineLarge!
                                       .copyWith(

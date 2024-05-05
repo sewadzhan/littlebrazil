@@ -1,6 +1,6 @@
 {
-    "@@locale": "ru",
-    "contacts": "Контакты",
+    "@@locale": "kk",
+    "contacts": "TEST",
     "yourBalance": "Ваш баланс",
     "moreDetailed": "Подробнее",
     "orderHistory": "История заказов",
@@ -10,5 +10,5 @@
     "changeLanguage": "Сменить язык",
     "aboutDeveloper": "О разработчике",
     "logout": "Выйти из аккаунта",
-    "needHelp": "НУЖНА ПОМОЩЬ?"
+    "needHelp": "Нужна помощь?"
 }

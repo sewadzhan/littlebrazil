@@ -1,3 +1,14 @@
 {
-    "contacts": "Contacts"
+    "@@locale": "en",
+    "contacts": "Contacts",
+    "yourBalance": "Your balance",
+    "moreDetailed": "More details",
+    "orderHistory": "Order history",
+    "myAddresses": "My addresses",
+    "bookTable": "Book a table",
+    "faq": "FAQ",
+    "changeLanguage": "Change language",
+    "aboutDeveloper": "About developer",
+    "logout": "Logout",
+    "needHelp": "NEED HELP?"
 }
