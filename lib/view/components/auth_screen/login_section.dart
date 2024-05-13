@@ -104,7 +104,7 @@ class _LoginSectionState extends State<LoginSection> {
                 } else if (state is PhoneAuthNumberVerificationSuccess) {
                   context.read<OTPSectionCubit>().startResendTimer();
                   await widget.pageController.nextPage(
-                      duration: const Duration(milliseconds: 300),
+                      duration: const Duration(milliseconds: 400),
                       curve: Curves.ease);
                 }
               },

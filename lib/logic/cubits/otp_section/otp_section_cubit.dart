@@ -24,20 +24,24 @@ class OTPSectionCubit extends Cubit<OTPSectionState> {
   //Start resend timer in OTP Section
   void startResendTimer() {
     if (state is OTPSentState) {
-      int start = 50;
+      int start = 60;
       OTPSentState currentState = state as OTPSentState;
       const Duration onsec = Duration(seconds: 1);
+      emit(ResendSMSTimerStarted(
+          seconds: start,
+          name: currentState.name,
+          phoneNumber: currentState.phoneNumber));
       timer = Timer.periodic(onsec, (timer) {
-        if (start == 0) {
-          timer.cancel();
-          emit(OTPSentState(
-              name: currentState.name, phoneNumber: currentState.phoneNumber));
-        } else {
+        if (start != 1) {
           start--;
           emit(ResendSMSTimerStarted(
               seconds: start,
               name: currentState.name,
               phoneNumber: currentState.phoneNumber));
+        } else {
+          timer.cancel();
+          emit(OTPSentState(
+              name: currentState.name, phoneNumber: currentState.phoneNumber));
         }
       });
     }
