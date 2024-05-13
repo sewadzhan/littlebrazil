@@ -11,6 +11,7 @@ import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/data/models/product.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductDetailsScreen extends StatefulWidget {
   const ProductDetailsScreen({super.key, required this.product});
@@ -45,6 +46,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
+    final appLocalization = AppLocalizations.of(context)!;
 
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
@@ -279,115 +281,119 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           ],
         ),
       ),
-      bottomNavigationBar: Container(
-        padding: EdgeInsets.all(Constants.defaultPadding),
-        decoration: const BoxDecoration(
-            color: Constants.backgroundColor,
-            border: Border(
-                top: BorderSide(color: Constants.lightGrayColor, width: 1))),
-        child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
-          Container(
-            margin: EdgeInsets.only(right: Constants.defaultPadding * 0.5),
-            child: Container(
-              padding: EdgeInsets.zero,
-              decoration: BoxDecoration(
-                  border:
-                      Border.all(color: Constants.secondPrimaryColor, width: 2),
-                  borderRadius: const BorderRadius.all(Radius.circular(6))),
-              child: Row(
-                children: [
-                  SizedBox(
-                    width: 45,
-                    child: TextButton(
-                        style: TextButton.styleFrom(
-                          overlayColor: Constants.secondPrimaryColor,
-                          padding: EdgeInsets.symmetric(
-                              vertical: Constants.defaultPadding),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(6),
-                                bottomLeft: Radius.circular(6)),
+      bottomNavigationBar: SafeArea(
+        child: Container(
+          padding: EdgeInsets.all(Constants.defaultPadding),
+          decoration: const BoxDecoration(
+              color: Constants.backgroundColor,
+              border: Border(
+                  top: BorderSide(color: Constants.lightGrayColor, width: 1))),
+          child:
+              Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+            Container(
+              margin: EdgeInsets.only(right: Constants.defaultPadding * 0.5),
+              child: Container(
+                padding: EdgeInsets.zero,
+                decoration: BoxDecoration(
+                    border: Border.all(
+                        color: Constants.secondPrimaryColor, width: 2),
+                    borderRadius: const BorderRadius.all(Radius.circular(6))),
+                child: Row(
+                  children: [
+                    SizedBox(
+                      width: 45,
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                            overlayColor: Constants.secondPrimaryColor,
+                            padding: EdgeInsets.symmetric(
+                                vertical: Constants.defaultPadding),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topLeft: Radius.circular(6),
+                                  bottomLeft: Radius.circular(6)),
+                            ),
                           ),
-                        ),
-                        onPressed: () {
-                          //Small vibration for feedback
-                          HapticFeedback.lightImpact();
+                          onPressed: () {
+                            //Small vibration for feedback
+                            HapticFeedback.lightImpact();
 
-                          setState(() {
-                            if (count > 1) {
-                              count = count - 1;
-                            }
-                          });
-                        },
-                        child: SvgPicture.asset('assets/icons/minus.svg',
-                            width: 15,
-                            colorFilter: const ColorFilter.mode(
-                              Constants.secondPrimaryColor,
-                              BlendMode.srcIn,
-                            ))),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 3),
-                    child: SizedBox(
-                      width: 20,
-                      child: Text(count.toString(),
-                          textAlign: TextAlign.center,
-                          style: Constants.headlineTextTheme.headlineMedium!
-                              .copyWith(
-                            fontWeight: FontWeight.bold,
-                            fontSize: 20,
-                            color: Constants.secondPrimaryColor,
-                          )),
-                    ),
-                  ),
-                  SizedBox(
-                    width: 45,
-                    child: TextButton(
-                        style: TextButton.styleFrom(
-                          overlayColor: Constants.secondPrimaryColor,
-                          padding: EdgeInsets.symmetric(
-                              vertical: Constants.defaultPadding),
-                          shape: const RoundedRectangleBorder(
-                            borderRadius: BorderRadius.only(
-                                topRight: Radius.circular(6),
-                                bottomRight: Radius.circular(6)),
-                          ),
-                        ),
-                        onPressed: () {
-                          //Small vibration for feedback
-                          HapticFeedback.lightImpact();
-
-                          setState(() {
-                            if (count < 100) {
-                              count = count + 1;
-                            }
-                          });
-                        },
-                        child: SvgPicture.asset('assets/icons/plus.svg',
-                            width: 15,
-                            colorFilter: const ColorFilter.mode(
+                            setState(() {
+                              if (count > 1) {
+                                count = count - 1;
+                              }
+                            });
+                          },
+                          child: SvgPicture.asset('assets/icons/minus.svg',
+                              width: 15,
+                              colorFilter: const ColorFilter.mode(
                                 Constants.secondPrimaryColor,
-                                BlendMode.srcIn))),
-                  )
-                ],
+                                BlendMode.srcIn,
+                              ))),
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 3),
+                      child: SizedBox(
+                        width: 20,
+                        child: Text(count.toString(),
+                            textAlign: TextAlign.center,
+                            style: Constants.headlineTextTheme.headlineMedium!
+                                .copyWith(
+                              fontWeight: FontWeight.bold,
+                              fontSize: 20,
+                              color: Constants.secondPrimaryColor,
+                            )),
+                      ),
+                    ),
+                    SizedBox(
+                      width: 45,
+                      child: TextButton(
+                          style: TextButton.styleFrom(
+                            overlayColor: Constants.secondPrimaryColor,
+                            padding: EdgeInsets.symmetric(
+                                vertical: Constants.defaultPadding),
+                            shape: const RoundedRectangleBorder(
+                              borderRadius: BorderRadius.only(
+                                  topRight: Radius.circular(6),
+                                  bottomRight: Radius.circular(6)),
+                            ),
+                          ),
+                          onPressed: () {
+                            //Small vibration for feedback
+                            HapticFeedback.lightImpact();
+
+                            setState(() {
+                              if (count < 100) {
+                                count = count + 1;
+                              }
+                            });
+                          },
+                          child: SvgPicture.asset('assets/icons/plus.svg',
+                              width: 15,
+                              colorFilter: const ColorFilter.mode(
+                                  Constants.secondPrimaryColor,
+                                  BlendMode.srcIn))),
+                    )
+                  ],
+                ),
               ),
             ),
-          ),
-          Expanded(
-              child: CustomElevatedButton(
-                  text: "В КОРЗИНУ • ${widget.product.price * count}",
-                  withTengeSign: true,
-                  function: () {
-                    context.read<CartBloc>().add(CartItemAdded(CartItemModel(
-                        product: widget.product,
-                        count: count,
-                        orderModifiers: modifierControllers)));
-                    Navigator.pop(context);
-                    ScaffoldMessenger.of(context).showSnackBar(
-                        Constants.successSnackBar(
-                            context, "Товар добавлен в корзину"));
-                  })),
-        ]),
+            Expanded(
+                child: CustomElevatedButton(
+                    text:
+                        "${appLocalization.addToCart} • ${widget.product.price * count}",
+                    withTengeSign: true,
+                    function: () {
+                      context.read<CartBloc>().add(CartItemAdded(CartItemModel(
+                          product: widget.product,
+                          count: count,
+                          orderModifiers: modifierControllers)));
+                      Navigator.pop(context);
+                      ScaffoldMessenger.of(context).showSnackBar(
+                          Constants.successSnackBar(
+                              context, appLocalization.itemAddedToCart));
+                    })),
+          ]),
+        ),
       ),
     );
   }

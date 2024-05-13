@@ -12,6 +12,7 @@ import 'package:littlebrazil/view/components/bottom_sheets/payment_bottom_sheet.
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //Cashback bottom sheet in Checkout Screen
 class CashbackBottomSheet extends StatelessWidget {
@@ -21,6 +22,7 @@ class CashbackBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return BlocBuilder<CashbackBloc, CashbackState>(
       builder: (context, cashbackState) {
         return BlocBuilder<CheckoutBloc, Checkout>(
@@ -49,7 +51,7 @@ class CashbackBottomSheet extends StatelessWidget {
                               Padding(
                                 padding: EdgeInsets.only(
                                     bottom: Constants.defaultPadding * 0.5),
-                                child: Text("Оплатите заказ",
+                                child: Text(appLocalization.payForTheOrder,
                                     style: Constants
                                         .headlineTextTheme.displayMedium!
                                         .copyWith(
@@ -161,7 +163,8 @@ class CashbackBottomSheet extends StatelessWidget {
                                             inactiveTrackColor:
                                                 Constants.lightGrayColor,
                                             title: Text(
-                                              "Применить накопленные баллы",
+                                              appLocalization
+                                                  .applyAccumulatedPoints,
                                               style: Constants
                                                   .textTheme.bodyLarge!
                                                   .copyWith(
@@ -169,7 +172,7 @@ class CashbackBottomSheet extends StatelessWidget {
                                                           FontWeight.w500),
                                             ),
                                             subtitle: Text(
-                                              "Вы накопили ${currentUserState.user.cashback} Б",
+                                              "${appLocalization.youHaveAccumulated} ${currentUserState.user.cashback} ${appLocalization.b}",
                                               style: Constants
                                                   .textTheme.bodyMedium!
                                                   .copyWith(
@@ -247,7 +250,9 @@ class CashbackBottomSheet extends StatelessWidget {
                                                             BlendMode.srcIn)),
                                               ),
                                               Text(
-                                                "Вы накопите $cashbackValue баллов",
+                                                appLocalization
+                                                    .youWillAccumulatePoints(
+                                                        cashbackValue),
                                                 style: Constants
                                                     .textTheme.headlineSmall!
                                                     .copyWith(
@@ -284,7 +289,7 @@ class CashbackBottomSheet extends StatelessWidget {
                                         builder: (context, orderState) {
                                           return CustomElevatedButton(
                                               text:
-                                                  "ОПЛАТИТЬ • ${cashbackState.cashbackData.cashbackAction == CashbackAction.deposit ? subfinalValue : subfinalValue - currentUserState.user.cashback}",
+                                                  "${appLocalization.pay} • ${cashbackState.cashbackData.cashbackAction == CashbackAction.deposit ? subfinalValue : subfinalValue - currentUserState.user.cashback}",
                                               isLoading:
                                                   orderState is OrderLoading,
                                               withTengeSign: true,

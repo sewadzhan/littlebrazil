@@ -21,6 +21,7 @@ class ContactsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return SliverBody(
         title: AppLocalizations.of(context)!.contacts,
         showBackButton: false,
@@ -68,7 +69,9 @@ class ContactsScreen extends StatelessWidget {
                     builder: (context, state) {
                       if (state is ContactsLoadedState) {
                         return Text(
-                            "Пн-Вс с ${state.contactsModel.openHour} до ${state.contactsModel.closeHour}",
+                            appLocalization.workSchedule(
+                                state.contactsModel.openHour,
+                                state.contactsModel.closeHour),
                             style: Constants.textTheme.headlineSmall!.copyWith(
                                 color: Constants.darkGrayColor,
                                 fontWeight: FontWeight.normal));
@@ -101,7 +104,7 @@ class ContactsScreen extends StatelessWidget {
                               ),
                               const SizedBox(width: 10),
                               Expanded(
-                                  child: Text("Наш сайт",
+                                  child: Text(appLocalization.ourWebsite,
                                       style: Constants.textTheme.headlineMedium!
                                           .copyWith(
                                         color: Constants.secondPrimaryColor,
@@ -121,7 +124,7 @@ class ContactsScreen extends StatelessWidget {
                 Padding(
                   padding:
                       EdgeInsets.only(bottom: Constants.defaultPadding * 0.75),
-                  child: Text("Адреса",
+                  child: Text(appLocalization.addresses,
                       style: Constants.headlineTextTheme.displaySmall!.copyWith(
                           fontSize: 24,
                           color: Constants.primaryColor,
@@ -161,7 +164,7 @@ class ContactsScreen extends StatelessWidget {
                   padding: EdgeInsets.only(
                       top: Constants.defaultPadding * 1.25,
                       bottom: Constants.defaultPadding * 0.75),
-                  child: Text("Мы в социальных сетях",
+                  child: Text(appLocalization.weAreInSocials,
                       style: Constants.headlineTextTheme.displaySmall!.copyWith(
                           fontSize: 24,
                           color: Constants.primaryColor,
@@ -277,7 +280,7 @@ class ContactsScreen extends StatelessWidget {
                       top: Constants.defaultPadding * 2,
                       bottom: Constants.defaultPadding),
                   child: CustomOutlinedButton(
-                      text: "О РЕСТОРАНЕ",
+                      text: appLocalization.aboutRestaurant,
                       function: () {
                         Navigator.pushNamed(context, '/aboutRestaurant');
                       }),

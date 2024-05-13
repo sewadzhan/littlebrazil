@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/data/models/address.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddressListTile extends StatelessWidget {
   const AddressListTile({
@@ -15,6 +16,8 @@ class AddressListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
+
     return Column(
       children: [
         ListTile(
@@ -29,7 +32,7 @@ class AddressListTile extends StatelessWidget {
                 color: Constants.darkGrayColor),
           ),
           subtitle: Text(
-            "квартира/офис ${address.apartmentOrOffice}",
+            "${appLocalization.apartmentOffice} ${address.apartmentOrOffice}",
             style: Constants.textTheme.bodyMedium!
                 .copyWith(color: Constants.middleGrayColor),
           ),

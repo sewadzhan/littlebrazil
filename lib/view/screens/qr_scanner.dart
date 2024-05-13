@@ -7,6 +7,7 @@ import 'package:littlebrazil/logic/blocs/qr_scanner/qr_scanner_bloc.dart';
 import 'package:littlebrazil/view/components/custom_outlined_button.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class QRScannerScreen extends StatefulWidget {
   const QRScannerScreen({super.key});
@@ -34,6 +35,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return BlocListener<QRScannerBloc, QRScannerState>(
       listener: (context, state) async {
         if (state is QRScannerError) {
@@ -75,8 +77,9 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       top: BorderSide(
                           color: Constants.lightGrayColor, width: 1))),
               child: CustomOutlinedButton(
-                  text:
-                      isTorchEnabled ? "ВЫКЛЮЧИТЬ ФОНАРИК" : "ВКЛЮЧИТЬ ФОНАРИК",
+                  text: isTorchEnabled
+                      ? appLocalization.turnOffTheFlashlight
+                      : appLocalization.turnOnTheFlashlight,
                   function: () async {
                     try {
                       if (controller != null) {
@@ -89,7 +92,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
                       if (context.mounted) {
                         ScaffoldMessenger.of(context).showSnackBar(
                             Constants.errorSnackBar(context,
-                                "Это устройство не поддерживает фонарик"));
+                                appLocalization.flashlightNotSupported));
                       }
                     }
                   })),
@@ -105,7 +108,7 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                 child: Text(
-                  "Оплата QR-кодом",
+                  appLocalization.qrCodePayment,
                   style: Constants.headlineTextTheme.displayLarge!
                       .copyWith(color: Constants.primaryColor),
                 ),
@@ -113,7 +116,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding * 2),
                 child: Text(
-                  "Наведите камерой на QR-код для дальнейшей оплаты заказа",
+                  appLocalization
+                      .pointYourCameraAtTheQrCodeToContinuePayingForTheOrder,
                   style: Constants.textTheme.bodyLarge,
                 ),
               ),

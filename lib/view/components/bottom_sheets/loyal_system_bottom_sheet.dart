@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //Loyal System info bottom sheet
 class LoyalSystemBottomSheet extends StatelessWidget {
@@ -9,6 +10,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Wrap(
       children: [
         SafeArea(
@@ -25,7 +27,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                     Padding(
                       padding: EdgeInsets.only(
                           bottom: Constants.defaultPadding * 0.5),
-                      child: Text("Система лояльности",
+                      child: Text(appLocalization.loyaltySystem,
                           style: Constants.headlineTextTheme.displayMedium!
                               .copyWith(
                             color: Constants.primaryColor,
@@ -35,7 +37,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                       padding: EdgeInsets.only(
                           bottom: Constants.defaultPadding * 0.25),
                       child: Text(
-                        "Накапливайте баллы и получайте скидки!",
+                        appLocalization.earnPointsGetDiscounts,
                         style: Constants.textTheme.bodyMedium!
                             .copyWith(fontWeight: FontWeight.bold),
                       ),
@@ -44,7 +46,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                       padding: EdgeInsets.only(
                           bottom: Constants.defaultPadding * 0.5),
                       child: Text(
-                        "Как работает:\n• За каждый заказ вы получаете баллы\n• Чем больше сумма заказа, тем больше баллов вы получаете\n• Баллы можно использовать для оплаты будущих заказов",
+                        "${appLocalization.howItWorks}\n${appLocalization.orderPoints}\n${appLocalization.orderAmountPoints}\n${appLocalization.redeemPoints}",
                         style: Constants.textTheme.bodyMedium,
                       ),
                     ),
@@ -52,7 +54,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                       padding: EdgeInsets.only(
                           bottom: Constants.defaultPadding * 0.25),
                       child: Text(
-                        "Как использовать баллы:",
+                        appLocalization.howToUsePoints,
                         style: Constants.textTheme.bodyMedium!
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
@@ -61,7 +63,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                       padding: EdgeInsets.only(
                           bottom: Constants.defaultPadding * 0.5),
                       child: Text(
-                        "• 1 балл = 1 тенге\n• Вы можете использовать баллы для оплаты до 100% стоимости заказа\n• Баллы не сгорают",
+                        "${appLocalization.onePointOneTenge}\n${appLocalization.payWithPoints}\n${appLocalization.pointsDoNotExpire}",
                         style: Constants.textTheme.bodyMedium,
                       ),
                     ),
@@ -69,7 +71,7 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                       padding: EdgeInsets.only(
                           bottom: Constants.defaultPadding * 0.25),
                       child: Text(
-                        "Градация начисления бонусов:",
+                        appLocalization.bonusPointsAccumulation,
                         style: Constants.textTheme.bodyMedium!
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
@@ -82,7 +84,11 @@ class LoyalSystemBottomSheet extends StatelessWidget {
                             children: List.generate(
                                 state.cashbackData.gradations.length,
                                 (index) => Text(
-                                      "• Свыше ${state.cashbackData.gradations[index].bound} тенге: ${state.cashbackData.gradations[index].percent}% от суммы заказа",
+                                      appLocalization.overNTenge(
+                                          state.cashbackData.gradations[index]
+                                              .bound,
+                                          state.cashbackData.gradations[index]
+                                              .percent),
                                       style: Constants.textTheme.bodyMedium,
                                     )),
                           );

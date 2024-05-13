@@ -8,16 +8,18 @@ import 'package:littlebrazil/view/components/list_tiles/address_list_tile.dart';
 import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_list_tile.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyAddressesScreen extends StatelessWidget {
   const MyAddressesScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    Size size = MediaQuery.of(context).size;
-    var phoneNumber = context.read<AuthCubit>().state!.phoneNumber!;
+    final Size size = MediaQuery.of(context).size;
+    final String phoneNumber = context.read<AuthCubit>().state!.phoneNumber!;
+    final appLocalization = AppLocalizations.of(context)!;
     return SliverBody(
-      title: "Мои адреса",
+      title: appLocalization.myAddresses,
       bottomBar: SafeArea(
         child: Container(
             padding: EdgeInsets.all(Constants.defaultPadding),
@@ -27,7 +29,7 @@ class MyAddressesScreen extends StatelessWidget {
                     top:
                         BorderSide(color: Constants.lightGrayColor, width: 1))),
             child: CustomOutlinedButton(
-                text: "ДОБАВИТЬ НОВЫЙ АДРЕС",
+                text: appLocalization.addAddress,
                 function: () {
                   Navigator.pushNamed(context, '/addAddress');
                 })),
@@ -77,7 +79,8 @@ class MyAddressesScreen extends StatelessWidget {
                                 padding: EdgeInsets.only(
                                     bottom: Constants.defaultPadding * 7),
                                 child: Text(
-                                  "Добавьте адрес для оформления\nдоставки Little Brazil",
+                                  appLocalization
+                                      .addAddressForDeliveryLittleBrazil,
                                   style: Constants.textTheme.headlineMedium,
                                   textAlign: TextAlign.center,
                                 ),

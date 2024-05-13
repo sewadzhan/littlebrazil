@@ -5,6 +5,7 @@ import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/data/models/order.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrderDetailsScreen extends StatelessWidget {
   const OrderDetailsScreen({super.key, required this.order});
@@ -13,6 +14,7 @@ class OrderDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return SliverBody(
       title: "№${order.id}",
       bottomBar: SafeArea(
@@ -33,7 +35,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Скидка",
+                        appLocalization.discount,
                         style: Constants.textTheme.headlineSmall,
                       ),
                       RichText(
@@ -58,7 +60,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Доставка",
+                        appLocalization.delivery,
                         style: Constants.textTheme.headlineSmall,
                       ),
                       RichText(
@@ -83,7 +85,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Итого",
+                        appLocalization.total,
                         style: Constants.textTheme.headlineSmall!
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
@@ -104,7 +106,7 @@ class OrderDetailsScreen extends StatelessWidget {
                     ],
                   ),
                 ),
-                getCashbackBar(order)
+                getCashbackBar(order, appLocalization)
               ],
             )),
       ),
@@ -231,7 +233,7 @@ class OrderDetailsScreen extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Дата заказа",
+                child: Text(appLocalization.orderDate,
                     style: Constants.textTheme.bodyLarge!.copyWith(
                         color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
@@ -245,7 +247,7 @@ class OrderDetailsScreen extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Способ получения",
+                child: Text(appLocalization.methodOfReceipt,
                     style: Constants.textTheme.bodyLarge!.copyWith(
                         color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
@@ -256,7 +258,7 @@ class OrderDetailsScreen extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Адрес заказа",
+                child: Text(appLocalization.deliveryAddress,
                     style: Constants.textTheme.bodyLarge!.copyWith(
                         color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
@@ -267,7 +269,7 @@ class OrderDetailsScreen extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Способ оплаты",
+                child: Text(appLocalization.paymentMethod,
                     style: Constants.textTheme.bodyLarge!.copyWith(
                         color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
@@ -280,7 +282,7 @@ class OrderDetailsScreen extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Комментарии",
+                child: Text(appLocalization.comments,
                     style: Constants.textTheme.bodyLarge!.copyWith(
                         color: Constants.darkGrayColor,
                         fontWeight: FontWeight.w500))),
@@ -288,7 +290,7 @@ class OrderDetailsScreen extends StatelessWidget {
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                 child: Text(
                     order.comments.trim().isEmpty
-                        ? "Комментариев нет"
+                        ? appLocalization.noComments
                         : order.comments,
                     style: Constants.textTheme.bodyMedium)),
           ],
@@ -297,7 +299,7 @@ class OrderDetailsScreen extends StatelessWidget {
     );
   }
 
-  getCashbackBar(Order order) {
+  getCashbackBar(Order order, AppLocalizations appLocalizations) {
     if (order.cashbackUsed != 0) {
       return Container(
         padding: EdgeInsets.symmetric(
@@ -322,8 +324,9 @@ class OrderDetailsScreen extends StatelessWidget {
             ),
             Text(
               order.cashbackUsed > 0
-                  ? "Вы накопили ${order.cashbackUsed} баллов"
-                  : "Вы применили ${order.cashbackUsed * -1} баллов",
+                  ? appLocalizations
+                      .youHaveAccumulatedPoints(order.cashbackUsed)
+                  : appLocalizations.youAppliedPoints(order.cashbackUsed * -1),
               style: Constants.textTheme.headlineSmall!.copyWith(
                   color: order.cashbackUsed > 0
                       ? Constants.darkGrayColor

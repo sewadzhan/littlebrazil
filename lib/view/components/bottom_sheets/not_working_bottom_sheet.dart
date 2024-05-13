@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class NotWorkingBottomSheet extends StatelessWidget {
   const NotWorkingBottomSheet({
@@ -14,6 +15,7 @@ class NotWorkingBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Container(
         width: MediaQuery.of(context).size.width,
         height: 250,
@@ -47,7 +49,7 @@ class NotWorkingBottomSheet extends StatelessWidget {
                       bottom: Constants.defaultPadding,
                       top: Constants.defaultPadding * 2.5),
                   child: Text(
-                    "На данный момент\n доставка не работает",
+                    appLocalization.deliveryUnavailable,
                     style: Constants.textTheme.headlineMedium!
                         .copyWith(height: 1.25),
                     textAlign: TextAlign.center,
@@ -57,7 +59,7 @@ class NotWorkingBottomSheet extends StatelessWidget {
                   padding:
                       EdgeInsets.only(bottom: Constants.defaultPadding * 2),
                   child: Text(
-                    "График работы:\nс $openHour до $closeHour",
+                    "${appLocalization.workingHours}\n${appLocalization.hoursAtoB(openHour, closeHour)}",
                     style: Constants.textTheme.bodyLarge,
                     textAlign: TextAlign.center,
                   ),
@@ -67,7 +69,7 @@ class NotWorkingBottomSheet extends StatelessWidget {
                       Navigator.pop(context);
                     },
                     child: Text(
-                      "Понятно",
+                      "OK",
                       style: Constants.textTheme.titleLarge!.copyWith(
                           fontSize: 12, decoration: TextDecoration.underline),
                     ))

@@ -6,17 +6,19 @@ import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/view/components/list_tiles/order_history_list_tile.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OrdersHistoryScreen extends StatelessWidget {
   const OrdersHistoryScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    var size = MediaQuery.of(context).size;
-    var phoneNumber = context.read<AuthCubit>().state!.phoneNumber!;
+    final appLocalization = AppLocalizations.of(context)!;
+    final size = MediaQuery.of(context).size;
+    final phoneNumber = context.read<AuthCubit>().state!.phoneNumber!;
     context.read<OrderHistoryBloc>().add(LoadOrderHistory(phoneNumber));
     return SliverBody(
-      title: "История заказов",
+      title: appLocalization.orderHistory,
       child: MediaQuery.removePadding(
         context: context,
         removeTop: true,
@@ -58,7 +60,7 @@ class OrdersHistoryScreen extends StatelessWidget {
                             right: Constants.defaultPadding,
                             bottom: Constants.defaultPadding * 5),
                         child: Text(
-                          "Похоже, ты еще не пробовал нашу доставку. Пора познакомиться с гастрономическим раем Little Brazil!",
+                          appLocalization.itSeemsYouHavenTTriedOurDeliveryYet,
                           style: Constants.textTheme.headlineMedium,
                           textAlign: TextAlign.center,
                         ),

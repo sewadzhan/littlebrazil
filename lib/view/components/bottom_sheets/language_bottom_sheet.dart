@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //Language changing bottom sheet
 class LanguageBottomSheet extends StatefulWidget {
@@ -25,6 +26,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Wrap(
       children: [
         SafeArea(
@@ -41,7 +43,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                     Padding(
                       padding: EdgeInsets.only(
                           bottom: Constants.defaultPadding * 0.5),
-                      child: Text("Выберите язык",
+                      child: Text(appLocalization.selectLanguage,
                           style: Constants.headlineTextTheme.displayMedium!
                               .copyWith(
                             color: Constants.primaryColor,
@@ -128,7 +130,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                     Padding(
                       padding: EdgeInsets.only(top: Constants.defaultPadding),
                       child: CustomElevatedButton(
-                          text: "СОХРАНИТЬ",
+                          text: appLocalization.save,
                           function: () {
                             context
                                 .read<LocalizationCubit>()
@@ -136,7 +138,7 @@ class _LanguageBottomSheetState extends State<LanguageBottomSheet> {
                             Navigator.of(context).pop();
                             ScaffoldMessenger.of(context).showSnackBar(
                                 Constants.successSnackBar(
-                                    context, "Настройки языка сохранены"));
+                                    context, "Настройки успешно применены"));
                           }),
                     )
                   ],

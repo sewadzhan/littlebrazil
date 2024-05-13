@@ -11,6 +11,7 @@ import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/data/models/order.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuccessQRScannedScreen extends StatelessWidget {
   const SuccessQRScannedScreen({super.key, required this.order});
@@ -19,6 +20,7 @@ class SuccessQRScannedScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return SliverBody(
       title: "№${order.id}",
       bottomBar: SafeArea(
@@ -39,7 +41,7 @@ class SuccessQRScannedScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Обслуживание",
+                        appLocalization.service,
                         style: Constants.textTheme.headlineSmall,
                       ),
                       RichText(
@@ -64,7 +66,7 @@ class SuccessQRScannedScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Итого",
+                        appLocalization.total,
                         style: Constants.textTheme.headlineSmall!
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
@@ -86,7 +88,7 @@ class SuccessQRScannedScreen extends StatelessWidget {
                   ),
                 ),
                 CustomElevatedButton(
-                  text: "ВЫБРАТЬ СПОСОБ ОПЛАТЫ",
+                  text: appLocalization.choosePaymentMethod,
                   function: () {
                     showModalBottomSheet(
                         context: context,
@@ -234,7 +236,7 @@ class SuccessQRScannedScreen extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Дата заказа",
+                child: Text(appLocalization.orderDate,
                     style: Constants.textTheme.bodyLarge!.copyWith(
                         color: Constants.primaryColor,
                         fontWeight: FontWeight.w500))),
@@ -248,7 +250,7 @@ class SuccessQRScannedScreen extends StatelessWidget {
             Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
-                child: Text("Адрес заказа",
+                child: Text(appLocalization.orderAddress,
                     style: Constants.textTheme.bodyLarge!.copyWith(
                         color: Constants.primaryColor,
                         fontWeight: FontWeight.w500))),

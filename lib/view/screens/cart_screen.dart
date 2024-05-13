@@ -10,12 +10,14 @@ import 'package:littlebrazil/view/components/cart_item.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     var promocodeController = TextEditingController();
     Size size = MediaQuery.of(context).size;
 
@@ -40,8 +42,9 @@ class CartScreen extends StatelessWidget {
                   onPressed: () {
                     Constants.showBottomSheetAlert(
                         context: context,
-                        title: "Вы хотите очистить корзину?",
-                        submit: "ОЧИСТИТЬ",
+                        title: appLocalization.doYouWantToClearTheCart,
+                        submit: appLocalization.clear,
+                        cancel: appLocalization.cancel,
                         function: () {
                           context.read<CartBloc>().add(CartCleared());
                           Navigator.of(context).pop();
@@ -54,7 +57,7 @@ class CartScreen extends StatelessWidget {
           },
         ),
       ],
-      title: "Корзина",
+      title: appLocalization.cart,
       bottomBar: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
           if (state is CartLoaded) {
@@ -79,7 +82,7 @@ class CartScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Скидка",
+                                appLocalization.discount,
                                 style: Constants.textTheme.headlineSmall,
                               ),
                               RichText(
@@ -104,7 +107,7 @@ class CartScreen extends StatelessWidget {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                "Подытог",
+                                appLocalization.subtotal,
                                 style: Constants.textTheme.headlineSmall,
                               ),
                               RichText(
@@ -123,7 +126,7 @@ class CartScreen extends StatelessWidget {
                           ),
                         ),
                         CustomElevatedButton(
-                            text: "ОФОРМИТЬ ЗАКАЗ",
+                            text: appLocalization.placeAnOrder,
                             function: () async {
                               var isAuthenticated =
                                   context.read<AuthCubit>().state != null;
@@ -194,7 +197,7 @@ class CartScreen extends StatelessWidget {
                         contentPadding: EdgeInsets.symmetric(
                             horizontal: Constants.defaultPadding * 0.75,
                             vertical: Constants.defaultPadding),
-                        hintText: "Введите промокод",
+                        hintText: appLocalization.enterPromoCode,
                         hintStyle: Constants.textTheme.bodyLarge!
                             .copyWith(color: Constants.textInputColor),
                         focusedBorder: const OutlineInputBorder(
@@ -212,7 +215,8 @@ class CartScreen extends StatelessWidget {
                             if (state is PromocodeSubmitSuccess) {
                               promocodeController.clear();
                               var successSnackBar = Constants.successSnackBar(
-                                  context, "Промокод успешно применен");
+                                  context,
+                                  appLocalization.promocodeAppliedSuccessfully);
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(successSnackBar);
                             } else if (state is PromocodeFailure) {
@@ -319,7 +323,7 @@ class CartScreen extends StatelessWidget {
                     padding:
                         EdgeInsets.only(bottom: Constants.defaultPadding * 7),
                     child: Text(
-                      "Корзина пуста\nДобавьте блюда в корзину",
+                      "${appLocalization.cartIsEmpty}\n${appLocalization.addDishesToCart}",
                       style: Constants.textTheme.headlineMedium,
                       textAlign: TextAlign.center,
                     ),

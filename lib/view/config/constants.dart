@@ -63,7 +63,7 @@ class Constants {
       {required BuildContext context,
       required String title,
       required String submit,
-      String cancel = "ОТМЕНА",
+      required String cancel,
       required Function function}) {
     showModalBottomSheet(
         backgroundColor: Constants.backgroundColor,

@@ -6,6 +6,7 @@ import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuccessOrderScreen extends StatelessWidget {
   final Order order;
@@ -14,9 +15,10 @@ class SuccessOrderScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return SliverBody(
       showBackButton: false,
-      title: "Ваш заказ принят!",
+      title: appLocalization.yourOrderHasBeenAccepted,
       bottomBar: SafeArea(
         child: Container(
             decoration: const BoxDecoration(
@@ -35,7 +37,7 @@ class SuccessOrderScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Скидка",
+                        appLocalization.discount,
                         style: Constants.textTheme.headlineSmall,
                       ),
                       RichText(
@@ -60,7 +62,7 @@ class SuccessOrderScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Доставка",
+                        appLocalization.delivery,
                         style: Constants.textTheme.headlineSmall,
                       ),
                       RichText(
@@ -85,7 +87,7 @@ class SuccessOrderScreen extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       Text(
-                        "Итого",
+                        appLocalization.total,
                         style: Constants.textTheme.headlineSmall!
                             .copyWith(fontWeight: FontWeight.w600),
                       ),
@@ -107,7 +109,7 @@ class SuccessOrderScreen extends StatelessWidget {
                   ),
                 ),
                 CustomElevatedButton(
-                    text: "На главную",
+                    text: appLocalization.goToHomepage,
                     function: () {
                       Navigator.of(context).pushNamedAndRemoveUntil(
                           '/', (Route<dynamic> route) => false);
@@ -127,19 +129,11 @@ class SuccessOrderScreen extends StatelessWidget {
               Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 1.5),
-                child: RichText(
-                    text: TextSpan(
-                        text: "Ваш заказ с номером ",
-                        style: Constants.textTheme.bodyLarge,
-                        children: [
-                      TextSpan(
-                          text: "№${order.id} ",
-                          style: Constants.textTheme.bodyLarge!
-                              .copyWith(fontWeight: FontWeight.bold)),
-                      const TextSpan(
-                          text:
-                              "принят! Заказ будет доставлен в течение 90-110 минут")
-                    ])),
+                child: Text(
+                    appLocalization
+                        .yourOrderNumberIsAccepted(order.id.toString()),
+                    style: Constants.textTheme.bodyLarge!
+                        .copyWith(fontWeight: FontWeight.bold)),
               ),
               Column(
                   children: order.cartItems

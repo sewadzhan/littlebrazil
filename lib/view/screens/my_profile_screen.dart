@@ -8,13 +8,16 @@ import 'package:littlebrazil/view/components/custom_text_input_field.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MyProfileScreen extends StatelessWidget {
   const MyProfileScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    CurrentUserState currentUserState = context.read<CurrentUserBloc>().state;
+    final appLocalization = AppLocalizations.of(context)!;
+    final CurrentUserState currentUserState =
+        context.read<CurrentUserBloc>().state;
     RestaurantUser? currentUser =
         currentUserState is CurrentUserRetrieveSuccessful
             ? currentUserState.user
@@ -39,12 +42,12 @@ class MyProfileScreen extends StatelessWidget {
           context.read<CurrentUserBloc>().add(CurrentUserSet(state.user));
           Navigator.of(context).pop();
           ScaffoldMessenger.of(context).showSnackBar(Constants.successSnackBar(
-              context, "Данные успешно отредактированы",
+              context, appLocalization.dataEditedSuccessfully,
               duration: const Duration(milliseconds: 1600)));
         }
       },
       child: SliverBody(
-          title: "Мой профиль",
+          title: appLocalization.myProfile,
           actions: [
             PopupMenuButton(
               onSelected: (value) {
@@ -64,7 +67,7 @@ class MyProfileScreen extends StatelessWidget {
                   PopupMenuItem<String>(
                     value: "deleteAccount",
                     child: Text(
-                      "Удалить аккаунт",
+                      appLocalization.deleteAccount,
                       style: Constants.textTheme.bodyLarge,
                     ),
                   )
@@ -84,7 +87,7 @@ class MyProfileScreen extends StatelessWidget {
                   builder: (context, state) {
                 if (state is CurrentUserRetrieveSuccessful) {
                   return CustomElevatedButton(
-                      text: "Сохранить",
+                      text: appLocalization.save,
                       function: () {
                         context.read<EditUserBloc>().add(UserEdited(
                                 phoneNumber: state.user.phoneNumber,
@@ -119,7 +122,7 @@ class MyProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                     child: CustomTextInputField(
                       controller: phoneController,
-                      titleText: "Номер телефона",
+                      titleText: appLocalization.phoneNumber,
                       hintText: "Номер телефона",
                       keyboardType: TextInputType.text,
                       onlyRead: true,
@@ -129,8 +132,8 @@ class MyProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                     child: CustomTextInputField(
                       controller: nameController,
-                      titleText: "Имя",
-                      hintText: "Марк",
+                      titleText: appLocalization.name,
+                      hintText: appLocalization.mark,
                       keyboardType: TextInputType.text,
                     ),
                   ),
@@ -138,7 +141,7 @@ class MyProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                     child: CustomTextInputField(
                       controller: emailController,
-                      hintText: "Электронная почта",
+                      hintText: appLocalization.email,
                       keyboardType: TextInputType.emailAddress,
                     ),
                   ),
@@ -146,7 +149,7 @@ class MyProfileScreen extends StatelessWidget {
                     padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                     child: CustomTextInputField(
                       controller: birthdayController,
-                      hintText: "День рождения",
+                      hintText: appLocalization.birthday,
                       pickerType: Picker.date,
                     ),
                   ),

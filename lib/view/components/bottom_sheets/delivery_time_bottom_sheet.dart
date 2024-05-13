@@ -7,6 +7,7 @@ import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_list_tile.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //Delivery time bottom sheet for chossing delivey time in Checkout Screen
 class DeliveryTimeBottomSheet extends StatefulWidget {
@@ -39,6 +40,7 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Wrap(
       children: [
         SafeArea(
@@ -61,7 +63,7 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
                           top: Constants.defaultPadding * 2,
                           bottom: Constants.defaultPadding * 1.5,
                           left: Constants.defaultPadding),
-                      child: Text("Укажите время доставки",
+                      child: Text(appLocalization.specifyDeliveryTime,
                           style: Constants.headlineTextTheme.displayMedium!
                               .copyWith(
                             color: Constants.primaryColor,
@@ -72,7 +74,8 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
                           bottom: Constants.defaultPadding,
                           left: Constants.defaultPadding),
                       child: Text(
-                        "Будем стараться доставить Ваш заказ максимально быстро (с погрешностью ±10 минут)",
+                        appLocalization
+                            .weWillTryToDeliverYourOrderAsQuicklyAsPossible,
                         style: Constants.textTheme.bodyLarge!
                             .copyWith(height: 1.25),
                       ),
@@ -243,7 +246,7 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
                           right: Constants.defaultPadding,
                           bottom: Constants.defaultPadding),
                       child: CustomElevatedButton(
-                          text: "ВЫБРАТЬ",
+                          text: appLocalization.select,
                           function: () {
                             if (selectedDeliveryDay == 0 &&
                                 selectedDeliveryHour == 0) {

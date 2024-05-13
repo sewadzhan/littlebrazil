@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class UpdateAppBottomSheet extends StatelessWidget {
   final String playMarketUrl;
@@ -18,6 +19,7 @@ class UpdateAppBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Wrap(
       children: [
         SafeArea(
@@ -44,7 +46,7 @@ class UpdateAppBottomSheet extends StatelessWidget {
                     padding: EdgeInsets.only(
                         bottom: Constants.defaultPadding * 0.25),
                     child: Text(
-                      "Доступно обновление",
+                      appLocalization.updateAvailable,
                       style: Constants.textTheme.displaySmall,
                       textAlign: TextAlign.center,
                     ),
@@ -53,14 +55,14 @@ class UpdateAppBottomSheet extends StatelessWidget {
                     padding:
                         EdgeInsets.only(bottom: Constants.defaultPadding * 1.5),
                     child: Text(
-                      "Обновите приложение для дальнейшей работы",
+                      appLocalization.updateApp,
                       style: Constants.textTheme.headlineMedium!
                           .copyWith(fontWeight: FontWeight.normal),
                       textAlign: TextAlign.center,
                     ),
                   ),
                   CustomElevatedButton(
-                      text: "Обновить",
+                      text: appLocalization.updateButton,
                       function: () {
                         if (Platform.isAndroid) {
                           _launchURL(playMarketUrl);

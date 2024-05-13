@@ -26,12 +26,6 @@ class FAQListTile extends StatelessWidget {
             faq.question,
             style: Constants.textTheme.headlineSmall,
           ),
-          // trailing: SizedBox(
-          //   width: 20,
-          //   child: SvgPicture.asset('assets/icons/arrow-down.svg',
-          //       colorFilter: const ColorFilter.mode(
-          //           Constants.middleGrayColor, BlendMode.srcIn)),
-          // ),
           children: [
             Text(
               faq.answer,

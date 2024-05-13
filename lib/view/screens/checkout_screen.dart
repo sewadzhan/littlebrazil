@@ -19,6 +19,7 @@ import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_text_input_field.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -32,8 +33,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return SliverBody(
-      title: "Оформление заказа",
+      title: appLocalization.checkout,
       bottomBar: BlocBuilder<CartBloc, CartState>(
         builder: (context, state) {
           if (state is CartLoaded) {
@@ -55,7 +57,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Скидка",
+                              appLocalization.discount,
                               style: Constants.textTheme.headlineSmall,
                             ),
                             BlocBuilder<CartBloc, CartState>(
@@ -91,7 +93,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Доставка",
+                              appLocalization.delivery,
                               style: Constants.textTheme.headlineSmall,
                             ),
                             BlocBuilder<CheckoutBloc, Checkout>(
@@ -123,7 +125,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              "Итого",
+                              appLocalization.total,
                               style: Constants.textTheme.headlineSmall!
                                   .copyWith(
                                       fontWeight: FontWeight.bold,
@@ -179,7 +181,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         },
                         builder: (context, state) {
                           return CustomElevatedButton(
-                              text: "ОФОРМИТЬ ЗАКАЗ",
+                              text: appLocalization.placeOrder,
                               isLoading: state is OrderLoading,
                               function: () {
                                 CheckoutBloc checkoutBloc =
@@ -264,13 +266,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                                 padding: EdgeInsets.symmetric(
                                     vertical: Constants.defaultPadding * 0.5),
                                 child: Text(
-                                  'Доставка',
+                                  appLocalization.delivery,
                                   style: Constants.textTheme.headlineSmall,
                                 )),
                             OrderType.pickup: Padding(
                                 padding: EdgeInsets.symmetric(
                                     vertical: Constants.defaultPadding * 0.5),
-                                child: Text('Самовывоз',
+                                child: Text(appLocalization.pickup,
                                     style: Constants.textTheme.headlineSmall)),
                           },
                           onValueChanged: (value) {
@@ -284,8 +286,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               BlocBuilder<CheckoutBloc, Checkout>(
                 builder: (context, state) {
                   String title = state.orderType == OrderType.delivery
-                      ? "Адрес доставки"
-                      : "Точка самовывоза";
+                      ? appLocalization.deliveryAddress
+                      : appLocalization.pickupPoint;
                   return Text(title,
                       style: Constants.textTheme.headlineSmall!.copyWith(
                         color: Constants.primaryColor,
@@ -304,7 +306,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: SvgPicture.asset('assets/icons/bus.svg'),
                         ),
                         title: Text(
-                          "Добавьте адрес для доставки",
+                          appLocalization.addDeliveryAddress,
                           style: Constants.textTheme.bodyLarge,
                         ),
                         trailing: SvgPicture.asset(
@@ -328,7 +330,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         style: Constants.textTheme.bodyLarge,
                       ),
                       subtitle: Text(
-                        "кв/офис ${state.address.apartmentOrOffice}",
+                        "${appLocalization.aptOffice} ${state.address.apartmentOrOffice}",
                         style: Constants.textTheme.bodyMedium!
                             .copyWith(color: Constants.middleGrayColor),
                       ),
@@ -396,7 +398,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   );
                 },
               ),
-              Text("Время доставки",
+              Text(appLocalization.deliveryTime,
                   style: Constants.textTheme.headlineSmall!.copyWith(
                     color: Constants.primaryColor,
                   )),
@@ -411,14 +413,14 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                     title: Text(
                       state.deliveryTime == DeliveryTimeType.fast
-                          ? "Как можно скорее"
+                          ? appLocalization.asSoonAsPossible
                           : "${state.certainDayOrder}, ${state.certainTimeOrder}",
                       style: Constants.textTheme.bodyLarge,
                     ),
                     subtitle: Text(
                       state.deliveryTime == DeliveryTimeType.fast
-                          ? "Сегодня"
-                          : "Возможна разница ±15 минут",
+                          ? appLocalization.today
+                          : appLocalization.timeDifference,
                       style: Constants.textTheme.bodyMedium!
                           .copyWith(color: Constants.middleGrayColor),
                     ),
@@ -455,7 +457,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
               Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.75),
-                child: Text("Дополнительно",
+                child: Text(appLocalization.additional,
                     style: Constants.textTheme.headlineSmall!.copyWith(
                       color: Constants.primaryColor,
                     )),
@@ -474,7 +476,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           child: SvgPicture.asset('assets/icons/fork.svg'),
                         ),
                         Text(
-                          "Приборы",
+                          appLocalization.cutlery,
                           style: Constants.textTheme.bodyLarge,
                         )
                       ],
@@ -571,7 +573,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                 ),
                 child: CustomTextInputField(
                   controller: commentsController,
-                  titleText: "Комментарии к заказу",
+                  titleText: appLocalization.orderComments,
                   hintText: "",
                   maxLines: 3,
                 ),

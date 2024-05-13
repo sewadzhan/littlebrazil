@@ -3,14 +3,16 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class SuggestAddressScreen extends StatelessWidget {
   const SuggestAddressScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //For delay in onChanged TextFormField method
-    var searchController = TextEditingController();
+    final appLocalization = AppLocalizations.of(context)!;
+    var searchController =
+        TextEditingController(); //For delay in onChanged TextFormField method
 
     return Scaffold(
       appBar: AppBar(
@@ -36,7 +38,8 @@ class SuggestAddressScreen extends StatelessWidget {
             autofocus: true,
             controller: searchController,
             decoration: InputDecoration.collapsed(
-                hintText: 'Адрес', hintStyle: Constants.textTheme.bodyLarge),
+                hintText: appLocalization.address,
+                hintStyle: Constants.textTheme.bodyLarge),
             onChanged: (query) {
               context
                   .read<SuggestAddressBloc>()
@@ -54,7 +57,7 @@ class SuggestAddressScreen extends StatelessWidget {
                 return Padding(
                   padding: EdgeInsets.symmetric(
                       horizontal: Constants.defaultPadding),
-                  child: Text("Укажите адрес доставки",
+                  child: Text(appLocalization.specifyDeliveryAddress,
                       style: Constants.headlineTextTheme.displayMedium!
                           .copyWith(color: Constants.primaryColor)),
                 );
@@ -75,7 +78,7 @@ class SuggestAddressScreen extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.symmetric(
                         horizontal: Constants.defaultPadding),
-                    child: Text("Ничего не найдено",
+                    child: Text(appLocalization.nothingFound,
                         style: Constants.headlineTextTheme.displayMedium!
                             .copyWith(color: Constants.primaryColor)),
                   );
@@ -88,7 +91,7 @@ class SuggestAddressScreen extends StatelessWidget {
                           left: Constants.defaultPadding,
                           right: Constants.defaultPadding,
                           bottom: Constants.defaultPadding),
-                      child: Text("Результаты поиска",
+                      child: Text(appLocalization.searchResults,
                           style: Constants.headlineTextTheme.displayMedium!
                               .copyWith(color: Constants.primaryColor)),
                     ),

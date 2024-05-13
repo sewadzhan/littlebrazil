@@ -9,6 +9,203 @@
     "faq": "Часто задаваемые вопросы",
     "changeLanguage": "Сменить язык",
     "aboutDeveloper": "О разработчике",
-    "logout": "Выйти из аккаунта",
-    "needHelp": "НУЖНА ПОМОЩЬ?"
+    "logoutFromAccount": "Выйти из аккаунта",
+    "logout": "Выйти",
+    "needHelp": "НУЖНА ПОМОЩЬ?",
+    "addresses": "Адреса",
+    "weAreInSocials": "Мы в социальных сетях",
+    "aboutRestaurant": "О ресторане",
+    "ourWebsite": "Наш сайт",
+    "workSchedule": "Пн-Вс с {open} до {close}",
+    "@workSchedule": {
+        "placeholders": {
+            "open": {
+                "type": "String"
+            },
+            "close": {
+                "type": "String"
+            }
+        }
+    },
+    "ourHistory": "Наша история",
+    "ourTeam": "Наша команда",
+    "yearsOfExperience": "лет опыта",
+    "chiefs": "шеф-поваров",
+    "employees": "сотрудников",
+    "deliveryAddresses": "Адреса доставки",
+    "enterAddress": "Введите адрес",
+    "enterApartmentOrOffice": "Введите номер квартиры или офиса",
+    "setMarker": "Поставить маркер для добавления адреса",
+    "saveAddress": "Сохранить адрес",
+    "enterNameAndPhoneForAuthorization": "Введите Ваше имя и мобильный телефон для авторизации",
+    "mark": "Марк",
+    "login": "Войти",
+    "byRegisteringYouAgreeToThePrivacyPolicy": "Регистрируясь, вы соглашаетесь с Политикой конфиденциальности ресторана Little Brazil",
+    "cartIsEmpty": "Корзина пуста",
+    "addDishesToCart": "Добавьте блюда в корзину",
+    "enterPromoCode": "Введите промокод",
+    "discount": "Скидка",
+    "subtotal": "Подытог",
+    "placeOrder": "Оформить заказ",
+    "cart": "Корзина",
+    "doYouWantToClearTheCart": "Вы хотите очистить корзину?",
+    "cancel": "Отмена",
+    "clear": "Очистить",
+    "confirmationCodeWasSentToNumber": "Код подтверждения был отправлен на номер",
+    "youCanSendTheCodeAgainIn": "Можно отправить еще раз код через",
+    "sendAgain": "Отправить еще раз",
+    "withThisOrderTheyChoose": "С этим заказом выбирают",
+    "kcal": "ккал",
+    "addToCart": "В корзину",
+    "noThanks": "Нет, спасибо",
+    "next": "Дальше",
+    "itemAddedToCart": "Товар добавлен в корзину",
+    "orderPlacement": "Оформление заказа",
+    "delivery": "Доставка",
+    "pickup": "Самовывоз",
+    "deliveryAddress": "Адрес доставки",
+    "deliveryTime": "Время доставки",
+    "aptOffice": "кв/офис",
+    "asSoonAsPossible": "Как можно скорее",
+    "today": "Сегодня",
+    "additional": "Дополнительно",
+    "cutlery": "Приборы",
+    "orderComments": "Комментарии к заказу",
+    "total": "Итого",
+    "addAddress": "Добавить адрес",
+    "specifyDeliveryTime": "Укажите время доставки",
+    "weWillTryToDeliverYourOrderAsQuicklyAsPossible": "Будем стараться доставить Ваш заказ максимально быстро (с погрешностью ±10 минут)",
+    "select": "Выбрать",
+    "payForTheOrder": "Оплатите заказ",
+    "byCreditCard": "Банковской картой",
+    "applyAccumulatedPoints": "Применить накопленные баллы",
+    "youHaveAccumulated": "Вы накопили",
+    "pay": "Оплатить",
+    "youWillAccumulatePoints": "Вы накопите {points} баллов",
+    "@youWillAccumulatePoints": {
+        "placeholders": {
+            "points": {
+                "type": "int"
+            }
+        }
+    },
+    "apartmentOffice": "квартира/офис",
+    "addAddressForDeliveryLittleBrazil": "Добавьте адрес для оформления\nдоставки Little Brazil",
+    "myProfile": "Мой профиль",
+    "name": "Имя",
+    "email": "Электронная почта",
+    "birthday": "День рождения",
+    "deleteAccount": "Удалить аккаунт",
+    "itSeemsYouHavenTTriedOurDeliveryYet": "Похоже, ты еще не пробовал нашу доставку. Пора познакомиться с гастрономическим раем Little Brazil!",
+    "doYouWantToLogout": "Вы хотите выйти из аккаунта?",
+    "logout": "Выйти",
+    "loyaltySystem": "Система лояльности",
+    "orderDate": "Дата заказа",
+    "methodOfReceipt": "Способ получения",
+    "orderAddress": "Адрес заказа",
+    "paymentMethod": "Способ оплаты",
+    "comments": "Комментарии",
+    "noComments": "Комментариев нет",
+    "youAppliedPoints": "Вы применили {points} баллов",
+    "@youAppliedPoints": {
+        "placeholders": {
+            "points": {
+                "type": "int"
+            }
+        }
+    },
+    "youHaveAccumulatedPoints": "Вы накопили {points} баллов",
+    "@youHaveAccumulatedPoints": {
+        "placeholders": {
+            "points": {
+                "type": "int"
+            }
+        }
+    },
+    "turnOffTheFlashlight": "Выключить фонарик",
+    "turnOnTheFlashlight": "Включить фонарик",
+    "qrCodePayment": "Оплата QR-кодом",
+    "pointYourCameraAtTheQrCodeToContinuePayingForTheOrder": "Наведите камерой на QR-код для дальнейшей оплаты заказа",
+    "whatWillWeLookFor": "Что будем искать?",
+    "search": "Поиск",
+    "nothingFound": "Ничего не найдено",
+    "searchResults": "Результаты поиска",
+    "yourOrderHasBeenAccepted": "Ваш заказ принят!",
+    "goToHomepage": "На главную",
+    "yourOrderNumberIsAccepted": "Ваш заказ с номером №{orderID} принят! Заказ будет доставлен в течение 90-110 минут",
+    "@yourOrderNumberIsAccepted": {
+        "placeholders": {
+            "orderID": {
+                "type": "String"
+            }
+        }
+    },
+    "service": "Обслуживание",
+    "choosePaymentMethod": "Выбрать способ оплаты",
+    "address": "Адрес",
+    "addressDetection": "Определение адреса...",
+    "freeDelivery": "Бесплатная доставка",
+    "deliveryIsNotAvailableAtThisAddress": "Доставка не осуществляется по этому адресу",
+    "placeAnOrder": "Оформить заказ",
+    "promocodeAppliedSuccessfully": "Промокод успешно применен",
+    "checkout": "Оформление заказа",
+    "specifyDeliveryAddress": "Укажите адрес доставки",
+    "timeDifference": "Возможна разница ±15 минут",
+    "addDeliveryAddress": "Добавьте адрес для доставки",
+    "pickupPoint": "Точка самовывоза",
+    "profile": "Профиль",
+    "homepage": "Главная",
+    "phoneNumber": "Номер телефона",
+    "save": "Сохранить",
+    "dataEditedSuccessfully": "Данные успешно отредактированы",
+    "flashlightNotSupported": "Это устройство не поддерживает фонарик",
+    "fillInName": "Заполните имя",
+    "byRegisteringYouAgreeTo": "Регистрируясь, вы соглашаетесь с ",
+    "privacyPolicy": "Политикой конфиденциальности",
+    "littleBrazilRestaurant": " ресторана Little Brazil.",
+    "smsCodeRecoveryTimeout": "Истекло время автоматического восстановления кода SMS. Отправьте еще раз код.",
+    "enterSmsCode": "Введите SMS код",
+    "confirmationCodeSentToNumber": "Код подтверждения был отправлен на номер",
+    "didNotReceiveCode": "Не получили код?",
+    "select": "Выбрать",
+    "b": "Б",
+    "selectLanguage": "Выберите язык",
+    "earnPointsGetDiscounts": "Накапливайте баллы и получайте скидки!",
+    "howItWorks": "Как работает:",
+    "orderPoints": "• За каждый заказ вы получаете баллы",
+    "orderAmountPoints": "• Чем больше сумма заказа, тем больше баллов вы получаете",
+    "redeemPoints": "• Баллы можно использовать для оплаты будущих заказов",
+    "howToUsePoints": "Как использовать баллы:",
+    "onePointOneTenge": "• 1 балл = 1 тенге",
+    "payWithPoints": "• Вы можете использовать баллы для оплаты до 100% стоимости заказа",
+    "pointsDoNotExpire": "• Баллы не сгорают",
+    "bonusPointsAccumulation": "Градация начисления бонусов:",
+    "overNTenge": "• Свыше {amount} тенге: {percent}% от суммы заказа",
+    "@overNTenge": {
+        "placeholders": {
+            "amount": {
+                "type": "int"
+            },
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "deliveryUnavailable": "На данный момент\n доставка не работает",
+    "workingHours": "График работы:",
+    "hoursAtoB": "с {open} до {close}",
+    "@hoursAtoB": {
+        "placeholders": {
+            "open": {
+                "type": "String"
+            },
+            "close": {
+                "type": "String"
+            }
+        }
+    },
+    "choosePayment": "Укажите способ оплаты",
+    "updateAvailable": "Доступно обновление",
+    "updateApp": "Обновите приложение для дальнейшей работы",
+    "updateButton": "Обновить"
 }

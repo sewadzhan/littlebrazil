@@ -6,6 +6,7 @@ import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProductCard extends StatelessWidget {
   const ProductCard(
@@ -16,6 +17,7 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Container(
       margin: EdgeInsets.only(bottom: Constants.defaultPadding * 0.5),
       child: Column(
@@ -118,7 +120,7 @@ class ProductCard extends StatelessWidget {
                                   TextSpan(
                                       text: "₸", style: Constants.tengeStyle),
                                   TextSpan(
-                                      text: " • 590 ккал",
+                                      text: " • 590 ${appLocalization.kcal}",
                                       style: Constants.textTheme.bodySmall!
                                           .copyWith(
                                               color: Constants.darkGrayColor,
@@ -150,8 +152,8 @@ class ProductCard extends StatelessWidget {
 
                               if (isShownInSearchScreen) {
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                    Constants.successSnackBar(
-                                        context, "Товар добавлен в корзину"));
+                                    Constants.successSnackBar(context,
+                                        appLocalization.itemAddedToCart));
                               }
                             },
                             style: OutlinedButton.styleFrom(
@@ -163,7 +165,7 @@ class ProductCard extends StatelessWidget {
                                 side: const BorderSide(
                                     width: 1,
                                     color: Constants.secondPrimaryColor)),
-                            child: Text("В КОРЗИНУ",
+                            child: Text(appLocalization.addToCart.toUpperCase(),
                                 style: Constants
                                     .headlineTextTheme.headlineSmall!
                                     .copyWith(

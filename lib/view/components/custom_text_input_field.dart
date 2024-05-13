@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 enum Picker { none, date, time }
 
@@ -30,6 +31,7 @@ class CustomTextInputField extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return TextFormField(
       controller: controller,
       onTap: () async {
@@ -39,8 +41,8 @@ class CustomTextInputField extends StatelessWidget {
         if (pickerType == Picker.date) {
           DateTime? date = await showDatePicker(
             //locale: const Locale("ru", "RU"),
-            cancelText: "Отмена",
-            confirmText: "Выбрать",
+            cancelText: appLocalization.cancel,
+            confirmText: appLocalization.select,
             context: context,
             initialDate: controller!.text.isEmpty
                 ? DateTime.now()

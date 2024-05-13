@@ -10,6 +10,7 @@ import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/cashback_bottom_sheet.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //Payment type bottom sheet
 class PaymentBottomSheet extends StatelessWidget {
@@ -19,6 +20,7 @@ class PaymentBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Wrap(
       children: [
         SafeArea(
@@ -34,7 +36,7 @@ class PaymentBottomSheet extends StatelessWidget {
                   Padding(
                     padding:
                         EdgeInsets.only(bottom: Constants.defaultPadding * 0.5),
-                    child: Text("Укажите способ оплаты",
+                    child: Text(appLocalization.choosePaymentMethod,
                         style:
                             Constants.headlineTextTheme.displayMedium!.copyWith(
                           color: Constants.primaryColor,

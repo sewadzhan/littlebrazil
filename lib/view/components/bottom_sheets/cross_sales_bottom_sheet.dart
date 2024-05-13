@@ -6,6 +6,7 @@ import 'package:littlebrazil/data/models/category.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ExtraSalesBottomSheet extends StatefulWidget {
   const ExtraSalesBottomSheet({
@@ -17,10 +18,11 @@ class ExtraSalesBottomSheet extends StatefulWidget {
 }
 
 class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
-  String buttonText = "Нет, спасибо";
+  String buttonText = "";
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     var crossCategories = (context.read<MenuCubit>().state as MenuLoadedState)
         .categories
         .where((element) => element.type == CategoryType.extraSales);
@@ -31,6 +33,9 @@ class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
             name: "Cross Sales",
             products: [],
             categoryID: "");
+    if (buttonText.isEmpty) {
+      buttonText = appLocalization.noThanks;
+    }
 
     return SafeArea(
       child: SizedBox(
@@ -49,7 +54,7 @@ class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
                       bottom: Constants.defaultPadding * 1.5,
                     ),
                     child: Text(
-                      "С этим заказом выбирают",
+                      appLocalization.withThisOrderTheyChoose,
                       style: Constants.textTheme.headlineMedium!
                           .copyWith(fontWeight: FontWeight.w500),
                       textAlign: TextAlign.center,
@@ -179,7 +184,8 @@ class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
                                                     style:
                                                         Constants.tengeStyle),
                                                 TextSpan(
-                                                    text: " • 590 ккал",
+                                                    text:
+                                                        " • 590 ${appLocalization.kcal}",
                                                     style: Constants
                                                         .textTheme.bodySmall!
                                                         .copyWith(
@@ -206,13 +212,15 @@ class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
                                                 final successSnackBar =
                                                     Constants.successSnackBar(
                                                         context,
-                                                        "Товар добавлен в корзину");
+                                                        appLocalization
+                                                            .itemAddedToCart);
                                                 ScaffoldMessenger.of(context)
                                                     .showSnackBar(
                                                         successSnackBar);
 
                                                 setState(() {
-                                                  buttonText = "Дальше";
+                                                  buttonText =
+                                                      appLocalization.next;
                                                 });
                                               },
                                               style: OutlinedButton.styleFrom(
@@ -227,7 +235,9 @@ class _ExtraSalesBottomSheetState extends State<ExtraSalesBottomSheet> {
                                                       width: 1,
                                                       color: Constants
                                                           .purpleColor)),
-                                              child: Text("В КОРЗИНУ",
+                                              child: Text(
+                                                  appLocalization.addToCart
+                                                      .toUpperCase(),
                                                   style: Constants
                                                       .headlineTextTheme
                                                       .headlineSmall!

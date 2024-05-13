@@ -10,14 +10,17 @@ import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/view/screens/contacts_screen.dart';
 import 'package:littlebrazil/view/screens/home_screen.dart';
 import 'package:littlebrazil/view/screens/profile_screen.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class MainScreen extends StatelessWidget {
   const MainScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
-    //Check initial connection status
-    context.read<NetworkBloc>().add(ConnectionInitialChecked());
+    context
+        .read<NetworkBloc>()
+        .add(ConnectionInitialChecked()); //Check initial connection status
+    final appLocalization = AppLocalizations.of(context)!;
 
     return MultiBlocListener(
       listeners: [
@@ -94,7 +97,7 @@ class MainScreen extends StatelessWidget {
                                         Constants.darkGrayColor,
                                         BlendMode.srcIn)),
                           ),
-                          label: "Главная"),
+                          label: appLocalization.homepage),
                       BottomNavigationBarItem(
                           icon: SizedBox(
                             width: Constants.defaultPadding * 1.75,
@@ -107,7 +110,7 @@ class MainScreen extends StatelessWidget {
                                         Constants.darkGrayColor,
                                         BlendMode.srcIn)),
                           ),
-                          label: "Контакты"),
+                          label: appLocalization.contacts),
                       BottomNavigationBarItem(
                           icon: Container(
                             width: 75,
@@ -136,7 +139,7 @@ class MainScreen extends StatelessWidget {
                                         Constants.darkGrayColor,
                                         BlendMode.srcIn)),
                           ),
-                          label: "Профиль"),
+                          label: appLocalization.profile),
                       BottomNavigationBarItem(
                           icon: Stack(
                             children: [
@@ -171,7 +174,7 @@ class MainScreen extends StatelessWidget {
                               )
                             ],
                           ),
-                          label: "Корзина")
+                          label: appLocalization.cart)
                     ],
                   );
                 },

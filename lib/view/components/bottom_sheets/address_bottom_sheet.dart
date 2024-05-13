@@ -7,6 +7,7 @@ import 'package:littlebrazil/view/components/custom_outlined_button.dart';
 import 'package:littlebrazil/view/components/list_tiles/address_list_tile.dart';
 import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_list_tile.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 //Address bottom sheet for chossing delivey address in Checkout Screen
 class AddressBottomSheet extends StatelessWidget {
@@ -14,6 +15,7 @@ class AddressBottomSheet extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Wrap(
       children: [
         SafeArea(
@@ -32,7 +34,7 @@ class AddressBottomSheet extends StatelessWidget {
                         Padding(
                           padding: EdgeInsets.only(
                               bottom: Constants.defaultPadding * 0.5),
-                          child: Text("Укажите адрес доставки",
+                          child: Text(appLocalization.specifyDeliveryAddress,
                               style: Constants.headlineTextTheme.displayMedium!
                                   .copyWith(
                                 color: Constants.primaryColor,
@@ -63,7 +65,7 @@ class AddressBottomSheet extends StatelessWidget {
                           padding: EdgeInsets.only(
                               bottom: Constants.defaultPadding * 0.3),
                           child: CustomOutlinedButton(
-                              text: "ДОБАВИТЬ АДРЕС",
+                              text: appLocalization.addAddress,
                               function: () {
                                 Navigator.pushNamed(context, '/addAddress');
                               }),

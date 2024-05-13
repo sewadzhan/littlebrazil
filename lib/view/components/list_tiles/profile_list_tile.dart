@@ -5,6 +5,7 @@ import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileListTile extends StatelessWidget {
   const ProfileListTile(
@@ -28,6 +29,7 @@ class ProfileListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Column(
       children: [
         ListTile(
@@ -47,8 +49,9 @@ class ProfileListTile extends StatelessWidget {
             if (pushWithRemove) {
               Constants.showBottomSheetAlert(
                   context: context,
-                  title: "Вы хотите выйти из аккаунта?",
-                  submit: "ВЫЙТИ",
+                  title: appLocalization.doYouWantToLogout,
+                  submit: appLocalization.logout,
+                  cancel: appLocalization.cancel,
                   function: () {
                     Navigator.of(context).pop();
                     context.read<AuthCubit>().signOut();

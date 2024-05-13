@@ -10,5 +10,202 @@
     "changeLanguage": "Change language",
     "aboutDeveloper": "About developer",
     "logout": "Logout",
-    "needHelp": "NEED HELP?"
+    "needHelp": "NEED HELP?",
+    "addresses": "Addresses",
+    "weAreInSocials": "We are in social networks",
+    "aboutRestaurant": "About the restaurant",
+    "ourWebsite": "Our website",
+    "workSchedule": "Mon-Sun from {open} to {close}",
+    "@workSchedule": {
+    "placeholders": {
+        "open": {
+        "type": "String"
+        },
+        "close": {
+        "type": "String"
+        }
+    }
+    },
+    "ourHistory": "Our history",
+    "ourTeam": "Our team",
+    "yearsOfExperience": "years of experience",
+    "chiefs": "chefs",
+    "employees": "employees",
+    "deliveryAddresses": "Delivery addresses",
+    "enterAddress": "Enter address",
+    "enterApartmentOrOffice": "Enter apartment or office number",
+    "setMarker": "Set marker to add address",
+    "saveAddress": "Save address",
+    "enterNameAndPhoneForAuthorization": "Enter your name and phone number for authorization",
+    "mark": "Mark",
+    "login": "Login",
+    "byRegisteringYouAgreeToThePrivacyPolicy": "By registering, you agree to the Little Brazil restaurant's privacy policy",
+    "cartIsEmpty": "Cart is empty",
+    "addDishesToCart": "Add dishes to cart",
+    "enterPromoCode": "Enter promo code",
+    "discount": "Discount",
+    "subtotal": "Subtotal",
+    "placeOrder": "Place order",
+    "cart": "Cart",
+    "doYouWantToClearTheCart": "Do you want to clear the cart?",
+    "cancel": "Cancel",
+    "clear": "Clear",
+    "confirmationCodeWasSentToNumber": "Confirmation code was sent to the number",
+    "youCanSendTheCodeAgainIn": "You can send the code again in",
+    "sendAgain": "Send again",
+    "withThisOrderTheyChoose": "With this order they choose",
+    "kcal": "kcal",
+    "addToCart": "Add to cart",
+    "noThanks": "No thanks",
+    "next": "Next",
+    "itemAddedToCart": "Item added to cart",
+    "orderPlacement": "Order placement",
+    "delivery": "Delivery",
+    "pickup": "Pickup",
+    "deliveryAddress": "Delivery address",
+    "deliveryTime": "Delivery time",
+    "aptOffice": "apt/office",
+    "asSoonAsPossible": "As soon as possible",
+    "today": "Today",
+    "additional": "Additional",
+    "cutlery": "Cutlery",
+    "orderComments": "Order comments",
+    "total": "Total",
+    "addAddress": "Add address",
+    "specifyDeliveryTime": "Specify delivery time",
+    "weWillTryToDeliverYourOrderAsQuicklyAsPossible": "We will try to deliver your order as soon as possible (with an accuracy of ±10 minutes)",
+    "select": "Select",
+    "payForTheOrder": "Pay for the order",
+    "byCreditCard": "By credit card",
+    "applyAccumulatedPoints": "Apply accumulated points",
+    "youHaveAccumulated": "You have accumulated",
+    "pay": "Pay",
+    "youWillAccumulatePoints": "You will accumulate {points} points",
+    "@youWillAccumulatePoints": {
+        "placeholders": {
+        "points": {
+            "type": "int"
+        }
+        }
+    },
+    "apartmentOffice": "apartment/office",
+    "addAddressForDeliveryLittleBrazil": "Add address for Little Brazil delivery",
+    "myProfile": "My profile",
+    "name": "Name",
+    "email": "Email",
+    "birthday": "Birthday",
+    "deleteAccount": "Delete account",
+    "itSeemsYouHavenTTriedOurDeliveryYet": "It seems you haven't tried our delivery yet. It's time to get acquainted with the Little Brazil gastronomic paradise!",
+    "doYouWantToLogout": "Do you want to log out?",
+    "logoutFromAccount": "Logout",
+    "logout": "Logout",
+    "loyaltySystem": "Loyalty system",
+    "orderDate": "Order date",
+    "methodOfReceipt": "Method of receipt",
+    "orderAddress": "Order address",
+    "paymentMethod": "Payment method",
+    "comments": "Comments",
+    "noComments": "No comments",
+    "youAppliedPoints": "You applied {points} points",
+    "@youAppliedPoints": {
+        "placeholders": {
+        "points": {
+            "type": "int"
+        }
+        }
+    },
+    "youHaveAccumulatedPoints": "You have accumulated {points} points",
+    "@youHaveAccumulatedPoints": {
+        "placeholders": {
+        "points": {
+            "type": "int"
+        }
+        }
+    },
+    "turnOffTheFlashlight": "Turn off the flashlight",
+    "turnOnTheFlashlight": "Turn on the flashlight",
+    "qrCodePayment": "QR code payment",
+    "pointYourCameraAtTheQrCodeToContinuePayingForTheOrder": "Point your camera at the QR code to continue paying for the order",
+    "whatWillWeLookFor": "What will we look for?",
+    "search": "Search",
+    "nothingFound": "Nothing found",
+    "searchResults": "Search results",
+    "yourOrderHasBeenAccepted": "Your order has been accepted!",
+    "goToHomepage": "Go to homepage",
+    "yourOrderNumberIsAccepted": "Your order №{orderID} has been accepted! Your order will be delivered within 90-110 minutes",
+    "@yourOrderNumberIsAccepted": {
+        "placeholders": {
+        "orderID": {
+            "type": "String"
+        }
+        }
+    },
+    "service": "Service",
+    "choosePaymentMethod": "Choose payment method",
+    "address": "Address",
+    "addressDetection": "Address detection...",
+    "freeDelivery": "Free delivery",
+    "deliveryIsNotAvailableAtThisAddress": "Delivery is not available at this address",
+    "placeAnOrder": "Place an order",
+    "promocodeAppliedSuccessfully": "The promo code has been successfully applied",
+    "checkout": "Checkout",
+    "specifyDeliveryAddress": "Specify the delivery address",
+    "timeDifference": "Time difference ±15 minutes",
+    "addDeliveryAddress": "Add delivery address",
+    "pickupPoint": "Pickup point",
+    "profile": "Profile",
+    "homepage": "Homepage",
+    "phoneNumber": "Phone number",
+    "save": "Save",
+    "dataEditedSuccessfully": "Data edited successfully",
+    "flashlightNotSupported": "Flashlight not supported on this device",
+    "fillInName": "Fill in name",
+    "byRegisteringYouAgreeTo": "By registering, you agree to the ",
+    "privacyPolicy": "Privacy Policy",
+    "littleBrazilRestaurant": " of Little Brazil restaurant.",
+    "smsCodeRecoveryTimeout": "SMS code recovery timeout. Please send the code again.",
+    "enterSmsCode": "Enter SMS code",
+    "confirmationCodeSentToNumber": "The confirmation code has been sent to the number",
+    "didNotReceiveCode": "Didn't receive the code?",
+    "select": "Select",
+    "b": "P",
+    "selectLanguage": "Select language",
+    "earnPointsGetDiscounts": "Earn points and get discounts!",
+    "howItWorks": "How it works:",
+    "orderPoints": "• You earn points for every order",
+    "orderAmountPoints": "• The more you order, the more points you earn",
+    "redeemPoints": "• Use points to pay for future orders",
+    "howToUsePoints": "How to use points:",
+    "onePointOneTenge": "• 1 point = 1 tenge",
+    "payWithPoints": "• Pay up to 100% of your order with points",
+    "pointsDoNotExpire": "• Points never expire",
+    "bonusPointsAccumulation": "Bonus points accrual:",
+    "overNTenge": "• Over {amount} tenge: {percent}% of the order amount",
+    "@overNTenge": {
+        "placeholders": {
+            "amount": {
+                "type": "int"
+            },
+            "percent": {
+                "type": "int"
+            }
+        }
+    },
+    "deliveryUnavailable": "Delivery is currently unavailable",
+    "workingHours": "Working hours:",
+    "hoursAtoB": "{open} to {close}",
+    "@hoursAtoB": {
+        "placeholders": {
+            "open": {
+                "type": "String"
+            },
+            "close": {
+                "type": "String"
+            }
+        }
+    },
+    "choosePayment": "Choose a payment method",
+    "updateAvailable": "Update available",
+    "updateApp": "Update the app to continue",
+    "updateButton": "Update"
 }

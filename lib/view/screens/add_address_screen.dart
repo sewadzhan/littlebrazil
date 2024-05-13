@@ -12,6 +12,7 @@ import 'package:littlebrazil/view/components/custom_text_input_field.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:sliding_up_panel/sliding_up_panel.dart';
 import 'package:yandex_mapkit/yandex_mapkit.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AddAddressScreen extends StatefulWidget {
   const AddAddressScreen({super.key});
@@ -36,6 +37,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -249,7 +251,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 1.5),
-                child: Text("Укажите адрес доставки",
+                child: Text(appLocalization.specifyDeliveryAddress,
                     style: Constants.headlineTextTheme.displayMedium!.copyWith(
                       color: Constants.primaryColor,
                     )),
@@ -262,7 +264,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                     addressController = TextEditingController(
                         text: state.addAddressModel.address);
                   } else if (state is AddAddressLoading) {
-                    hintText = "Определение адреса...";
+                    hintText = appLocalization.addressDetection;
                   }
                   return Padding(
                     padding: EdgeInsets.only(
@@ -284,8 +286,10 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         }
                       },
                       onlyRead: true,
-                      titleText: "Адрес",
-                      hintText: hintText.isEmpty ? "Введите адрес" : hintText,
+                      titleText: appLocalization.address,
+                      hintText: hintText.isEmpty
+                          ? appLocalization.enterAddress
+                          : hintText,
                       controller: addressController,
                     ),
                   );
@@ -294,8 +298,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
               Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                 child: CustomTextInputField(
-                    titleText: "Квартира/офис",
-                    hintText: "Введите номер квартиры или офиса",
+                    titleText: appLocalization.aptOffice,
+                    hintText: appLocalization.enterApartmentOrOffice,
                     controller: apartmentController),
               ),
               Padding(
@@ -314,7 +318,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                         return Text(
                             state is AddAddressLoaded
                                 ? state.addAddressModel.zoneDescription
-                                : "Определение адреса...",
+                                : appLocalization.addressDetection,
                             style: Constants.textTheme.bodyMedium);
                       },
                     )
@@ -331,7 +335,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   return CustomElevatedButton(
                       isLoading: state is AddressLoading,
                       isEnabled: state is AddressLoaded,
-                      text: "СОХРАНИТЬ АДРЕС",
+                      text: appLocalization.saveAddress,
                       function: () async {
                         var addAddressState =
                             context.read<AddAddressBloc>().state;

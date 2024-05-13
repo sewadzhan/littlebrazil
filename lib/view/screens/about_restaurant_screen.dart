@@ -5,6 +5,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/logic/cubits/about_restaurant/about_restaurant_cubit.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class AboutRestaurantScreen extends StatelessWidget {
   const AboutRestaurantScreen({super.key});
@@ -12,8 +13,10 @@ class AboutRestaurantScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
+    final appLocalization = AppLocalizations.of(context)!;
+
     return SliverBody(
-        title: "О ресторане",
+        title: appLocalization.aboutRestaurant,
         child: BlocBuilder<AboutRestaurantCubit, AboutRestaurantState>(
           builder: (context, state) {
             if (state is AboutRestaurantLoadedState) {
@@ -67,7 +70,7 @@ class AboutRestaurantScreen extends StatelessWidget {
                         left: Constants.defaultPadding,
                         bottom: Constants.defaultPadding * 0.5),
                     child: Text(
-                      "Наша история",
+                      appLocalization.ourHistory,
                       style: Constants.headlineTextTheme.displaySmall!
                           .copyWith(color: Constants.primaryColor),
                     ),
@@ -86,7 +89,7 @@ class AboutRestaurantScreen extends StatelessWidget {
                         left: Constants.defaultPadding,
                         bottom: Constants.defaultPadding * 0.5),
                     child: Text(
-                      "Наша команда",
+                      appLocalization.ourTeam,
                       style: Constants.headlineTextTheme.displaySmall!
                           .copyWith(color: Constants.primaryColor),
                     ),
@@ -121,7 +124,7 @@ class AboutRestaurantScreen extends StatelessWidget {
                                               height: 1),
                                     ),
                                     Text(
-                                      "лет опыта",
+                                      appLocalization.yearsOfExperience,
                                       style: Constants.textTheme.bodyLarge!
                                           .copyWith(
                                               color:
@@ -157,7 +160,7 @@ class AboutRestaurantScreen extends StatelessWidget {
                                               height: 1),
                                     ),
                                     Text(
-                                      "шеф-поваров",
+                                      appLocalization.chiefs,
                                       style: Constants.textTheme.bodyLarge!
                                           .copyWith(
                                               color:
@@ -198,7 +201,7 @@ class AboutRestaurantScreen extends StatelessWidget {
                                           height: 1),
                                 ),
                                 Text(
-                                  "сотрудников",
+                                  appLocalization.employees,
                                   style: Constants.textTheme.bodyLarge!
                                       .copyWith(
                                           color: Constants.secondPrimaryColor,

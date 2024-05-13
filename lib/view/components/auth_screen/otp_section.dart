@@ -9,6 +9,7 @@ import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class OTPSection extends StatelessWidget {
   const OTPSection({super.key, required this.pageController});
@@ -18,6 +19,7 @@ class OTPSection extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final TextEditingController otpController = TextEditingController();
+    final appLocalization = AppLocalizations.of(context)!;
 
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Constants.defaultPadding),
@@ -53,7 +55,7 @@ class OTPSection extends StatelessWidget {
               child: Row(
                 children: [
                   Text(
-                    "Введите SMS код",
+                    appLocalization.enterSmsCode,
                     style: Constants.headlineTextTheme.displayLarge!
                         .copyWith(color: Constants.blackColor),
                     textAlign: TextAlign.start,
@@ -68,7 +70,8 @@ class OTPSection extends StatelessWidget {
                   if (otpSectionState is OTPSentState) {
                     return RichText(
                       text: TextSpan(
-                          text: "Код подтверждения был отправлен на номер ",
+                          text:
+                              "${appLocalization.confirmationCodeSentToNumber} ",
                           style: Constants.textTheme.bodyLarge!
                               .copyWith(height: 1.35),
                           children: [
@@ -127,7 +130,7 @@ class OTPSection extends StatelessWidget {
                               is PhoneAuthCodeAutoRetrevalTimeoutComplete) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 Constants.errorSnackBar(context,
-                                    "Истекло время автоматического восстановления кода SMS. Отправьте еще раз код.",
+                                    appLocalization.smsCodeRecoveryTimeout,
                                     duration: const Duration(days: 1)));
                           }
                         },
@@ -200,16 +203,16 @@ class OTPSection extends StatelessWidget {
                   builder: (context, otpSectionState) {
                     if (otpSectionState is ResendSMSTimerStarted) {
                       return Text(
-                          "Можно отправить еще раз код через ${otpSectionState.seconds}",
+                          "${appLocalization.youCanSendTheCodeAgainIn} ${otpSectionState.seconds}",
                           style: Constants.textTheme.bodyLarge);
                     } else if (otpSectionState is OTPSentState) {
                       return RichText(
                           text: TextSpan(
-                              text: "Не получили код? ",
+                              text: "${appLocalization.didNotReceiveCode} ",
                               style: Constants.textTheme.bodyLarge,
                               children: [
                             TextSpan(
-                              text: "Отправить еще раз",
+                              text: appLocalization.sendAgain,
                               style: Constants.textTheme.bodyLarge!.copyWith(
                                   color: Constants.secondPrimaryColor,
                                   fontWeight: FontWeight.w600),

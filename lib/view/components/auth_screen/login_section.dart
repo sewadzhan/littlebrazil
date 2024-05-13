@@ -9,6 +9,7 @@ import 'package:littlebrazil/view/components/custom_text_input_field.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:mask_text_input_formatter/mask_text_input_formatter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginSection extends StatefulWidget {
   const LoginSection({super.key, required this.pageController});
@@ -34,6 +35,8 @@ class _LoginSectionState extends State<LoginSection> {
 
   @override
   Widget build(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
+
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: Constants.defaultPadding),
       child: Stack(children: [
@@ -72,7 +75,7 @@ class _LoginSectionState extends State<LoginSection> {
             Padding(
               padding: EdgeInsets.only(bottom: Constants.defaultPadding),
               child: Text(
-                "Введите Ваше имя и мобильный телефон для авторизации",
+                appLocalization.enterNameAndPhoneForAuthorization,
                 style: Constants.textTheme.bodyLarge,
               ),
             ),
@@ -80,7 +83,7 @@ class _LoginSectionState extends State<LoginSection> {
               padding: EdgeInsets.only(bottom: Constants.defaultPadding),
               child: CustomTextInputField(
                 controller: nameController,
-                hintText: "Марк",
+                hintText: appLocalization.mark,
                 keyboardType: TextInputType.text,
               ),
             ),
@@ -109,7 +112,7 @@ class _LoginSectionState extends State<LoginSection> {
                 return Padding(
                   padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                   child: CustomElevatedButton(
-                      text: "Войти",
+                      text: appLocalization.login,
                       isLoading: phoneAuthState is PhoneAuthLoading,
                       isEnabled: phoneAuthState
                           is! PhoneAuthLoading, //&& loginCheckBoxState
@@ -117,7 +120,7 @@ class _LoginSectionState extends State<LoginSection> {
                         if (nameController.text.isEmpty) {
                           ScaffoldMessenger.of(context).showSnackBar(
                               Constants.errorSnackBar(
-                                  context, "Заполните имя"));
+                                  context, appLocalization.fillInName));
                           return;
                         }
                         context.read<OTPSectionCubit>().saveOTPData(
@@ -132,11 +135,11 @@ class _LoginSectionState extends State<LoginSection> {
             ),
             RichText(
                 text: TextSpan(
-                    text: "Регистрируясь, вы соглашаетесь с ",
+                    text: appLocalization.byRegisteringYouAgreeTo,
                     style: Constants.textTheme.bodyMedium,
                     children: [
                   TextSpan(
-                    text: "Политикой конфиденциальности",
+                    text: appLocalization.privacyPolicy,
                     style: Constants.textTheme.bodyMedium!
                         .copyWith(decoration: TextDecoration.underline),
                     recognizer: TapGestureRecognizer()
@@ -145,7 +148,7 @@ class _LoginSectionState extends State<LoginSection> {
                       },
                   ),
                   TextSpan(
-                      text: " ресторана Little Brazil.",
+                      text: appLocalization.littleBrazilRestaurant,
                       style: Constants.textTheme.bodyMedium)
                 ]))
           ],
