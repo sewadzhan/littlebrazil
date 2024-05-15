@@ -207,5 +207,7 @@
     "choosePayment": "Choose a payment method",
     "updateAvailable": "Update available",
     "updateApp": "Update the app to continue",
-    "updateButton": "Update"
+    "updateButton": "Update",
+    "accountDeletionError": "Account deletion error",
+    "confirmAccountDeletion": "Are you sure you want to delete your account? All personal information and bonus points data will be permanently deleted."
 }

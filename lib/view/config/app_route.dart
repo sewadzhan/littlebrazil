@@ -42,6 +42,7 @@ import 'package:littlebrazil/view/screens/add_address_screen.dart';
 import 'package:littlebrazil/view/screens/auth_screen.dart';
 import 'package:littlebrazil/view/screens/cart_screen.dart';
 import 'package:littlebrazil/view/screens/checkout_screen.dart';
+import 'package:littlebrazil/view/screens/delete_account_screen.dart';
 import 'package:littlebrazil/view/screens/faq_screen.dart';
 import 'package:littlebrazil/view/screens/main_screen.dart';
 import 'package:littlebrazil/view/screens/my_addresses_screen.dart';
@@ -73,6 +74,7 @@ class AppRouter {
       ContactsCubit(firestoreRepository, bottomSheetCubit, updateAppCubit);
   static final DeliveryZonesCubit deliveryZonesCubit =
       DeliveryZonesCubit(firestoreRepository);
+  static final NavigationCubit navigationCubit = NavigationCubit();
 
   static final AddressBloc addressBloc =
       AddressBloc(firestoreRepository, checkoutBloc);
@@ -104,9 +106,9 @@ class AppRouter {
           type: PageTransitionType.fade,
           child: MultiBlocProvider(
             providers: [
-              BlocProvider(create: (context) => NavigationCubit()),
               BlocProvider(
                   create: (context) => StoriesCubit(firestoreRepository)),
+              BlocProvider.value(value: navigationCubit),
               BlocProvider.value(value: authCubit),
               BlocProvider.value(value: menuCubit),
               BlocProvider.value(value: cartBloc),
@@ -311,6 +313,18 @@ class AppRouter {
             child: BlocProvider(
               create: (context) => FAQBloc(firestoreRepository),
               child: const FAQScreen(),
+            ));
+      case "/deleteAccount":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 250),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(value: currentUserBloc),
+                BlocProvider.value(value: navigationCubit),
+                BlocProvider.value(value: authCubit),
+              ],
+              child: const DeleteAccountScreen(),
             ));
       default:
         return _errorRoute();

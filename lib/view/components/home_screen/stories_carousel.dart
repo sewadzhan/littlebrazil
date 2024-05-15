@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
@@ -39,7 +41,11 @@ class StoriesCarousel extends StatelessWidget {
                                 image: DecorationImage(
                                   fit: BoxFit.cover,
                                   image: CachedNetworkImageProvider(
-                                      storySection.imageUrl),
+                                    storySection.imageUrl,
+                                    errorListener: (p0) {
+                                      log(p0.toString());
+                                    },
+                                  ),
                                 ),
                                 borderRadius:
                                     const BorderRadius.all(Radius.circular(6))),
