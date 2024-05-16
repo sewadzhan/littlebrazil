@@ -81,8 +81,8 @@ class AppRouter {
   static final CashbackBloc cashbackBloc =
       CashbackBloc(firestoreRepository, currentUserBloc)
         ..add(LoadCashbackData());
-  static final CurrentUserBloc currentUserBloc =
-      CurrentUserBloc(firestoreRepository, addressBloc, authCubit);
+  static final CurrentUserBloc currentUserBloc = CurrentUserBloc(
+      firestoreRepository, addressBloc, authCubit, checkoutBloc);
   static final CartBloc cartBloc = CartBloc()..add(LoadCart());
   static final CheckoutBloc checkoutBloc =
       CheckoutBloc(deliveryZonesCubit, cartBloc);
@@ -179,6 +179,7 @@ class AppRouter {
                 BlocProvider.value(value: authCubit),
                 BlocProvider.value(value: menuCubit),
                 BlocProvider.value(value: cartBloc),
+                BlocProvider.value(value: contactsCubit),
               ],
               child: const CartScreen(),
             ));

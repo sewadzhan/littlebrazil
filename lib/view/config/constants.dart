@@ -3,6 +3,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_outlined_button.dart';
 import 'package:littlebrazil/view/config/theme.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class Constants {
   static const Color backgroundColor = Colors.white;
@@ -117,6 +118,7 @@ class Constants {
   }
 
   static SnackBar noWifiSnackBar(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
     return SnackBar(
       dismissDirection: DismissDirection.none,
       backgroundColor: Constants.errorColor,
@@ -135,10 +137,38 @@ class Constants {
             ),
             const SizedBox(width: 10),
             Text(
-              "Нет подключения к интернету",
+              appLocalization.noInternetConnection,
               style: Constants.textTheme.headlineSmall!
                   .copyWith(color: Colors.white),
             ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static SnackBar loadingSnackBar(BuildContext context) {
+    final appLocalization = AppLocalizations.of(context)!;
+    return SnackBar(
+      dismissDirection: DismissDirection.none,
+      backgroundColor: Constants.secondPrimaryColor,
+      duration: const Duration(seconds: 777),
+      content: Padding(
+        padding: EdgeInsets.symmetric(horizontal: Constants.defaultPadding),
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text(
+              appLocalization.loading,
+              style: Constants.textTheme.headlineSmall!
+                  .copyWith(color: Colors.white),
+            ),
+            const SizedBox(
+              width: 21,
+              height: 21,
+              child: CircularProgressIndicator(
+                  strokeWidth: 2, color: Colors.white),
+            )
           ],
         ),
       ),

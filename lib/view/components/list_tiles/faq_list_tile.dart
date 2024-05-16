@@ -15,7 +15,6 @@ class FAQListTile extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(faq);
     return Column(
       children: [
         ExpansionTile(

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/cashback_data.dart';
@@ -32,7 +34,7 @@ class CashbackBloc extends Bloc<AddressEvent, CashbackState> {
 
         emit(CashbackLoaded(cashbackData));
       } catch (e) {
-        print("loadCashbackDataToState EXCEPTION: $e");
+        log("loadCashbackDataToState EXCEPTION: $e");
       }
     }
   }
@@ -41,26 +43,26 @@ class CashbackBloc extends Bloc<AddressEvent, CashbackState> {
   cashbackDepositedToState(
       CashbackDeposited event, Emitter<CashbackState> emit) async {
     if (state is CashbackLoaded) {
-      // try {
-      var previousState = state;
-      emit(CashbackLoading());
+      try {
+        var previousState = state;
+        emit(CashbackLoading());
 
-      //Read current cashback from Firebase
-      int currentCashback =
-          await firestoreRepository.getUserCashback(event.phoneNumber);
-      int newCashBack = currentCashback + event.value;
-      //Deposit new cashback in Firebase
-      await firestoreRepository.editUserCashback(
-          event.phoneNumber, newCashBack);
-      //Change cashback value in Profile screen
-      currentUserBloc.add(CurrentUserCashbackChanged(newCashBack));
+        //Read current cashback from Firebase
+        int currentCashback =
+            await firestoreRepository.getUserCashback(event.phoneNumber);
+        int newCashBack = currentCashback + event.value;
+        //Deposit new cashback in Firebase
+        await firestoreRepository.editUserCashback(
+            event.phoneNumber, newCashBack);
+        //Change cashback value in Profile screen
+        currentUserBloc.add(CurrentUserCashbackChanged(newCashBack));
 
-      emit(CashbackLoaded((previousState as CashbackLoaded)
-          .cashbackData
-          .copyWith(cashbackAction: CashbackAction.deposit)));
-      // } catch (e) {
-      //   print("cashbackDepositedToState EXCEPTION: $e");
-      // }
+        emit(CashbackLoaded((previousState as CashbackLoaded)
+            .cashbackData
+            .copyWith(cashbackAction: CashbackAction.deposit)));
+      } catch (e) {
+        log("cashbackDepositedToState EXCEPTION: $e");
+      }
     }
   }
 
@@ -81,7 +83,7 @@ class CashbackBloc extends Bloc<AddressEvent, CashbackState> {
             .cashbackData
             .copyWith(cashbackAction: CashbackAction.deposit)));
       } catch (e) {
-        print("cashbackWithdrawedToState EXCEPTION: $e");
+        log("cashbackWithdrawedToState EXCEPTION: $e");
       }
     }
   }

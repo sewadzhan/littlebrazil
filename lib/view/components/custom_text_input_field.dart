@@ -65,7 +65,7 @@ class CustomTextInputField extends StatelessWidget {
                     child: childWidget!);
               });
 
-          if (timeOfDay != null) {
+          if (timeOfDay != null && context.mounted) {
             controller!.text = timeOfDay.format(context);
           }
         }

@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/category.dart';
@@ -246,7 +248,7 @@ class MenuCubit extends Cubit<MenuState> {
       //     await iikoRepository.getMenu(token, organizationId, mobileAppGroupID);
       emit(MenuLoadedState(categories: categories));
     } catch (e) {
-      print(e.toString());
+      log(e.toString());
       emit(MenuErrorState(e.toString()));
     }
   }

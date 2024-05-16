@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/restaurant_user.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
+import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 
 part 'current_user_event.dart';
@@ -15,11 +16,13 @@ part 'current_user_state.dart';
 class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
   final FirestoreRepository firestoreRepository;
   final AddressBloc addressBloc;
+  final CheckoutBloc checkoutBloc;
   final AuthCubit authCubit;
   late StreamSubscription authSubscription;
   bool isNewUser = false;
 
-  CurrentUserBloc(this.firestoreRepository, this.addressBloc, this.authCubit)
+  CurrentUserBloc(this.firestoreRepository, this.addressBloc, this.authCubit,
+      this.checkoutBloc)
       : super(CurrentUserInitial()) {
     on<CurrentUserRetrieved>(currentUserRetrievedToState);
     on<CurrentUserSet>(currentUserSetToState);
@@ -76,6 +79,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
     if (state is CurrentUserRetrieveSuccessful) {
       emit(CurrentUserInitial());
       addressBloc.add(AddressSetToInitial());
+      checkoutBloc.add(const CheckoutAddressChanged(null));
     }
   }
 
@@ -87,6 +91,7 @@ class CurrentUserBloc extends Bloc<CurrentUserEvent, CurrentUserState> {
           (state as CurrentUserRetrieveSuccessful).user.phoneNumber;
       emit(CurrentUserInitial());
       addressBloc.add(AddressSetToInitial());
+      checkoutBloc.add(const CheckoutAddressChanged(null));
       firestoreRepository.deleteUser(phoneNumber);
     }
   }

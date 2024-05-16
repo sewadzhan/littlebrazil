@@ -30,7 +30,7 @@ class FirestoreProvider {
       'name': name,
       'phoneNumber': phoneNumber,
       'cashback': welcomeBonus ?? 0
-    }).then((value) => print("New user added"));
+    }).then((value) => log("New user added"));
   }
 
   //Get all data from current user via phone number
@@ -46,14 +46,14 @@ class FirestoreProvider {
         .collection('users')
         .doc(phoneNumber)
         .update(map)
-        .then((value) => print("User $phoneNumber was edited"));
+        .then((value) => log("User $phoneNumber was edited"));
   }
 
   //Delete personal data of current user via phone number
   Future<void> deleteUser(String phoneNumber) async {
     await firebaseFirestore.collection('users').doc(phoneNumber).delete().then(
         (value) =>
-            print("User $phoneNumber was successfully deleted from Firestore"));
+            log("User $phoneNumber was successfully deleted from Firestore"));
   }
 
   //Get all addresses of current user via phone number
@@ -71,7 +71,7 @@ class FirestoreProvider {
         .collection('users/$phoneNumber/addresses')
         .doc(map['id'])
         .set(map)
-        .then((value) => print("Address ${map['id']} was added successfully"));
+        .then((value) => log("Address ${map['id']} was added successfully"));
   }
 
   //Remove certain address from current user
@@ -81,8 +81,7 @@ class FirestoreProvider {
         .collection('users/$phoneNumber/addresses')
         .doc(map['id'])
         .delete()
-        .then(
-            (value) => print("Address ${map['id']} was removed successfully"));
+        .then((value) => log("Address ${map['id']} was removed successfully"));
   }
 
   //Retrieve all promocodes
@@ -109,7 +108,7 @@ class FirestoreProvider {
         .collection('orders')
         .doc(map['id'].toString())
         .set(map)
-        .then((value) => print("ORDER №${map['id']} was added successfully"));
+        .then((value) => log("ORDER №${map['id']} was added successfully"));
   }
 
   //Get order history of current user via phone number

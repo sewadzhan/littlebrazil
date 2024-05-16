@@ -4,8 +4,10 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
+import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/menu/menu_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/cross_sales_bottom_sheet.dart';
+import 'package:littlebrazil/view/components/bottom_sheets/not_working_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/cart_item.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
@@ -135,19 +137,30 @@ class CartScreen extends StatelessWidget {
                                 return;
                               }
 
-                              //NOT WORKING BOTTOM SHEET
-                              // showModalBottomSheet(
-                              //     backgroundColor: Constants.backgroundColor,
-                              //     elevation: 0,
-                              //     shape: const RoundedRectangleBorder(
-                              //       borderRadius: BorderRadius.vertical(
-                              //           top: Radius.circular(12)),
-                              //     ),
-                              //     context: context,
-                              //     builder: (context) =>
-                              //         const NotWorkingBottomSheet(
-                              //             openHour: "10:00", closeHour: "22:00"));
-
+                              //Not working bottom sheet
+                              final ContactsCubit contactsCubit =
+                                  context.read<ContactsCubit>();
+                              if (!contactsCubit.isRestaurantWorking) {
+                                showModalBottomSheet(
+                                    backgroundColor: Constants.backgroundColor,
+                                    elevation: 0,
+                                    shape: const RoundedRectangleBorder(
+                                      borderRadius: BorderRadius.vertical(
+                                          top: Radius.circular(12)),
+                                    ),
+                                    context: context,
+                                    builder: (context) => NotWorkingBottomSheet(
+                                        openHour: (contactsCubit.state
+                                                as ContactsLoadedState)
+                                            .contactsModel
+                                            .openHour,
+                                        closeHour: (contactsCubit.state
+                                                as ContactsLoadedState)
+                                            .contactsModel
+                                            .closeHour));
+                                return;
+                              }
+                              //Cross Sales bottom sheet
                               showModalBottomSheet(
                                   backgroundColor: Constants.backgroundColor,
                                   elevation: 0,

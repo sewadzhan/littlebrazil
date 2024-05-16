@@ -131,6 +131,9 @@ class OTPSection extends StatelessWidget {
                           Constants.errorSnackBar(
                               context, appLocalization.smsCodeRecoveryTimeout,
                               duration: const Duration(days: 1)));
+                    } else if (phoneAuthState is PhoneAuthLoading) {
+                      ScaffoldMessenger.of(context)
+                          .showSnackBar(Constants.loadingSnackBar(context));
                     }
                   },
                   builder: (context, phoneAuthState) {

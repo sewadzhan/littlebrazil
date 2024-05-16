@@ -13,25 +13,19 @@ class Product extends BaseProduct {
   final List<GroupModifier> groupModifiers;
 
   const Product({
-    required categoryID,
-    required title,
-    required price,
-    required rmsID,
-    required categoryTitle,
+    required super.categoryID,
+    required super.title,
+    required super.price,
+    required super.rmsID,
+    required super.categoryTitle,
+    required super.imageUrls,
     required this.description,
-    //required this.features,
-    required imageUrls,
     this.tag = ProductTags.none,
     this.order = 9999,
     this.gift = '',
     this.groupModifiers = const [],
-  }) : super(
-            categoryID: categoryID,
-            title: title,
-            imageUrls: imageUrls,
-            rmsID: rmsID,
-            price: price,
-            categoryTitle: categoryTitle);
+    //required this.features,
+  });
 
   @override
   List<Object> get props => [imageUrls, title, price, categoryID];

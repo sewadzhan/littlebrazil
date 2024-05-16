@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -12,7 +14,7 @@ Future<void> firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   // If you're going to use other Firebase services in the background, such as Firestore,
   // make sure you call `initializeApp` before using other Firebase services.
   await Firebase.initializeApp();
-  print('Handling a background message ${message.messageId}');
+  log('Handling a background message ${message.messageId}');
 }
 
 //Bloc for push notifications
@@ -25,7 +27,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<InitializeNotificationEvent>(
         (event, emit) async => registerNotification());
     on<NotificationErrorEvent>(
-      (event, emit) => print("NOTIFICATION ERROR: ${event.message}"),
+      (event, emit) => log("NOTIFICATION ERROR: ${event.message}"),
     );
   }
 
@@ -39,7 +41,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      // print(
+      // log(
       //     "User granted permission. TOKEN:${await firebaseMessaging.getToken()}");
 
       var channel = const AndroidNotificationChannel(
@@ -70,7 +72,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        print("NOTIFICATION CAME! ${message.notification?.body}");
+        log("NOTIFICATION CAME! ${message.notification?.body}");
         PushNotification notification = PushNotification(
           title: message.notification?.title,
           body: message.notification?.body,
@@ -99,8 +101,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           title: message.notification?.title,
           body: message.notification?.body,
         );
-        print(
-            "BACKGROUND onMessageOpenedApp NOTIFICATION CAAAAAAAAAAAME $notification");
+        log("BACKGROUND onMessageOpenedApp NOTIFICATION CAAAAAAAAAAAME $notification");
       });
     } else {
       add(const NotificationErrorEvent(
