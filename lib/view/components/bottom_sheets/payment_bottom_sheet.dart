@@ -7,6 +7,7 @@ import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
 import 'package:littlebrazil/logic/blocs/order/order_bloc.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/cashback_bottom_sheet.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -21,6 +22,7 @@ class PaymentBottomSheet extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalization = AppLocalizations.of(context)!;
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
     return Wrap(
       children: [
         SafeArea(
@@ -163,9 +165,11 @@ class PaymentBottomSheet extends StatelessWidget {
                                           ],
                                         ),
                                         title: Text(
-                                          Config.paymentMethodToString(
+                                          Config.paymentMethodToTitleString(
                                               paymentMethod:
-                                                  PaymentMethod.bankCard),
+                                                  PaymentMethod.bankCard,
+                                              languageCode:
+                                                  currentLocale.languageCode),
                                           style: Constants.textTheme.bodyLarge,
                                         ),
                                         trailing: SvgPicture.asset(
@@ -254,9 +258,11 @@ class PaymentBottomSheet extends StatelessWidget {
                                           ],
                                         ),
                                         title: Text(
-                                          Config.paymentMethodToString(
+                                          Config.paymentMethodToTitleString(
                                               paymentMethod:
-                                                  PaymentMethod.kaspi),
+                                                  PaymentMethod.kaspi,
+                                              languageCode:
+                                                  currentLocale.languageCode),
                                           style: Constants.textTheme.bodyLarge,
                                         ),
                                         trailing: SvgPicture.asset(

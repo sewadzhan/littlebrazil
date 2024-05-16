@@ -7,12 +7,15 @@ class FAQListTile extends StatelessWidget {
   const FAQListTile({
     super.key,
     required this.faq,
+    required this.locale,
   });
 
   final FAQModel faq;
+  final Locale locale;
 
   @override
   Widget build(BuildContext context) {
+    print(faq);
     return Column(
       children: [
         ExpansionTile(
@@ -23,12 +26,12 @@ class FAQListTile extends StatelessWidget {
           collapsedIconColor: Constants.middleGrayColor,
           childrenPadding: EdgeInsets.only(bottom: Constants.defaultPadding),
           title: Text(
-            faq.question,
+            faq.question[locale.languageCode] ?? "",
             style: Constants.textTheme.headlineSmall,
           ),
           children: [
             Text(
-              faq.answer,
+              faq.answer[locale.languageCode] ?? "",
               style: Constants.textTheme.bodyLarge,
             )
           ],

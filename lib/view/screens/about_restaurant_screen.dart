@@ -3,6 +3,7 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/logic/cubits/about_restaurant/about_restaurant_cubit.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -14,6 +15,7 @@ class AboutRestaurantScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Size size = MediaQuery.of(context).size;
     final appLocalization = AppLocalizations.of(context)!;
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
 
     return SliverBody(
         title: appLocalization.aboutRestaurant,
@@ -80,7 +82,9 @@ class AboutRestaurantScreen extends StatelessWidget {
                         left: Constants.defaultPadding,
                         bottom: Constants.defaultPadding),
                     child: Text(
-                      state.aboutRestaurantModel.ourHistory,
+                      state.aboutRestaurantModel
+                              .ourHistory[currentLocale.languageCode] ??
+                          "",
                       style: Constants.textTheme.bodyMedium,
                     ),
                   ),
@@ -251,7 +255,8 @@ class AboutRestaurantScreen extends StatelessWidget {
                                 children: [
                                   Text(
                                     state.aboutRestaurantModel.employees[index]
-                                        .name,
+                                            .name[currentLocale.languageCode] ??
+                                        "",
                                     style: Constants.textTheme.bodyMedium!
                                         .copyWith(
                                             fontWeight: FontWeight.w500,
@@ -259,7 +264,9 @@ class AboutRestaurantScreen extends StatelessWidget {
                                   ),
                                   Text(
                                     state.aboutRestaurantModel.employees[index]
-                                        .position,
+                                                .position[
+                                            currentLocale.languageCode] ??
+                                        "",
                                     style: Constants.textTheme.bodySmall!
                                         .copyWith(
                                             color:

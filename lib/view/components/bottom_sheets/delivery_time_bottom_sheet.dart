@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/checkout.dart';
 import 'package:littlebrazil/logic/blocs/checkout/checkout_bloc.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_list_tile.dart';
 import 'package:littlebrazil/view/config/config.dart';
@@ -25,22 +26,13 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
   int selectedDeliveryHour = 0;
 
   @override
-  void initState() {
-    deliveryDays = [
-      "Сегодня",
-    ];
-    for (int i = 1; i <= 7; i++) {
-      var tmp = DateTime.now().add(Duration(days: i));
-      deliveryDays.add(
-        "${tmp.day} ${Config.getMonthString(tmp.month)}",
-      );
-    }
-    super.initState();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final appLocalization = AppLocalizations.of(context)!;
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
+    final List<String> deliveryDays = Config.getListOfDeliveryDays(
+        todayString: appLocalization.today,
+        languageCode: currentLocale.languageCode);
+
     return Wrap(
       children: [
         SafeArea(
@@ -49,7 +41,8 @@ class _DeliveryTimeBottomSheetState extends State<DeliveryTimeBottomSheet> {
               if (state is ContactsLoadedState) {
                 List<String> todayDeliveryHours = Config.getTodayTimeRanges(
                     state.contactsModel.openHour,
-                    state.contactsModel.closeHour);
+                    state.contactsModel.closeHour,
+                    currentLocale.languageCode);
                 if (fullTimeRanges.isEmpty) {
                   fullTimeRanges = Config.getFullTimeRanges(
                       state.contactsModel.openHour,

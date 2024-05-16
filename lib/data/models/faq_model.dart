@@ -3,8 +3,8 @@ import 'dart:convert';
 import 'package:equatable/equatable.dart';
 
 class FAQModel extends Equatable {
-  final String question;
-  final String answer;
+  final Map<String, String> question;
+  final Map<String, String> answer;
   final int order;
 
   const FAQModel(
@@ -12,8 +12,8 @@ class FAQModel extends Equatable {
 
   factory FAQModel.fromMap(Map<String, dynamic> map) {
     return FAQModel(
-        question: map['question'] ?? '',
-        answer: map['answer'] ?? '',
+        question: map["question"].cast<String, String>(),
+        answer: map["answer"].cast<String, String>(),
         order: map['order'] ?? 9999);
   }
 

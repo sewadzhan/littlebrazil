@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -15,6 +17,7 @@ class OrderDetailsScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalization = AppLocalizations.of(context)!;
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
     return SliverBody(
       title: "№${order.id}",
       bottomBar: SafeArea(
@@ -253,7 +256,9 @@ class OrderDetailsScreen extends StatelessWidget {
                         fontWeight: FontWeight.w500))),
             Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
-                child: Text(Config.orderTypeToString(order.orderType),
+                child: Text(
+                    Config.orderTypeToTitleString(
+                        order.orderType, currentLocale.languageCode),
                     style: Constants.textTheme.bodyMedium)),
             Padding(
                 padding:
@@ -276,8 +281,9 @@ class OrderDetailsScreen extends StatelessWidget {
             Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
                 child: Text(
-                    Config.paymentMethodToString(
-                        paymentMethod: order.paymentMethod),
+                    Config.paymentMethodToTitleString(
+                        paymentMethod: order.paymentMethod,
+                        languageCode: currentLocale.languageCode),
                     style: Constants.textTheme.bodyMedium)),
             Padding(
                 padding:

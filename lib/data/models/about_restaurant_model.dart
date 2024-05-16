@@ -6,7 +6,7 @@ import 'package:littlebrazil/data/models/employee.dart';
 class AboutRestaurantModel extends Equatable {
   final List<String> images;
   final List<Employee> employees;
-  final String ourHistory;
+  final Map<String, String> ourHistory;
   final int numOfExperience;
   final int numOfChiefs;
   final int numOfEmployees;
@@ -26,13 +26,15 @@ class AboutRestaurantModel extends Equatable {
   factory AboutRestaurantModel.fromMap(Map<String, dynamic> map) {
     List<Employee> employees = List<Map<String, dynamic>>.from(map['employees'])
         .map((e) => Employee(
-            name: e['name'], position: e['position'], imageUrl: e['imageUrl']))
+            name: e["name"].cast<String, String>(),
+            position: e["position"].cast<String, String>(),
+            imageUrl: e['imageUrl']))
         .toList();
 
     return AboutRestaurantModel(
         images: List.from(map['images']),
         employees: employees,
-        ourHistory: map['ourHistory'] ?? '',
+        ourHistory: map["ourHistory"].cast<String, String>(),
         numOfExperience: map['experienceYears'] ?? 0,
         numOfChiefs: map['numOfChiefs'] ?? 0,
         numOfEmployees: map['numOfEmployees'] ?? 0);
@@ -44,7 +46,7 @@ class AboutRestaurantModel extends Equatable {
   AboutRestaurantModel copyWith({
     List<String>? images,
     List<Employee>? employees,
-    String? ourHistory,
+    Map<String, String>? ourHistory,
     int? numOfExperience,
     int? numOfChiefs,
     int? numOfEmployees,

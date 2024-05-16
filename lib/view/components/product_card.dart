@@ -4,6 +4,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/cart_item.dart';
 import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
@@ -18,6 +19,7 @@ class ProductCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final appLocalization = AppLocalizations.of(context)!;
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
     return Container(
       margin: EdgeInsets.only(bottom: Constants.defaultPadding * 0.5),
       child: Column(
@@ -67,7 +69,8 @@ class ProductCard extends StatelessWidget {
                                 child: Align(
                                   alignment: Alignment.center,
                                   child: Text(
-                                    Config.getTagTitle(product.tag),
+                                    Config.getTagTitle(product.tag,
+                                        currentLocale.languageCode),
                                     textAlign: TextAlign.center,
                                     style: Constants
                                         .headlineTextTheme.headlineSmall!

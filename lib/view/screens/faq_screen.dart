@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/logic/blocs/faq/faq_bloc.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/list_tiles/faq_list_tile.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -10,6 +11,7 @@ class FAQScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
     return SliverBody(
       title: "FAQ",
       child: MediaQuery.removePadding(
@@ -38,8 +40,10 @@ class FAQScreen extends StatelessWidget {
                     shrinkWrap: true,
                     primary: false,
                     itemCount: state.faqModels.length,
-                    itemBuilder: (context, index) =>
-                        FAQListTile(faq: state.faqModels[index])),
+                    itemBuilder: (context, index) => FAQListTile(
+                          faq: state.faqModels[index],
+                          locale: currentLocale,
+                        )),
               );
             }
             return Padding(

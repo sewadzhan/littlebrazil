@@ -7,6 +7,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/data/models/cart_item.dart';
 import 'package:littlebrazil/data/models/order_modifier.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -47,6 +48,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
     final appLocalization = AppLocalizations.of(context)!;
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
 
     return Scaffold(
       backgroundColor: Constants.backgroundColor,
@@ -71,7 +73,8 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
         title: Text(
           widget.product.tag == ProductTags.none
               ? ""
-              : Config.getTagTitle(widget.product.tag),
+              : Config.getTagTitle(
+                  widget.product.tag, currentLocale.languageCode),
           style: Constants.headlineTextTheme.displaySmall!.copyWith(
               color: Config.getTagColor(widget.product.tag), fontSize: 22),
         ),

@@ -1,8 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/data/models/story.dart';
 import 'package:littlebrazil/data/models/story_sections.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/animated_bar.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -67,6 +69,7 @@ class __StorySectionScreenStateState extends State<StorySectionScreen>
   @override
   Widget build(BuildContext context) {
     final Story story = widget.storySection.stories[currentIndex];
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
     return Scaffold(
       backgroundColor: Colors.black,
       body: GestureDetector(
@@ -130,7 +133,7 @@ class __StorySectionScreenStateState extends State<StorySectionScreen>
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
                         children: [
                           Text(
-                            "${story.publishDate.day} ${Config.getMonthString(story.publishDate.month)}",
+                            "${story.publishDate.day} ${Config.getMonthString(story.publishDate.month, currentLocale.languageCode)}",
                             style: Constants.textTheme.bodyMedium!
                                 .copyWith(color: Colors.white),
                           ),
