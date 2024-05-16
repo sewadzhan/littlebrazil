@@ -40,7 +40,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           checkoutBloc.add(CheckoutAddressChanged(addresses[0]));
         }
       } catch (e) {
-        emit(const AddressErrorState("Произошла непредвиденная ошибка"));
+        emit(const AddressErrorState("unexpectedError"));
       }
     }
   }
@@ -54,19 +54,18 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
 
         //Limit number of addresses
         if ((currentState as AddressLoaded).addresses.length == 10) {
-          emit(const AddressErrorState("Количество адресов превышает лимит"));
+          emit(const AddressErrorState("addressLimitExceeded"));
           emit(currentState);
           return;
         }
 
         //Address data validation
         if (event.model.address.isEmpty || event.apartment.isEmpty) {
-          emit(const AddressErrorState("Введите все необходимые данные"));
+          emit(const AddressErrorState("fillAllRequiredFields"));
           emit(currentState);
           return;
         } else if (!event.model.canBeDelivered) {
-          emit(const AddressErrorState(
-              "Доставка в данный момент не осуществляется по данному адресу"));
+          emit(const AddressErrorState("deliveryIsNotAvailableAtThisAddress"));
           emit(currentState);
           return;
         }
@@ -87,7 +86,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         //Change selected address in Checkout page after adding new address
         checkoutBloc.add(CheckoutAddressChanged(address));
       } catch (e) {
-        emit(const AddressErrorState("Произошла непредвиденная ошибка"));
+        emit(const AddressErrorState("unexpectedError"));
         emit(AddressLoaded((currentState as AddressLoaded).addresses));
       }
     }
@@ -112,7 +111,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
           checkoutBloc.add(CheckoutAddressChanged(newList[0]));
         }
       } catch (e) {
-        emit(const AddressErrorState("Произошла непредвиденная ошибка"));
+        emit(const AddressErrorState("unexpectedError"));
         emit(AddressLoaded((currentState as AddressLoaded).addresses));
       }
     }

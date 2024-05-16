@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'dart:ui';
 
 import 'package:equatable/equatable.dart';
@@ -21,7 +22,7 @@ class LocalizationCubit extends Cubit<LocalizationState> {
         emit(LocalizationState(locale: Locale(currentLocale)));
       }
     } catch (e) {
-      print("Localization Cubit Error: $e");
+      log("Localization Cubit Error: $e");
     }
   }
 
@@ -33,7 +34,7 @@ class LocalizationCubit extends Cubit<LocalizationState> {
       await preferences.setString('locale', newLocale.languageCode);
       emit(LocalizationState(locale: newLocale));
     } catch (e) {
-      print("Localization Cubit Error: $e");
+      log("Localization Cubit Error: $e");
     }
   }
 }

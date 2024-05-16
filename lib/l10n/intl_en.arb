@@ -209,5 +209,35 @@
     "updateApp": "Update the app to continue",
     "updateButton": "Update",
     "accountDeletionError": "Account deletion error",
-    "confirmAccountDeletion": "Are you sure you want to delete your account? All personal information and bonus points data will be permanently deleted."
+    "confirmAccountDeletion": "Are you sure you want to delete your account? All personal information and bonus points data will be permanently deleted.",
+    "placeMarkerToAddAddress": "Place a marker to add address",
+    "unexpectedAddressError": "An unexpected error occurred while determining the address",
+    "unexpectedError": "Unexpected error occurred",
+    "addressLimitExceeded": "Address limit exceeded",
+    "fillAllRequiredFields": "Please fill in all required fields",
+    "editData": "Edit data",
+    "invalidEmail": "Invalid email address",
+    "internetConnectionProblem": "Internet connection problems",
+    "paymentFailed": "Payment failed",
+    "invalidPhoneNumber": "Invalid phone number",
+    "invalidVerificationCode": "Invalid verification code",
+    "noInternetConnection": "No internet connection",
+    "createUserFailed": "Failed to create new user. Please try again later.",
+    "promoCodeNotApplicable": "Promo code is not applicable at this time",
+    "promoCodeSingleUse": "Promo code can only be used once",
+    "invalidPromoCode": "Invalid promo code",
+    "yourFeedbackMatters": "Your feedback matters to us!",
+    "rateAppIfLiked": "If you enjoyed the app, please rate it",
+    "rateButton": "Rate",
+    "thankYouForRating": "Thank you for your rating",
+    "remindLater": "Remind me later",
+    "selectPickupPoint": "Select pickup point",
+    "minimumOrderAmount": "Minimum order amount is {amount} tenge",
+    "@minimumOrderAmount": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    }
 }

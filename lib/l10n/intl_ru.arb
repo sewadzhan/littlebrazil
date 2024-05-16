@@ -209,5 +209,35 @@
     "updateApp": "Обновите приложение для дальнейшей работы",
     "updateButton": "Обновить",
     "accountDeletionError": "Произошла ошибка при удалении аккаунта",
-    "confirmAccountDeletion": "Вы точно хотите удалить аккаунт? Персональная информация, данные накопительных баллов будут удалены полностью"
+    "confirmAccountDeletion": "Вы точно хотите удалить аккаунт? Персональная информация, данные накопительных баллов будут удалены полностью",
+    "placeMarkerToAddAddress": "Поставьте маркер для добавления адреса",
+    "unexpectedAddressError": "Произошла непредвиденная ошибка при определении адреса",
+    "unexpectedError": "Произошла непредвиденная ошибка",
+    "addressLimitExceeded": "Количество адресов превышает лимит",
+    "fillAllRequiredFields": "Введите все необходимые данные",
+    "editData": "Измените данные",
+    "invalidEmail": "Некорректный email",
+    "internetConnectionProblem": "Возникли проблемы с интернет соединением",
+    "paymentFailed": "Не удалось произвести оплату",
+    "invalidPhoneNumber": "Некорректный номер телефона",
+    "invalidVerificationCode": "Неправильный код подтверждения",
+    "noInternetConnection": "Нет подключения к интернету",
+    "createUserFailed": "Не удалось создать нового пользователя. Попробуйте позже.",
+    "promoCodeNotApplicable": "Промокод не может быть применен в данное время",
+    "promoCodeSingleUse": "Промокод может быть применен только один раз",
+    "invalidPromoCode": "Некорректный промокод",
+    "yourFeedbackMatters": "Ваше мнение важно для нас!",
+    "rateAppIfLiked": "Если Вам понравилось приложение, пожалуйста оцените его",
+    "rateButton": "Оценить",
+    "thankYouForRating": "Спасибо за Вашу оценку",
+    "remindLater": "Напомнить позже",
+    "selectPickupPoint": "Укажите точку самовывоза",
+    "minimumOrderAmount": "Минимальная сумма заказа составляет {amount} тенге",
+    "@minimumOrderAmount": {
+        "placeholders": {
+            "amount": {
+                "type": "String"
+            }
+        }
+    }
 }

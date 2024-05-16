@@ -34,10 +34,18 @@ class MyProfileScreen extends StatelessWidget {
     return BlocListener<EditUserBloc, EditUserState>(
       listener: (context, state) {
         if (state is UserEditFailure) {
+          String errorMessage = appLocalization.unexpectedError;
+          switch (state.message) {
+            case "fillInName":
+              errorMessage = appLocalization.fillInName;
+            case "editData":
+              errorMessage = appLocalization.editData;
+            case "invalidEmail":
+              errorMessage = appLocalization.invalidEmail;
+          }
           ScaffoldMessenger.of(context).showSnackBar(Constants.errorSnackBar(
-            context,
-            state.message,
-          ));
+              context, errorMessage,
+              duration: const Duration(milliseconds: 500)));
         } else if (state is UserEditSuccessful) {
           context.read<CurrentUserBloc>().add(CurrentUserSet(state.user));
           Navigator.of(context).pop();

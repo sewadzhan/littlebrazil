@@ -44,8 +44,7 @@ class PromocodeBloc extends Bloc<PromocodeEvent, PromocodeState> {
         if (list.isNotEmpty) {
           //Checking the hourly limit of promocode
           if (!checkHourlyLimit(list.first)) {
-            emit(const PromocodeFailure(
-                "Промокод не может быть применен в данное время"));
+            emit(const PromocodeFailure("promoCodeNotApplicable"));
             emit(PromocodeLoadSuccess(promocodes));
             return;
           }
@@ -53,8 +52,7 @@ class PromocodeBloc extends Bloc<PromocodeEvent, PromocodeState> {
           //Checking the use of promocode if it can be used only once
           var verification1 = await canBeOnlyOnceVerification(list.first);
           if (!verification1) {
-            emit(const PromocodeFailure(
-                "Промокод может быть применен только один раз"));
+            emit(const PromocodeFailure("promoCodeSingleUse"));
             emit(PromocodeLoadSuccess(promocodes));
             return;
           }
@@ -63,15 +61,15 @@ class PromocodeBloc extends Bloc<PromocodeEvent, PromocodeState> {
           cartBLoc.add(CartPromocodeApplied(list.first));
           emit(PromocodeSubmitSuccess());
         } else {
-          emit(const PromocodeFailure("Некорректный промокод"));
+          emit(const PromocodeFailure("invalidPromoCode"));
         }
 
         emit(PromocodeLoadSuccess(promocodes));
         return;
       }
-      emit(const PromocodeFailure("Произошла непредвиденная ошибка"));
+      emit(const PromocodeFailure("unexpectedError"));
     } catch (e) {
-      emit(const PromocodeFailure("Произошла непредвиденная ошибка"));
+      emit(PromocodeFailure(e.toString()));
     }
   }
 

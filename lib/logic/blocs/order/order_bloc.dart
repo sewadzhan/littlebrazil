@@ -82,7 +82,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         // }
         add(OrderPaymentProcessed(checkout: event.checkout, order: order));
       } on SocketException {
-        emit(const OrderFailed("Возникли проблемы с интернет соединением"));
+        emit(const OrderFailed("internetConnectionProblem"));
         return;
       } on RestaurantException catch (e) {
         emit(OrderFailed(e.toString()));
@@ -120,10 +120,10 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
           //emit(OrderPayboxInit(order));
         } else if (order.paymentMethod == PaymentMethod.kaspi) {}
       } on SocketException {
-        emit(const OrderFailed("Возникли проблемы с интернет соединением"));
+        emit(const OrderFailed("internetConnectionProblem"));
         return;
       } on PlatformException {
-        emit(const OrderFailed("Не удалось произвести оплату"));
+        emit(const OrderFailed("paymentFailed"));
         emit(OrderInitial());
         return;
       } on RestaurantException catch (e) {
@@ -214,7 +214,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
         emit(OrderSuccessful(order));
         cartBloc.add(CartCleared());
       } on SocketException {
-        emit(const OrderFailed("Возникли проблемы с интернет соединением"));
+        emit(const OrderFailed("internetConnectionProblem"));
         return;
       } on RestaurantException catch (e) {
         emit(OrderFailed(e.toString()));
@@ -230,7 +230,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
   void validateCheckout(Checkout checkout) {
     if (cartBloc.state is! CartLoaded ||
         contactsCubit.state is! ContactsLoadedState) {
-      throw RestaurantException("Произошла непредвиденная ошибка");
+      throw RestaurantException("unexpectedError");
     }
     var minSumOrder =
         (contactsCubit.state as ContactsLoadedState).contactsModel.minOrderSum;
@@ -238,22 +238,21 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     //Check minimum sum order when order type is delivery
     if (checkout.orderType == OrderType.delivery &&
         (cartBloc.state as CartLoaded).cart.subtotal < minSumOrder) {
-      throw RestaurantException(
-          "Минимальная сумма заказа составляет $minSumOrder тенге");
+      throw RestaurantException("minimumOrderAmount$minSumOrder");
     }
     if (checkout.orderType == OrderType.delivery &&
         (checkout.address.address.isEmpty ||
             checkout.address.apartmentOrOffice.isEmpty)) {
-      throw RestaurantException("Укажите адрес доставки");
+      throw RestaurantException("specifyDeliveryAddress");
     }
     if (checkout.orderType == OrderType.pickup &&
         checkout.pickupPoint == null) {
-      throw RestaurantException("Укажите точку самовывоза");
+      throw RestaurantException("selectPickupPoint");
     }
     if (checkout.deliveryTime == DeliveryTimeType.none ||
         (checkout.deliveryTime == DeliveryTimeType.certainTime &&
             checkout.certainTimeOrder.isEmpty)) {
-      throw RestaurantException("Укажите время доставки");
+      throw RestaurantException("specifyDeliveryTime");
     }
     // int orderTotal = (cartBloc.state as CartLoaded).cart.subtotal -
     //     (cartBloc.state as CartLoaded).cart.discount +
@@ -271,7 +270,7 @@ class OrderBloc extends Bloc<OrderEvent, OrderState> {
     // }
 
     if (checkout.organizationID.isEmpty) {
-      throw RestaurantException("Произошла непредвиденная ошибка. Код 1337");
+      throw RestaurantException("unexpectedError");
     }
   }
 

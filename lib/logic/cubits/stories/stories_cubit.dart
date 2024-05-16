@@ -13,13 +13,13 @@ class StoriesCubit extends Cubit<StoriesState> {
     getStories();
   }
   void getStories() async {
-    // try {
-    final List<StorySection> storiesSections =
-        await firestoreRepository.getStories();
+    try {
+      final List<StorySection> storiesSections =
+          await firestoreRepository.getStories();
 
-    emit(StoriesLoadedState(storySections: storiesSections));
-    // } catch (e) {
-    //   emit(const StoriesErrorState());
-    // }
+      emit(StoriesLoadedState(storySections: storiesSections));
+    } catch (e) {
+      emit(const StoriesErrorState());
+    }
   }
 }

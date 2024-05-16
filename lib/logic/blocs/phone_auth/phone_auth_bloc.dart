@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -44,8 +46,7 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
       emit(const PhoneAuthLoading());
 
       if (phone.isEmpty) {
-        emit(const PhoneAuthNumberVerificationFailure(
-            "Некорректный номер телефона"));
+        emit(const PhoneAuthNumberVerificationFailure("invalidPhoneNumber"));
         return;
       } else if (phone.substring(0, 1) == '7') {
         phone = phone.replaceFirst(RegExp(r'7'), '+7');
@@ -54,8 +55,7 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
       }
 
       if (!isValid(phone)) {
-        emit(const PhoneAuthNumberVerificationFailure(
-            "Некорректный номер телефона"));
+        emit(const PhoneAuthNumberVerificationFailure("invalidPhoneNumber"));
         return;
       }
       await authRepository.verifyPhoneNumber(
@@ -67,8 +67,7 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
         onVerificationCompleted: _onVerificationCompleted,
       );
     } catch (e) {
-      emit(const PhoneAuthNumberVerificationFailure(
-          "Произошла неизвестная ошибка"));
+      emit(PhoneAuthNumberVerificationFailure(e.toString()));
     }
   }
 
@@ -85,18 +84,16 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
     } on FirebaseAuthException catch (e) {
       switch (e.code) {
         case "invalid-verification-code":
-          emit(PhoneAuthCodeVerificationFailure(
-              "Неправильный код подтверждения",
-              event.verificationId,
-              event.resendToken ?? 0));
+          emit(PhoneAuthCodeVerificationFailure("invalidVerificationCode",
+              event.verificationId, event.resendToken ?? 0));
           break;
         case "network-request-failed":
-          emit(PhoneAuthCodeVerificationFailure("Нет подключения к интернету",
+          emit(PhoneAuthCodeVerificationFailure("noInternetConnection",
               event.verificationId, event.resendToken!));
           break;
         default:
-          emit(PhoneAuthCodeVerificationFailure("Произошла неизвестная ошибка",
-              event.verificationId, event.resendToken!));
+          emit(PhoneAuthCodeVerificationFailure(
+              e.toString(), event.verificationId, event.resendToken!));
       }
     }
   }
@@ -113,15 +110,13 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
   void _onVerificationFailed(FirebaseAuthException exception) {
     switch (exception.code) {
       case "network-request-failed":
-        add(const PhoneAuthVerificationFailed(
-            message: "Нет подключения к интернету"));
+        add(const PhoneAuthVerificationFailed(message: "noInternetConnection"));
         break;
     }
   }
 
   void _onCodeSent(String verificationId, int? resendToken) {
-    print(
-        'Print code is successfully sent with verification id $verificationId and token $resendToken');
+    log('Print code is successfully sent with verification id $verificationId and token $resendToken');
 
     add(PhoneAuthCodeSent(
       resendToken: resendToken,
@@ -130,8 +125,7 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
   }
 
   void _onCodeResent(String verificationId, int? resendToken) {
-    print(
-        'Print code is successfully sent with verification id $verificationId and token $resendToken');
+    log('Print code is successfully sent with verification id $verificationId and token $resendToken');
 
     add(PhoneAuthCodeResent(
       resendToken: resendToken,
@@ -148,15 +142,13 @@ class PhoneAuthBloc extends Bloc<PhoneAuthEvent, PhoneAuthState> {
           phone.replaceAll(' ', ''), event.name, event.welcomeBonus);
       emit(const PhoneAuthCreateUserSuccess());
     } catch (e) {
-      add(const PhoneAuthVerificationFailed(
-          message:
-              "Не удалось создать нового пользователя. Попробуйте позже."));
+      add(const PhoneAuthVerificationFailed(message: "createUserFailed"));
     }
   }
 
   //Auto retrieval has timed out for verification ID
   void _onCodeAutoRetrievalTimeout(String verificationId) {
-    print('Auto retrieval has timed out for verification ID $verificationId');
+    log('Auto retrieval has timed out for verification ID $verificationId');
     add(PhoneAuthCodeAutoRetrevalTimeout(verificationId));
   }
 

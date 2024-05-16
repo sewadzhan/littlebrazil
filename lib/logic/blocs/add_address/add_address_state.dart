@@ -7,9 +7,13 @@ abstract class AddAddressState extends Equatable {
   List<Object> get props => [];
 }
 
-class AddAddressInitial extends AddAddressState {}
+class AddAddressInitial extends AddAddressState {
+  const AddAddressInitial();
+}
 
-class AddAddressLoading extends AddAddressState {}
+class AddAddressLoading extends AddAddressState {
+  const AddAddressLoading();
+}
 
 class AddAddressLoaded extends AddAddressState {
   final AddAddressModel addAddressModel;

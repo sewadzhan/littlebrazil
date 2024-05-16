@@ -26,7 +26,8 @@ class OrdersHistoryScreen extends StatelessWidget {
           listener: (context, state) {
             if (state is OrderHistoryErrorState) {
               ScaffoldMessenger.of(context).showSnackBar(
-                  Constants.errorSnackBar(context, state.message,
+                  Constants.errorSnackBar(
+                      context, appLocalization.unexpectedError,
                       duration: const Duration(milliseconds: 1600)));
             }
           },

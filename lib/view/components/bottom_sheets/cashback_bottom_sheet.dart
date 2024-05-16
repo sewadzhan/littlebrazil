@@ -283,13 +283,46 @@ class CashbackBottomSheet extends StatelessWidget {
                                           OrderState>(
                                         listener: (context, orderState) {
                                           if (orderState is OrderFailed) {
-                                            var errorSnackBar =
-                                                Constants.errorSnackBar(
-                                                    context, orderState.message,
-                                                    duration: const Duration(
-                                                        milliseconds: 500));
+                                            String errorMessage =
+                                                appLocalization.unexpectedError;
+                                            switch (orderState.message) {
+                                              case "specifyDeliveryAddress":
+                                                errorMessage = appLocalization
+                                                    .specifyDeliveryAddress;
+                                              case "selectPickupPoint":
+                                                errorMessage = appLocalization
+                                                    .selectPickupPoint;
+                                              case "specifyDeliveryTime":
+                                                errorMessage = appLocalization
+                                                    .specifyDeliveryTime;
+                                              case "minimumOrderAmount":
+                                                errorMessage = appLocalization
+                                                    .specifyDeliveryTime;
+                                              case "internetConnectionProblem":
+                                                errorMessage = appLocalization
+                                                    .internetConnectionProblem;
+                                              case "paymentFailed":
+                                                errorMessage = appLocalization
+                                                    .paymentFailed;
+                                              default:
+                                                if (orderState.message.contains(
+                                                    'minimumOrderAmount')) {
+                                                  errorMessage = appLocalization
+                                                      .minimumOrderAmount(orderState
+                                                          .message
+                                                          .replaceAll(
+                                                              'minimumOrderAmount',
+                                                              ''));
+                                                }
+                                            }
                                             ScaffoldMessenger.of(context)
-                                                .showSnackBar(errorSnackBar);
+                                                .showSnackBar(
+                                                    Constants.errorSnackBar(
+                                                        context, errorMessage,
+                                                        duration:
+                                                            const Duration(
+                                                                milliseconds:
+                                                                    500)));
                                           }
                                         },
                                         builder: (context, orderState) {

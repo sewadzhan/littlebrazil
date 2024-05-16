@@ -40,9 +40,21 @@ class MyAddressesScreen extends StatelessWidget {
         child: BlocConsumer<AddressBloc, AddressState>(
           listener: ((context, state) {
             if (state is AddressErrorState) {
+              String errorMessage = state.message;
+              switch (state.message) {
+                case "unexpectedError":
+                  errorMessage = appLocalization.unexpectedError;
+                case "addressLimitExceeded":
+                  errorMessage = appLocalization.addressLimitExceeded;
+                case "fillAllRequiredFields":
+                  errorMessage = appLocalization.fillAllRequiredFields;
+                case "deliveryIsNotAvailableAtThisAddress":
+                  errorMessage =
+                      appLocalization.deliveryIsNotAvailableAtThisAddress;
+              }
               ScaffoldMessenger.of(context).showSnackBar(
-                  Constants.errorSnackBar(context, state.message,
-                      duration: const Duration(milliseconds: 1600)));
+                  Constants.errorSnackBar(context, errorMessage,
+                      duration: const Duration(milliseconds: 500)));
             }
           }),
           builder: (context, state) {

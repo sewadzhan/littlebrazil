@@ -220,9 +220,23 @@ class CartScreen extends StatelessWidget {
                               ScaffoldMessenger.of(context)
                                   .showSnackBar(successSnackBar);
                             } else if (state is PromocodeFailure) {
+                              String errorMessage =
+                                  appLocalization.unexpectedError;
+                              switch (state.message) {
+                                case "promoCodeNotApplicable":
+                                  errorMessage =
+                                      appLocalization.promoCodeNotApplicable;
+                                case "promoCodeSingleUse":
+                                  errorMessage =
+                                      appLocalization.promoCodeSingleUse;
+                                case "invalidPromoCode":
+                                  errorMessage =
+                                      appLocalization.invalidPromoCode;
+                              }
                               ScaffoldMessenger.of(context).showSnackBar(
-                                  Constants.errorSnackBar(
-                                      context, state.message));
+                                  Constants.errorSnackBar(context, errorMessage,
+                                      duration:
+                                          const Duration(milliseconds: 500)));
                             }
                           },
                           builder: (context, state) {

@@ -70,6 +70,7 @@ class SuggestAddressScreen extends StatelessWidget {
                     height: 25,
                     child: CircularProgressIndicator(
                       strokeWidth: 2.5,
+                      color: Constants.secondPrimaryColor,
                     ),
                   )),
                 );

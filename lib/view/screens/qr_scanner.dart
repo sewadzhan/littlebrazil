@@ -39,8 +39,8 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
     return BlocListener<QRScannerBloc, QRScannerState>(
       listener: (context, state) async {
         if (state is QRScannerError) {
-          ScaffoldMessenger.of(context)
-              .showSnackBar(Constants.errorSnackBar(context, state.message));
+          ScaffoldMessenger.of(context).showSnackBar(Constants.errorSnackBar(
+              context, appLocalization.unexpectedError));
         } else if (state is QRScannerSuccessScan) {
           await Navigator.pushNamed(context, '/successQRscanned',
               arguments: state.order);

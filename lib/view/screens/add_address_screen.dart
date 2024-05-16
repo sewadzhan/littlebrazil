@@ -7,6 +7,7 @@ import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/geolocation/geolocation_bloc.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_text_input_field.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -38,6 +39,7 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
   @override
   Widget build(BuildContext context) {
     final appLocalization = AppLocalizations.of(context)!;
+    final Locale currentLocale = context.read<LocalizationCubit>().state.locale;
     return Scaffold(
       extendBodyBehindAppBar: true,
       appBar: AppBar(
@@ -75,7 +77,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   List<MapObject> mapObjects = [];
                   for (var e in state.deliveryZones) {
                     mapObjects.add(PolygonMapObject(
-                      mapId: MapObjectId(e.description),
+                      mapId: MapObjectId(
+                          e.description[currentLocale.languageCode] ?? ""),
                       polygon: Polygon(
                           outerRing: LinearRing(
                               points: e.geopoints
@@ -103,8 +106,8 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                     zoom: 16.65)));
                           } else if (state is AddAddressFailed) {
                             ScaffoldMessenger.of(context).showSnackBar(
-                                Constants.errorSnackBar(
-                                    context, state.message));
+                                Constants.errorSnackBar(context,
+                                    appLocalization.unexpectedAddressError));
                           }
                         },
                         builder: (context, addAddressState) {
@@ -193,9 +196,11 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                             },
                             onMapTap: (Point geopoint) {
                               context.read<AddAddressBloc>().add(
-                                  NewAddressSetByMarker(MapLatLng(
-                                      latitude: geopoint.latitude,
-                                      longitude: geopoint.longitude)));
+                                  NewAddressSetByMarker(
+                                      MapLatLng(
+                                          latitude: geopoint.latitude,
+                                          longitude: geopoint.longitude),
+                                      currentLocale.languageCode));
                               if (panelController.isPanelClosed) {
                                 panelController.open();
                               }
@@ -279,9 +284,9 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                           addressController =
                               TextEditingController(text: address);
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            context
-                                .read<AddAddressBloc>()
-                                .add(NewAddressSetBySuggest(address));
+                            context.read<AddAddressBloc>().add(
+                                NewAddressSetBySuggest(
+                                    address, currentLocale.languageCode));
                           });
                         }
                       },
@@ -314,12 +319,23 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                 Constants.darkGrayColor, BlendMode.srcIn))),
                     SizedBox(width: Constants.defaultPadding * 0.75),
                     BlocBuilder<AddAddressBloc, AddAddressState>(
-                      builder: (context, state) {
-                        return Text(
-                            state is AddAddressLoaded
-                                ? state.addAddressModel.zoneDescription
-                                : appLocalization.addressDetection,
-                            style: Constants.textTheme.bodyMedium);
+                      builder: (context, addAddressState) {
+                        if (addAddressState is AddAddressInitial) {
+                          return Text(appLocalization.placeMarkerToAddAddress,
+                              style: Constants.textTheme.bodyMedium);
+                        } else if (addAddressState is AddAddressLoading) {
+                          return Text(appLocalization.addressDetection,
+                              style: Constants.textTheme.bodyMedium);
+                        } else if (addAddressState is AddAddressLoaded) {
+                          return Text(
+                              addAddressState.addAddressModel.canBeDelivered
+                                  ? addAddressState
+                                      .addAddressModel.zoneDescription
+                                  : appLocalization
+                                      .deliveryIsNotAvailableAtThisAddress,
+                              style: Constants.textTheme.bodyMedium);
+                        }
+                        return const SizedBox.shrink();
                       },
                     )
                   ],

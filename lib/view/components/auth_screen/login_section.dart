@@ -98,8 +98,15 @@ class _LoginSectionState extends State<LoginSection> {
             BlocConsumer<PhoneAuthBloc, PhoneAuthState>(
               listener: (context, state) async {
                 if (state is PhoneAuthNumberVerificationFailure) {
+                  String errorMessage = appLocalization.unexpectedError;
+                  switch (state.message) {
+                    case "invalidPhoneNumber":
+                      errorMessage = appLocalization.invalidPhoneNumber;
+                    case "noInternetConnection":
+                      errorMessage = appLocalization.noInternetConnection;
+                  }
                   ScaffoldMessenger.of(context).showSnackBar(
-                      Constants.errorSnackBar(context, state.message,
+                      Constants.errorSnackBar(context, errorMessage,
                           duration: const Duration(milliseconds: 500)));
                 } else if (state is PhoneAuthNumberVerificationSuccess) {
                   context.read<OTPSectionCubit>().startResendTimer();

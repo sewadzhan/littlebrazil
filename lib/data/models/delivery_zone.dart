@@ -8,7 +8,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 class DeliveryZone {
   final int cost;
   final List<MapLatLng> geopoints;
-  final String description;
+  final Map<String, String> description;
   final Color color;
   final String organizationID;
 
@@ -49,7 +49,7 @@ class DeliveryZone {
     return DeliveryZone(
         cost: map['cost']?.toInt() ?? 0,
         geopoints: geopoints,
-        description: map['description'] ?? '',
+        description: map["description"].cast<String, String>(),
         color: color,
         organizationID: map['organizationID']);
   }

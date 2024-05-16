@@ -17,11 +17,7 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
   final YandexGeocoder geocoder =
       YandexGeocoder(apiKey: dotenv.env['YANDEX_GEOCODER']!);
 
-  AddAddressBloc(this.deliveryZonesCubit)
-      : super(const AddAddressLoaded(AddAddressModel(
-            address: "",
-            canBeDelivered: false,
-            zoneDescription: "Поставьте маркер для добавления адреса"))) {
+  AddAddressBloc(this.deliveryZonesCubit) : super(const AddAddressInitial()) {
     on<NewAddressSetByMarker>(newAddressSetByMarkerToState);
     on<NewAddressSetBySuggest>(newAddressSetBySuggestToState);
   }
@@ -30,10 +26,13 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
   newAddressSetByMarkerToState(
       NewAddressSetByMarker event, Emitter<AddAddressState> emit) async {
     var previousState = state;
-    var currentState = state;
+    var currentState = state is AddAddressLoaded
+        ? state
+        : const AddAddressLoaded(AddAddressModel(
+            address: "", canBeDelivered: false, zoneDescription: ""));
     try {
       if (currentState is AddAddressLoaded) {
-        emit(AddAddressLoading());
+        emit(const AddAddressLoading());
         if (deliveryZonesCubit.state is DeliveryZonesLoadedState) {
           MapLatLng point = event.geopoint;
           String address = await getAddress(point);
@@ -46,7 +45,7 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
                 marker: point,
                 canBeDelivered: true,
                 address: address,
-                zoneDescription: zone.description)));
+                zoneDescription: zone.description[event.languageCode])));
           } else {
             emit(AddAddressLoaded(currentState.addAddressModel.copyWith(
                 marker: point,
@@ -71,7 +70,7 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
     var currentState = state;
     try {
       if (currentState is AddAddressLoaded) {
-        emit(AddAddressLoading());
+        emit(const AddAddressLoading());
         if (deliveryZonesCubit.state is DeliveryZonesLoadedState) {
           GeocodeResponse geocodeResponse =
               await getGeocodePoint(event.address);
@@ -98,7 +97,7 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
                 marker: geopoint,
                 canBeDelivered: true,
                 address: event.address.replaceAll("Казахстан, Алматы, ", ""),
-                zoneDescription: zone.description)));
+                zoneDescription: zone.description[event.languageCode])));
           } else {
             emit(AddAddressLoaded(currentState.addAddressModel.copyWith(
                 marker: geopoint,

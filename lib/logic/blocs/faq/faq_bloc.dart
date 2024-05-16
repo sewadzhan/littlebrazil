@@ -18,15 +18,15 @@ class FAQBloc extends Bloc<FAQEvent, FAQState> {
   //Load FAQs
   loadFAQs(LoadFAQs event, Emitter<FAQState> emit) async {
     if (state is FAQInitial) {
-      // try {
-      emit(FAQLoading());
+      try {
+        emit(FAQLoading());
 
-      List<FAQModel> orders = await firestoreRepository.getFAQs();
+        List<FAQModel> orders = await firestoreRepository.getFAQs();
 
-      emit(FAQLoaded(orders));
-      // } catch (e) {
-      //   emit(const FAQErrorState("Произошла непредвидимая ошибка"));
-      // }
+        emit(FAQLoaded(orders));
+      } catch (e) {
+        emit(FAQErrorState("$e"));
+      }
     }
   }
 }

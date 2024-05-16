@@ -112,9 +112,19 @@ class OTPSection extends StatelessWidget {
                       Navigator.of(context).pop();
                     } else if (phoneAuthState
                         is PhoneAuthCodeVerificationFailure) {
+                      String errorMessage = appLocalization.unexpectedError;
+                      switch (phoneAuthState.message) {
+                        case "invalidVerificationCode":
+                          errorMessage =
+                              appLocalization.invalidVerificationCode;
+                        case "createUserFailed":
+                          errorMessage = appLocalization.createUserFailed;
+                        case "noInternetConnection":
+                          errorMessage = appLocalization.noInternetConnection;
+                      }
                       ScaffoldMessenger.of(context).showSnackBar(
-                          Constants.errorSnackBar(
-                              context, phoneAuthState.message));
+                          Constants.errorSnackBar(context, errorMessage,
+                              duration: const Duration(milliseconds: 500)));
                     } else if (phoneAuthState
                         is PhoneAuthCodeAutoRetrevalTimeoutComplete) {
                       ScaffoldMessenger.of(context).showSnackBar(

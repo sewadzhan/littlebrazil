@@ -26,7 +26,7 @@ class OrderHistoryBloc extends Bloc<OrderHistoryEvent, OrderHistoryState> {
 
         emit(OrderHistoryLoaded(orders));
       } catch (e) {
-        emit(const OrderHistoryErrorState("Произошла непредвидимая ошибка"));
+        emit(OrderHistoryErrorState(e.toString()));
       }
     }
   }

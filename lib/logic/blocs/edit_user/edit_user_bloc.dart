@@ -35,15 +35,15 @@ class EditUserBloc extends Bloc<EditUserEvent, EditUserState> {
 
   validateData(UserEdited event) {
     if (event.newData["name"].toString().isEmpty) {
-      throw RestaurantException("Заполните имя");
+      throw RestaurantException("fillInName");
     } else if (event.newData["name"] == event.oldData["name"] &&
         event.newData["email"] == event.oldData["email"] &&
         event.newData["birthday"] == event.oldData["birthday"]) {
-      throw RestaurantException("Измените данные");
+      throw RestaurantException("editData");
     } else if (event.newData["email"].toString().isNotEmpty &&
         !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
             .hasMatch(event.newData["email"])) {
-      throw RestaurantException("Некорректный email");
+      throw RestaurantException("invalidEmail");
     }
   }
 }

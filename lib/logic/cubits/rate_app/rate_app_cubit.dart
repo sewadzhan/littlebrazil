@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:rate_my_app/rate_my_app.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 part 'rate_app_state.dart';
 
@@ -14,26 +15,28 @@ class RateAppCubit extends Cubit<RateAppState> {
     remindDays: 7,
     remindLaunches: 3,
     googlePlayIdentifier: 'kz.khan.littlebrazil',
-    appStoreIdentifier: '', //CHANGE
+    appStoreIdentifier:
+        '', ////////////////////////////////////////////////////////////////////////////////////////CHANGE
   );
 
   RateAppCubit() : super(RateAppInitial());
 
   //Show rate app popup
   showRateAppPopup(BuildContext context) {
-    var isAndroid = Theme.of(context).platform == TargetPlatform.android;
+    final bool isAndroid = Theme.of(context).platform == TargetPlatform.android;
+    final appLocalization = AppLocalizations.of(context)!;
 
     WidgetsBinding.instance.addPostFrameCallback((_) async {
       await rateMyApp.init();
-      if (rateMyApp.shouldOpenDialog) {
+      if (rateMyApp.shouldOpenDialog && context.mounted) {
         rateMyApp.showStarRateDialog(
           context,
-          title: 'Ваше мнение важно для нас!',
-          message: 'Если Вам понравилось приложение, пожалуйста оцените его',
+          title: appLocalization.yourFeedbackMatters,
+          message: appLocalization.rateAppIfLiked,
           actionsBuilder: (context, stars) {
             return [
               TextButton(
-                child: const Text('Оценить'),
+                child: Text(appLocalization.rateButton),
                 onPressed: () async {
                   if (stars == null || stars == 0) {
                     return;
@@ -45,12 +48,12 @@ class RateAppCubit extends Cubit<RateAppState> {
                   Navigator.pop(context);
                   ScaffoldMessenger.of(context).showSnackBar(
                       Constants.successSnackBar(
-                          context, "Спасибо за Вашу оценку",
+                          context, appLocalization.thankYouForRating,
                           duration: const Duration(milliseconds: 1600)));
                 },
               ),
               TextButton(
-                child: const Text('Напомнить позже'),
+                child: Text(appLocalization.remindLater),
                 onPressed: () async {
                   rateMyApp.callEvent(RateMyAppEventType.laterButtonPressed);
                   Navigator.pop(context);
