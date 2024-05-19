@@ -28,6 +28,7 @@ import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
 import 'package:littlebrazil/logic/cubits/about_restaurant/about_restaurant_cubit.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
+import 'package:littlebrazil/logic/cubits/booking/booking_cubit.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
 import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/delivery_zones/delivery_zones_cubit.dart';
@@ -40,6 +41,7 @@ import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/about_restaurant_screen.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
 import 'package:littlebrazil/view/screens/auth_screen.dart';
+import 'package:littlebrazil/view/screens/booking_screen.dart';
 import 'package:littlebrazil/view/screens/cart_screen.dart';
 import 'package:littlebrazil/view/screens/checkout_screen.dart';
 import 'package:littlebrazil/view/screens/delete_account_screen.dart';
@@ -326,6 +328,21 @@ class AppRouter {
                 BlocProvider.value(value: authCubit),
               ],
               child: const DeleteAccountScreen(),
+            ));
+      case "/booking":
+        return PageTransition(
+            type: PageTransitionType.rightToLeft,
+            duration: const Duration(milliseconds: 250),
+            child: MultiBlocProvider(
+              providers: [
+                BlocProvider.value(
+                  value: contactsCubit,
+                ),
+                BlocProvider(
+                  create: (context) => BookingCubit(currentUserBloc),
+                ),
+              ],
+              child: const BookingScreen(),
             ));
       default:
         return _errorRoute();

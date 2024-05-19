@@ -318,11 +318,14 @@ class Config {
     return fullTimeRanges;
   }
 
-  //Get today's available time hours for delivery
+  //Get today's available time hours for delivery and booking
   static List<String> getTodayTimeRanges(
-      String openHourStr, String closeHourStr, String languageCode) {
+      String openHourStr, String closeHourStr, String languageCode,
+      {bool isBooking = false}) {
     List<String> fullTimeRanges = ["Как можно скорее"];
-    if (languageCode == "en") {
+    if (isBooking) {
+      fullTimeRanges = [];
+    } else if (languageCode == "en") {
       fullTimeRanges = ["As soon as possible"];
     } else if (languageCode == "kk") {
       fullTimeRanges = ["Мүмкіндігінше тезірек"];
@@ -330,6 +333,11 @@ class Config {
 
     int closeHour = int.parse(closeHourStr.split(':').first);
     int openHour = int.parse(openHourStr.split(':').first);
+
+    //Set another close time for booking
+    if (isBooking) {
+      closeHour -= 1;
+    }
 
     var dateTime = DateTime.now();
     var dateFormat = DateFormat("dd.MM.yyyy HH:mm");
@@ -351,9 +359,12 @@ class Config {
 
   static List<String> getListOfDeliveryDays(
       {required String todayString, required String languageCode}) {
-    List<String> deliveryDays = [todayString];
+    DateTime dateTimeNow = DateTime.now();
+    List<String> deliveryDays = [
+      "$todayString, ${dateTimeNow.day} ${Config.getMonthString(dateTimeNow.month, languageCode)}"
+    ];
     for (int i = 1; i <= 7; i++) {
-      var tmp = DateTime.now().add(Duration(days: i));
+      var tmp = dateTimeNow.add(Duration(days: i));
       deliveryDays.add(
         "${tmp.day} ${Config.getMonthString(tmp.month, languageCode)}",
       );

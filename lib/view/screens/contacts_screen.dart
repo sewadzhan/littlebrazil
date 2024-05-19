@@ -126,7 +126,6 @@ class ContactsScreen extends StatelessWidget {
                       EdgeInsets.only(bottom: Constants.defaultPadding * 0.75),
                   child: Text(appLocalization.addresses,
                       style: Constants.headlineTextTheme.displaySmall!.copyWith(
-                          fontSize: 24,
                           color: Constants.primaryColor,
                           fontWeight: FontWeight.bold)),
                 ),
@@ -166,7 +165,6 @@ class ContactsScreen extends StatelessWidget {
                       bottom: Constants.defaultPadding * 0.75),
                   child: Text(appLocalization.weAreInSocials,
                       style: Constants.headlineTextTheme.displaySmall!.copyWith(
-                          fontSize: 24,
                           color: Constants.primaryColor,
                           fontWeight: FontWeight.bold)),
                 ),
