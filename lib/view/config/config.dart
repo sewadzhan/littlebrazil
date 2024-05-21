@@ -299,20 +299,50 @@ class Config {
   }
 
   //Get full available time hours for delivery
-  static List<String> getFullTimeRanges(
-      String openHourStr, String closeHourStr) {
+  static List<String> getFullTimeRanges(String openHourStr, String closeHourStr,
+      {bool isBooking = false}) {
     List<String> fullTimeRanges = [];
 
     int openHour = int.parse(openHourStr.split(':').first);
     int closeHour = int.parse(closeHourStr.split(':').first);
 
+    //Set another close time for booking
+    if (isBooking) {
+      closeHour -= 1;
+    }
+
+    //Remove the last one hour option from delivery time before kitchen closing
+    // closeHour -= 1;
+
     int start = openHour + 2; //Start delivery in 2 hours after open
-    while (start <= closeHour) {
-      fullTimeRanges.add("$start:00");
-      if (start != closeHour) {
-        fullTimeRanges.add("$start:30");
+    //Close hour before midnight
+    if (start < closeHour) {
+      while (start <= closeHour) {
+        fullTimeRanges.add("$start:00");
+        if (start != closeHour) {
+          fullTimeRanges.add("$start:30");
+        }
+        start++;
       }
-      start++;
+    }
+    //Close hour after midnight
+    else {
+      while (start <= 23) {
+        fullTimeRanges.add("$start:00");
+        if (start != closeHour) {
+          fullTimeRanges.add("$start:30");
+        }
+        start++;
+      }
+
+      start = 0;
+      while (start <= closeHour) {
+        fullTimeRanges.add("$start:00");
+        if (start != closeHour) {
+          fullTimeRanges.add("$start:30");
+        }
+        start++;
+      }
     }
 
     return fullTimeRanges;
@@ -346,12 +376,34 @@ class Config {
 
     int start =
         dateTime.isAfter(dateTimeOpen) ? dateTime.hour + 2 : openHour + 2;
-    while (start <= closeHour) {
-      fullTimeRanges.add("$start:00");
-      if (start != closeHour) {
-        fullTimeRanges.add("$start:30");
+    //Close hour before midnight
+    if (start < closeHour) {
+      while (start <= closeHour) {
+        fullTimeRanges.add("$start:00");
+        if (start != closeHour) {
+          fullTimeRanges.add("$start:30");
+        }
+        start++;
       }
-      start++;
+    }
+    //Close hour after midnight
+    else {
+      while (start <= 23) {
+        fullTimeRanges.add("$start:00");
+        if (start != closeHour) {
+          fullTimeRanges.add("$start:30");
+        }
+        start++;
+      }
+
+      start = 0;
+      while (start <= closeHour) {
+        fullTimeRanges.add("$start:00");
+        if (start != closeHour) {
+          fullTimeRanges.add("$start:30");
+        }
+        start++;
+      }
     }
 
     return fullTimeRanges;

@@ -31,7 +31,8 @@ class BookingDateTimeSection extends StatelessWidget {
               currentLocale.languageCode);
           if (fullTimeRanges.isEmpty) {
             fullTimeRanges = Config.getFullTimeRanges(
-                state.contactsModel.openHour, state.contactsModel.closeHour);
+                state.contactsModel.openHour, state.contactsModel.closeHour,
+                isBooking: true);
           }
           return Column(
             crossAxisAlignment: CrossAxisAlignment.start,
