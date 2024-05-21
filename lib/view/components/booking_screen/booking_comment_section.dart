@@ -18,21 +18,21 @@ class BookingCommentSection extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Padding(
-          padding: EdgeInsets.only(bottom: Constants.defaultPadding * 0.5),
-          child: Text("Дополнительные комментарии",
+          padding: EdgeInsets.only(bottom: Constants.defaultPadding * 0.25),
+          child: Text(appLocalization.additionalComment,
               style: Constants.headlineTextTheme.displaySmall!.copyWith(
                 color: Constants.primaryColor,
               )),
         ),
         Padding(
-          padding: EdgeInsets.only(bottom: Constants.defaultPadding),
+          padding: EdgeInsets.only(bottom: Constants.defaultPadding * 1.5),
           child: Text(
               "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse potenti. Morbi volutpat, risus eu luctus maximus, arcu.",
               style: Constants.textTheme.bodyLarge!.copyWith()),
         ),
         CustomTextInputField(
           controller: commentsController,
-          hintText: "Укажите свои комментарии здесь",
+          hintText: appLocalization.leaveYourCommentHere,
           maxLines: 5,
           titleText: appLocalization.comments,
         )

@@ -240,5 +240,15 @@
             }
         }
     },
-    "loading": "Загрузка..."
+    "loading": "Загрузка...",
+    "additionalComment": "Дополнительный комментарий",
+    "leaveYourCommentHere": "Укажите свои комментарии здесь",
+    "confirmDetails": "Подтвердите детали",
+    "reservationDate": "Дата бронирования",
+    "time": "Время",
+    "numberOfGuests": "Количество персон",
+    "dateTimeOfReservation": "Дата и время бронирования",
+    "reservation": "Бронирование",
+    "reservationRequestSent": "Запрос на бронирование успешно отправлен",
+    "confirm": "Подтвердить"
 }

@@ -38,7 +38,7 @@ class BookingDateTimeSection extends StatelessWidget {
             children: [
               Padding(
                 padding: EdgeInsets.only(bottom: Constants.defaultPadding),
-                child: Text("Дата и время бронирования",
+                child: Text(appLocalization.dateTimeOfReservation,
                     style: Constants.headlineTextTheme.displaySmall!.copyWith(
                       color: Constants.primaryColor,
                     )),
@@ -252,7 +252,7 @@ class BookingDateTimeSection extends StatelessWidget {
               Padding(
                 padding:
                     EdgeInsets.only(bottom: Constants.defaultPadding * 0.5),
-                child: Text("Количество персон",
+                child: Text(appLocalization.numberOfGuests,
                     style: Constants.headlineTextTheme.displaySmall!.copyWith(
                       color: Constants.primaryColor,
                     )),

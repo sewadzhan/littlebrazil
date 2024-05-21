@@ -240,5 +240,15 @@
             }
         }
     },
-    "loading": "Loading..."
+    "loading": "Loading...",
+    "additionalComment": "Additional comment",
+    "leaveYourCommentHere": "Leave your comments here",
+    "confirmDetails": "Confirm details",
+    "reservationDate": "Reservation date",
+    "time": "Time",
+    "numberOfGuests": "Number of guests",
+    "dateTimeOfReservation": "Date and time of reservation",
+    "reservation": "Reservation",
+    "reservationRequestSent": "Reservation request sent successfully",
+    "confirm": "Confirm"
 }

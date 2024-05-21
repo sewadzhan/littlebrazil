@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/logic/cubits/booking/booking_cubit.dart';
 import 'package:littlebrazil/view/components/booking_screen/booking_comment_section.dart';
+import 'package:littlebrazil/view/components/booking_screen/booking_confirm_section.dart';
 import 'package:littlebrazil/view/components/booking_screen/booking_date_time_section.dart';
 import 'package:littlebrazil/view/components/custom_elevated_button.dart';
 import 'package:littlebrazil/view/components/custom_outlined_button.dart';
@@ -59,7 +60,7 @@ class _BookingScreenState extends State<BookingScreen> {
                 Padding(
                   padding: EdgeInsets.only(left: Constants.defaultPadding),
                   child: Text(
-                    "Бронирование",
+                    appLocalization.reservation,
                     style: Constants.headlineTextTheme.displayLarge!
                         .copyWith(color: Constants.primaryColor),
                   ),
@@ -77,7 +78,7 @@ class _BookingScreenState extends State<BookingScreen> {
                         BorderSide(color: Constants.lightGrayColor, width: 1))),
             child: currentStep != getSteps().length - 1
                 ? CustomOutlinedButton(
-                    text: "Дальше",
+                    text: appLocalization.next,
                     function: () {
                       if (currentStep == 0 &&
                           !context.read<BookingCubit>().validateFields()) {
@@ -100,15 +101,15 @@ class _BookingScreenState extends State<BookingScreen> {
                       } else if (state is BookingSuccessDelivery) {
                         Navigator.of(context).pop();
                         ScaffoldMessenger.of(context).showSnackBar(
-                            Constants.successSnackBar(context,
-                                "Запрос на бронирование успешно отправлено",
+                            Constants.successSnackBar(
+                                context, appLocalization.reservationRequestSent,
                                 duration: const Duration(milliseconds: 1500)));
                       }
                     },
                     builder: (context, state) {
                       return CustomElevatedButton(
                           isLoading: state is BookingLoadingState,
-                          text: "Подтвердить",
+                          text: appLocalization.confirm,
                           function: () {
                             context
                                 .read<BookingCubit>()
@@ -162,7 +163,9 @@ class _BookingScreenState extends State<BookingScreen> {
           state: currentStep > 2 ? StepState.complete : StepState.indexed,
           isActive: currentStep >= 2,
           title: const SizedBox.shrink(),
-          content: const SizedBox.shrink()),
+          content: BookingConfirmSection(
+            comments: commentsController.text,
+          )),
     ];
   }
 }
