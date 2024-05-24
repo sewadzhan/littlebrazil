@@ -336,7 +336,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                     Padding(
                       padding: const EdgeInsets.symmetric(horizontal: 3),
                       child: SizedBox(
-                        width: 20,
+                        width: 25,
                         child: Text(count.toString(),
                             textAlign: TextAlign.center,
                             style: Constants.headlineTextTheme.headlineMedium!

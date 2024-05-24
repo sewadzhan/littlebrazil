@@ -38,9 +38,13 @@ class _AuthScreenState extends State<AuthScreen> {
         child: Stack(
           alignment: Alignment.bottomCenter,
           children: [
-            SvgPicture.asset(
-              'assets/decorations/auth-bg.svg',
-              fit: BoxFit.cover,
+            Positioned(
+              top: 0,
+              child: SvgPicture.asset(
+                'assets/decorations/auth-bg.svg',
+                width: size.width,
+                fit: BoxFit.cover,
+              ),
             ),
             Wrap(
               children: [

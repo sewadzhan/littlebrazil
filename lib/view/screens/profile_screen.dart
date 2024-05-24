@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
 import 'package:littlebrazil/logic/blocs/current_user/current_user_bloc.dart';
+import 'package:littlebrazil/logic/cubits/contacts/contacts_cubit.dart';
 import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/language_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/loyal_system_bottom_sheet.dart';
@@ -200,8 +201,19 @@ class ProfileScreen extends StatelessWidget {
                       SizedBox(
                         height: Constants.defaultPadding,
                       ),
-                      ProfileListTile(
-                          title: appLocalization.aboutDeveloper, routeName: ''),
+                      BlocBuilder<ContactsCubit, ContactsState>(
+                        builder: (context, state) {
+                          if (state is ContactsLoadedState &&
+                              state.contactsModel.studioUrl.isNotEmpty) {
+                            return ProfileListTile(
+                              title: appLocalization.aboutDeveloper,
+                              routeName: '',
+                              urlForLaunch: state.contactsModel.studioUrl,
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
+                      ),
                       ProfileListTile(
                         title: appLocalization.logoutFromAccount,
                         routeName: '',

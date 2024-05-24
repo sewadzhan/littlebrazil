@@ -38,24 +38,28 @@ class BookingListTile extends StatelessWidget {
           SizedBox(
             width: Constants.defaultPadding * 0.75,
           ),
-          Padding(
-            padding: EdgeInsets.only(top: Constants.defaultPadding * 0.25),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Padding(
-                  padding:
-                      EdgeInsets.only(bottom: Constants.defaultPadding * 0.15),
-                  child: Text(
-                    title,
-                    style: Constants.textTheme.headlineSmall,
+          Expanded(
+            child: Padding(
+              padding: EdgeInsets.only(top: Constants.defaultPadding * 0.25),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Padding(
+                    padding: EdgeInsets.only(
+                        bottom: Constants.defaultPadding * 0.15),
+                    child: Text(
+                      title,
+                      style: Constants.textTheme.headlineSmall,
+                    ),
                   ),
-                ),
-                Text(
-                  text,
-                  style: Constants.textTheme.bodyLarge,
-                )
-              ],
+                  Text(
+                    text,
+                    style: Constants.textTheme.bodyLarge,
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 10,
+                  )
+                ],
+              ),
             ),
           )
         ],

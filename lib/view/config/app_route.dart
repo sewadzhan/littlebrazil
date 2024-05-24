@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/data/models/story_screen_argument.dart';
@@ -142,142 +143,128 @@ class AppRouter {
               child: const QRScannerScreen(),
             ));
       case "/successQRscanned":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: orderBloc),
-                BlocProvider.value(value: cashbackBloc),
-                BlocProvider.value(value: contactsCubit),
-                BlocProvider.value(value: checkoutBloc),
-                BlocProvider.value(value: currentUserBloc),
-              ],
-              child: SuccessQRScannedScreen(
-                order: settings.arguments as order.Order,
-              ),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: orderBloc),
+                    BlocProvider.value(value: cashbackBloc),
+                    BlocProvider.value(value: contactsCubit),
+                    BlocProvider.value(value: checkoutBloc),
+                    BlocProvider.value(value: currentUserBloc),
+                  ],
+                  child: SuccessQRScannedScreen(
+                    order: settings.arguments as order.Order,
+                  ),
+                ));
       case "/search":
-        return PageTransition(
-            type: PageTransitionType.bottomToTop,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider(create: (context) => SearchBloc(menuCubit)),
-                BlocProvider.value(value: cartBloc),
-              ],
-              child: const SearchScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(create: (context) => SearchBloc(menuCubit)),
+                    BlocProvider.value(value: cartBloc),
+                  ],
+                  child: const SearchScreen(),
+                ));
       case "/cart":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                    create: (context) => PromocodeBloc(
-                        firestoreRepository, cartBloc, currentUserBloc)
-                      ..add(LoadPromocodes())),
-                BlocProvider.value(value: authCubit),
-                BlocProvider.value(value: menuCubit),
-                BlocProvider.value(value: cartBloc),
-                BlocProvider.value(value: contactsCubit),
-              ],
-              child: const CartScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                        create: (context) => PromocodeBloc(
+                            firestoreRepository, cartBloc, currentUserBloc)
+                          ..add(LoadPromocodes())),
+                    BlocProvider.value(value: authCubit),
+                    BlocProvider.value(value: menuCubit),
+                    BlocProvider.value(value: cartBloc),
+                    BlocProvider.value(value: contactsCubit),
+                  ],
+                  child: const CartScreen(),
+                ));
       case "/productDetails":
-        return PageTransition(
-            type: PageTransitionType.fade,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: cartBloc),
-              ],
-              child:
-                  ProductDetailsScreen(product: settings.arguments as Product),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: cartBloc),
+                  ],
+                  child: ProductDetailsScreen(
+                      product: settings.arguments as Product),
+                ));
       case "/myAddresses":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(
-                  value: addressBloc,
-                ),
-                BlocProvider.value(value: authCubit),
-              ],
-              child: const MyAddressesScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: addressBloc,
+                    ),
+                    BlocProvider.value(value: authCubit),
+                  ],
+                  child: const MyAddressesScreen(),
+                ));
       case "/addAddress":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider(create: (_) => AddAddressBloc(deliveryZonesCubit)),
-                BlocProvider(
-                    create: (_) => GeolocationBloc()..add(LoadGeolocation())),
-                BlocProvider.value(value: authCubit),
-                BlocProvider.value(value: addressBloc),
-                BlocProvider.value(value: deliveryZonesCubit),
-              ],
-              child: const AddAddressScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                        create: (_) => AddAddressBloc(deliveryZonesCubit)),
+                    BlocProvider(
+                        create: (_) =>
+                            GeolocationBloc()..add(LoadGeolocation())),
+                    BlocProvider.value(value: authCubit),
+                    BlocProvider.value(value: addressBloc),
+                    BlocProvider.value(value: deliveryZonesCubit),
+                  ],
+                  child: const AddAddressScreen(),
+                ));
       case "/suggestAddress":
-        return PageTransition(
-            fullscreenDialog: true,
-            child: BlocProvider(
-              create: (context) =>
-                  SuggestAddressBloc(YandexRepository(YandexProvider())),
-              child: const SuggestAddressScreen(),
-            ),
-            type: PageTransitionType.bottomToTop,
-            duration: const Duration(milliseconds: 250));
+        return CupertinoPageRoute(
+          fullscreenDialog: true,
+          builder: (_) => BlocProvider(
+            create: (context) =>
+                SuggestAddressBloc(YandexRepository(YandexProvider())),
+            child: const SuggestAddressScreen(),
+          ),
+        );
       case "/checkout":
-        return PageTransition(
-            type: PageTransitionType.fade,
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: checkoutBloc),
-                BlocProvider.value(value: addressBloc),
-                BlocProvider.value(value: cartBloc),
-                BlocProvider.value(value: contactsCubit),
-                BlocProvider.value(value: orderBloc),
-                BlocProvider.value(value: deliveryZonesCubit),
-                BlocProvider.value(value: cashbackBloc),
-                BlocProvider.value(value: currentUserBloc),
-                BlocProvider.value(value: contactsCubit),
-              ],
-              child: const CheckoutScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: checkoutBloc),
+                    BlocProvider.value(value: addressBloc),
+                    BlocProvider.value(value: cartBloc),
+                    BlocProvider.value(value: contactsCubit),
+                    BlocProvider.value(value: orderBloc),
+                    BlocProvider.value(value: deliveryZonesCubit),
+                    BlocProvider.value(value: cashbackBloc),
+                    BlocProvider.value(value: currentUserBloc),
+                    BlocProvider.value(value: contactsCubit),
+                  ],
+                  child: const CheckoutScreen(),
+                ));
       case "/userProfile":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) => EditUserBloc(firestoreRepository),
-                ),
-                BlocProvider.value(value: authCubit),
-                BlocProvider.value(value: currentUserBloc),
-                BlocProvider.value(value: contactsCubit),
-              ],
-              child: const MyProfileScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) => EditUserBloc(firestoreRepository),
+                    ),
+                    BlocProvider.value(value: authCubit),
+                    BlocProvider.value(value: currentUserBloc),
+                    BlocProvider.value(value: contactsCubit),
+                  ],
+                  child: const MyProfileScreen(),
+                ));
       case "/ordersHistory":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider(
-                  create: (context) => OrderHistoryBloc(firestoreRepository),
-                ),
-                BlocProvider.value(value: authCubit),
-              ],
-              child: const OrdersHistoryScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider(
+                      create: (context) =>
+                          OrderHistoryBloc(firestoreRepository),
+                    ),
+                    BlocProvider.value(value: authCubit),
+                  ],
+                  child: const OrdersHistoryScreen(),
+                ));
       case "/successOrder":
         return PageTransition(
             type: PageTransitionType.bottomToTop,
@@ -289,19 +276,16 @@ class AppRouter {
               ),
             ));
       case "/orderDetails":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child:
+        return CupertinoPageRoute(
+            builder: (_) =>
                 OrderDetailsScreen(order: settings.arguments as order.Order));
       case "/aboutRestaurant":
-        return PageTransition(
-            type: PageTransitionType.fade,
-            duration: const Duration(milliseconds: 250),
-            child: BlocProvider(
-              create: (context) => AboutRestaurantCubit(firestoreRepository),
-              child: const AboutRestaurantScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) =>
+                      AboutRestaurantCubit(firestoreRepository),
+                  child: const AboutRestaurantScreen(),
+                ));
       case "/story":
         return PageTransition(
             type: PageTransitionType.fade,
@@ -310,47 +294,42 @@ class AppRouter {
                 storyScreenArgument:
                     settings.arguments as StoryScreenArgument));
       case "/faq":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: BlocProvider(
-              create: (context) => FAQBloc(firestoreRepository),
-              child: const FAQScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => FAQBloc(firestoreRepository),
+                  child: const FAQScreen(),
+                ));
       case "/deleteAccount":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(value: currentUserBloc),
-                BlocProvider.value(value: navigationCubit),
-                BlocProvider.value(value: authCubit),
-              ],
-              child: const DeleteAccountScreen(),
-            ));
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(value: currentUserBloc),
+                    BlocProvider.value(value: navigationCubit),
+                    BlocProvider.value(value: authCubit),
+                  ],
+                  child: const DeleteAccountScreen(),
+                ));
       case "/booking":
-        return PageTransition(
-            type: PageTransitionType.rightToLeft,
-            duration: const Duration(milliseconds: 250),
-            child: MultiBlocProvider(
-              providers: [
-                BlocProvider.value(
-                  value: contactsCubit,
+        return CupertinoPageRoute(
+            builder: (_) => MultiBlocProvider(
+                  providers: [
+                    BlocProvider.value(
+                      value: contactsCubit,
+                    ),
+                    BlocProvider(
+                      create: (context) => BookingCubit(currentUserBloc),
+                    ),
+                  ],
+                  child: const BookingScreen(),
                 ),
-                BlocProvider(
-                  create: (context) => BookingCubit(currentUserBloc),
-                ),
-              ],
-              child: const BookingScreen(),
-            ));
+            settings: const RouteSettings(name: "/booking"));
       default:
         return _errorRoute();
     }
   }
 
   static Route _errorRoute() {
-    return MaterialPageRoute(
+    return CupertinoPageRoute(
         builder: (_) => const Scaffold(body: Center(child: Text("Error!"))),
         settings: const RouteSettings(name: "/error"));
   }
