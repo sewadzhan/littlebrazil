@@ -27,8 +27,10 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     on<InitializeNotificationEvent>(
         (event, emit) async => registerNotification());
     on<NotificationErrorEvent>(
-      (event, emit) => log("NOTIFICATION ERROR: ${event.message}"),
+      (event, emit) => log("Notification error: ${event.message}"),
     );
+
+    add(const InitializeNotificationEvent());
   }
 
   Future<void> registerNotification() async {
@@ -41,8 +43,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      // log(
-      //     "User granted permission. TOKEN:${await firebaseMessaging.getToken()}");
+      log("User granted permission. TOKEN:${await firebaseMessaging.getToken()}");
 
       var channel = const AndroidNotificationChannel(
         'high_importance_channel', // id
@@ -72,7 +73,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
       FirebaseMessaging.onBackgroundMessage(firebaseMessagingBackgroundHandler);
 
       FirebaseMessaging.onMessage.listen((RemoteMessage message) {
-        log("NOTIFICATION CAME! ${message.notification?.body}");
+        log("Successful push notification ${message.notification?.body}");
         PushNotification notification = PushNotification(
           title: message.notification?.title,
           body: message.notification?.body,
@@ -101,7 +102,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
           title: message.notification?.title,
           body: message.notification?.body,
         );
-        log("BACKGROUND onMessageOpenedApp NOTIFICATION CAAAAAAAAAAAME $notification");
+        log("Background onMessageOpenedApp notification delivered $notification");
       });
     } else {
       add(const NotificationErrorEvent(

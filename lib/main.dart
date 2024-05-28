@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:littlebrazil/logic/blocs/notification/notification_bloc.dart';
 import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/config/app_route.dart';
 import 'package:littlebrazil/view/config/theme.dart';
@@ -20,8 +21,6 @@ void main() async {
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  // final NotificationBloc notificationBloc = NotificationBloc()
-  //   ..add(InitializeNotificationEvent());
 
   runApp(const MyApp());
 }
@@ -31,8 +30,17 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => LocalizationCubit(),
+    final NotificationBloc notificationBloc = NotificationBloc();
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => LocalizationCubit(),
+        ),
+        BlocProvider.value(
+          value: notificationBloc,
+        ),
+      ],
       child: BlocBuilder<LocalizationCubit, LocalizationState>(
         builder: (context, localizationState) {
           return MaterialApp(
