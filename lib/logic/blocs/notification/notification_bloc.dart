@@ -43,7 +43,7 @@ class NotificationBloc extends Bloc<NotificationEvent, NotificationState> {
     );
 
     if (settings.authorizationStatus == AuthorizationStatus.authorized) {
-      log("User granted permission. TOKEN:${await firebaseMessaging.getToken()}");
+      log("User granted permission. Notification token: ${await firebaseMessaging.getToken()}");
 
       var channel = const AndroidNotificationChannel(
         'high_importance_channel', // id

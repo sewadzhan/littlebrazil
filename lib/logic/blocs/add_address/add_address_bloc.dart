@@ -67,7 +67,10 @@ class AddAddressBloc extends Bloc<AddAddressEvent, AddAddressState> {
   newAddressSetBySuggestToState(
       NewAddressSetBySuggest event, Emitter<AddAddressState> emit) async {
     var previousState = state;
-    var currentState = state;
+    var currentState = state is AddAddressLoaded
+        ? state
+        : const AddAddressLoaded(AddAddressModel(
+            address: "", canBeDelivered: false, zoneDescription: ""));
     try {
       if (currentState is AddAddressLoaded) {
         emit(const AddAddressLoading());

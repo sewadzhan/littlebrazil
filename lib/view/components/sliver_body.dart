@@ -5,7 +5,7 @@ import 'package:littlebrazil/view/config/constants.dart';
 
 enum BackButtonType { arrow, cross }
 
-class SliverBody extends StatelessWidget {
+class SliverBody extends StatefulWidget {
   const SliverBody(
       {super.key,
       required this.title,
@@ -25,14 +25,19 @@ class SliverBody extends StatelessWidget {
   final BackButtonType backButtonType;
 
   @override
-  Widget build(BuildContext context) {
-    final scrollController = ScrollController();
-    final ValueNotifier<double> titlePaddingNotifier = ValueNotifier(10.0);
-    const double kBasePadding = 10;
-    const double kCollapsedPadding = 45;
+  State<SliverBody> createState() => _SliverBodyState();
+}
 
+class _SliverBodyState extends State<SliverBody> {
+  static const double kBasePadding = 10;
+  static const double kCollapsedPadding = 45;
+  final scrollController = ScrollController();
+  final ValueNotifier<double> titlePaddingNotifier = ValueNotifier(10.0);
+
+  @override
+  Widget build(BuildContext context) {
     scrollController.addListener(() {
-      final kExpandedHeight = showBackButton ? 105 : 75;
+      final kExpandedHeight = widget.showBackButton ? 105 : 75;
       final double horizontalTitlePadding;
 
       if (scrollController.hasClients) {
@@ -48,14 +53,14 @@ class SliverBody extends StatelessWidget {
     });
 
     return Scaffold(
-      extendBodyBehindAppBar: !showBackButton,
+      extendBodyBehindAppBar: !widget.showBackButton,
       backgroundColor: Constants.backgroundColor,
       body: CustomScrollView(
         physics: const ClampingScrollPhysics(),
         controller: scrollController,
         slivers: [
           SliverAppBar(
-            leading: showBackButton
+            leading: widget.showBackButton
                 ? TextButton(
                     style: TextButton.styleFrom(
                       shape: const CircleBorder(),
@@ -63,7 +68,7 @@ class SliverBody extends StatelessWidget {
                     child: SizedBox(
                       width: 25,
                       child: SvgPicture.asset(
-                          backButtonType == BackButtonType.cross
+                          widget.backButtonType == BackButtonType.cross
                               ? 'assets/icons/cross.svg'
                               : 'assets/icons/arrow-left.svg',
                           colorFilter: const ColorFilter.mode(
@@ -74,9 +79,9 @@ class SliverBody extends StatelessWidget {
                     },
                   )
                 : const SizedBox.shrink(),
-            actions: actions,
+            actions: widget.actions,
             backgroundColor: Constants.backgroundColor,
-            expandedHeight: showBackButton
+            expandedHeight: widget.showBackButton
                 ? Constants.defaultPadding * 8
                 : Constants.defaultPadding * 6.5,
             scrolledUnderElevation: 0,
@@ -110,7 +115,7 @@ class SliverBody extends StatelessWidget {
                   return Padding(
                     padding: EdgeInsets.only(left: value),
                     child: Text(
-                      title,
+                      widget.title,
                       style: Constants.headlineTextTheme.displaySmall!
                           .copyWith(color: Constants.primaryColor),
                     ),
@@ -121,11 +126,11 @@ class SliverBody extends StatelessWidget {
           ),
           SliverPadding(
               padding: EdgeInsets.only(top: Constants.defaultPadding * 0),
-              sliver: SliverToBoxAdapter(child: child))
+              sliver: SliverToBoxAdapter(child: widget.child))
         ],
       ),
-      bottomNavigationBar: bottomBar,
-      floatingActionButton: floatingActionButton,
+      bottomNavigationBar: widget.bottomBar,
+      floatingActionButton: widget.floatingActionButton,
     );
   }
 }

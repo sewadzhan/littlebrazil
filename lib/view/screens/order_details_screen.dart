@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:intl/intl.dart';
 import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
+import 'package:littlebrazil/view/components/list_tiles/cart_item_list_tile.dart';
 import 'package:littlebrazil/view/components/sliver_body.dart';
 import 'package:littlebrazil/view/config/config.dart';
 import 'package:littlebrazil/view/config/constants.dart';
@@ -130,107 +131,8 @@ class OrderDetailsScreen extends StatelessWidget {
                     primary: false,
                     shrinkWrap: true,
                     itemCount: order.cartItems.length,
-                    itemBuilder: (context, index) => Column(
-                          children: [
-                            Row(
-                              children: [
-                                // Container(
-                                //   width: 67,
-                                //   height: 40,
-                                //   decoration: const BoxDecoration(
-                                //       borderRadius:
-                                //           BorderRadius.all(Radius.circular(4)),
-                                //       image: DecorationImage(
-                                //           image: NetworkImage(
-                                //               'https://pikapika.kz/wp-content/uploads/2021/08/%D0%A7%D1%83%D0%BA%D0%B0-%D1%80%D0%BE%D0%BB%D0%BB.jpg'),
-                                //           fit: BoxFit.cover)),
-                                // ),
-                                // const SizedBox(
-                                //     width: Constants.defaultPadding * 0.5),
-                                Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: order.cartItems[index]
-                                                  .orderModifiers.isEmpty
-                                              ? Constants.defaultPadding * 0.5
-                                              : 5),
-                                      child: Column(
-                                        children: [
-                                          Text(
-                                            order
-                                                .cartItems[index].product.title,
-                                            style:
-                                                Constants.textTheme.titleLarge,
-                                          ),
-                                        ],
-                                      ),
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(
-                                          bottom: order.cartItems[index]
-                                                  .orderModifiers.isEmpty
-                                              ? 0
-                                              : Constants.defaultPadding *
-                                                  0.25),
-                                      child: Column(
-                                          children: List.generate(
-                                              order.cartItems[index]
-                                                  .orderModifiers.length,
-                                              (modIndex) => Text(
-                                                    "${order.cartItems[index].orderModifiers[modIndex].productGroupName}: ${order.cartItems[index].orderModifiers[modIndex].modifier.name}",
-                                                    style: Constants
-                                                        .textTheme.bodyMedium!
-                                                        .copyWith(
-                                                            color: Constants
-                                                                .middleGrayColor),
-                                                  ))),
-                                    ),
-                                    Row(
-                                      children: [
-                                        Text(
-                                          "${order.cartItems[index].count}x",
-                                          style: Constants.textTheme.bodyMedium!
-                                              .copyWith(
-                                                  fontSize: 10,
-                                                  color: Constants
-                                                      .middleGrayColor),
-                                        ),
-                                        const SizedBox(width: 10),
-                                        RichText(
-                                          text: TextSpan(
-                                              text:
-                                                  "${order.cartItems[index].product.price} ",
-                                              style: Constants
-                                                  .textTheme.titleLarge,
-                                              children: [
-                                                TextSpan(
-                                                    text: "₸",
-                                                    style: Constants.tengeStyle
-                                                        .copyWith(
-                                                            fontSize: Constants
-                                                                .textTheme
-                                                                .bodyMedium!
-                                                                .fontSize)),
-                                              ]),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                )
-                              ],
-                            ),
-                            const Padding(
-                              padding: EdgeInsets.symmetric(vertical: 8),
-                              child: Divider(
-                                height: 1,
-                                thickness: 1,
-                                color: Constants.lightGrayColor,
-                              ),
-                            ),
-                          ],
-                        )),
+                    itemBuilder: (context, index) =>
+                        CartItemListTile(cartItem: order.cartItems[index])),
               ),
             ),
             Padding(
