@@ -94,10 +94,8 @@ class CashbackBottomSheet extends StatelessWidget {
                                               color: Constants.middleGrayColor),
                                     ),
                                     trailing: SvgPicture.asset(
-                                        'assets/icons/arrow-right.svg',
-                                        colorFilter: const ColorFilter.mode(
-                                            Constants.middleGrayColor,
-                                            BlendMode.srcIn)),
+                                      'assets/icons/arrow-right.svg',
+                                    ),
                                     onTap: () {
                                       Navigator.pop(context);
                                       showModalBottomSheet(

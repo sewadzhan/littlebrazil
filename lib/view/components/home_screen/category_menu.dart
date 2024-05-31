@@ -101,8 +101,6 @@ class _CategoryMenuState extends State<CategoryMenu> {
                 width: 25,
                 child: SvgPicture.asset(
                   'assets/icons/search.svg',
-                  colorFilter: const ColorFilter.mode(
-                      Constants.darkGrayColor, BlendMode.srcIn),
                 ),
               ),
             ),

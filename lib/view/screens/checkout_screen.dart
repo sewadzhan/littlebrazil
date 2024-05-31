@@ -310,9 +310,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                           style: Constants.textTheme.bodyLarge,
                         ),
                         trailing: SvgPicture.asset(
-                            'assets/icons/arrow-right.svg',
-                            colorFilter: const ColorFilter.mode(
-                                Constants.middleGrayColor, BlendMode.srcIn)),
+                          'assets/icons/arrow-right.svg',
+                        ),
                         onTap: () {
                           Navigator.pushNamed(context, '/addAddress');
                         },
@@ -334,9 +333,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         style: Constants.textTheme.bodyMedium!
                             .copyWith(color: Constants.middleGrayColor),
                       ),
-                      trailing: SvgPicture.asset('assets/icons/arrow-right.svg',
-                          colorFilter: const ColorFilter.mode(
-                              Constants.middleGrayColor, BlendMode.srcIn)),
+                      trailing: SvgPicture.asset(
+                        'assets/icons/arrow-right.svg',
+                      ),
                       onTap: () {
                         showModalBottomSheet(
                             context: context,
@@ -426,8 +425,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                     trailing: SvgPicture.asset(
                       'assets/icons/arrow-right.svg',
-                      colorFilter: const ColorFilter.mode(
-                          Constants.middleGrayColor, BlendMode.srcIn),
                     ),
                     onTap: () {
                       showModalBottomSheet(

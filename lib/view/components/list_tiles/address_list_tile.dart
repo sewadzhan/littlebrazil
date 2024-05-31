@@ -36,9 +36,9 @@ class AddressListTile extends StatelessWidget {
             style: Constants.textTheme.bodyMedium!
                 .copyWith(color: Constants.middleGrayColor),
           ),
-          trailing: SvgPicture.asset('assets/icons/arrow-right.svg',
-              colorFilter: const ColorFilter.mode(
-                  Constants.middleGrayColor, BlendMode.srcIn)),
+          trailing: SvgPicture.asset(
+            'assets/icons/arrow-right.svg',
+          ),
         ),
         Container(
           height: 1,

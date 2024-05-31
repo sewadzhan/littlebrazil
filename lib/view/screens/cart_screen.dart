@@ -268,8 +268,6 @@ class CartScreen extends StatelessWidget {
                                 width: 30,
                                 child: SvgPicture.asset(
                                   'assets/icons/check-mark.svg',
-                                  colorFilter: const ColorFilter.mode(
-                                      Constants.primaryColor, BlendMode.srcIn),
                                 ),
                               ),
                             );

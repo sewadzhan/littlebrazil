@@ -32,8 +32,6 @@ class SearchScreen extends StatelessWidget {
             width: 25,
             child: SvgPicture.asset(
               'assets/icons/cross.svg',
-              colorFilter: const ColorFilter.mode(
-                  Constants.darkGrayColor, BlendMode.srcIn),
             ),
           ),
         ),

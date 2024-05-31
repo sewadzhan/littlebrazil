@@ -37,11 +37,10 @@ class _BookingScreenState extends State<BookingScreen> {
           child: SizedBox(
             width: 25,
             child: SvgPicture.asset(
-                currentStep == 0
-                    ? 'assets/icons/cross.svg'
-                    : 'assets/icons/arrow-left.svg',
-                colorFilter: const ColorFilter.mode(
-                    Constants.darkGrayColor, BlendMode.srcIn)),
+              currentStep == 0
+                  ? 'assets/icons/cross.svg'
+                  : 'assets/icons/arrow-left.svg',
+            ),
           ),
           onPressed: () {
             if (currentStep == 0) {

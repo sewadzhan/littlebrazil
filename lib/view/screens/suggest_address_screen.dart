@@ -22,9 +22,9 @@ class SuggestAddressScreen extends StatelessWidget {
           ),
           child: SizedBox(
             width: 25,
-            child: SvgPicture.asset('assets/icons/arrow-left.svg',
-                colorFilter: const ColorFilter.mode(
-                    Constants.darkGrayColor, BlendMode.srcIn)),
+            child: SvgPicture.asset(
+              'assets/icons/arrow-left.svg',
+            ),
           ),
           onPressed: () {
             Navigator.pop(context);

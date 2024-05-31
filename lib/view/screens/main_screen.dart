@@ -93,9 +93,7 @@ class MainScreen extends StatelessWidget {
                                     ? const ColorFilter.mode(
                                         Constants.secondPrimaryColor,
                                         BlendMode.srcIn)
-                                    : const ColorFilter.mode(
-                                        Constants.darkGrayColor,
-                                        BlendMode.srcIn)),
+                                    : null),
                           ),
                           label: appLocalization.homepage),
                       BottomNavigationBarItem(
@@ -106,9 +104,7 @@ class MainScreen extends StatelessWidget {
                                     ? const ColorFilter.mode(
                                         Constants.secondPrimaryColor,
                                         BlendMode.srcIn)
-                                    : const ColorFilter.mode(
-                                        Constants.darkGrayColor,
-                                        BlendMode.srcIn)),
+                                    : null),
                           ),
                           label: appLocalization.contacts),
                       BottomNavigationBarItem(
@@ -135,9 +131,7 @@ class MainScreen extends StatelessWidget {
                                     ? const ColorFilter.mode(
                                         Constants.secondPrimaryColor,
                                         BlendMode.srcIn)
-                                    : const ColorFilter.mode(
-                                        Constants.darkGrayColor,
-                                        BlendMode.srcIn)),
+                                    : null),
                           ),
                           label: appLocalization.profile),
                       BottomNavigationBarItem(
@@ -150,9 +144,7 @@ class MainScreen extends StatelessWidget {
                                         ? const ColorFilter.mode(
                                             Constants.secondPrimaryColor,
                                             BlendMode.srcIn)
-                                        : const ColorFilter.mode(
-                                            Constants.darkGrayColor,
-                                            BlendMode.srcIn)),
+                                        : null),
                               ),
                               BlocBuilder<CartBloc, CartState>(
                                 builder: (context, cartState) {

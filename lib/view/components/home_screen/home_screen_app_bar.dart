@@ -53,39 +53,39 @@ class HomeScreenAppBar extends StatelessWidget {
           ),
         ],
       ),
-      actions: [
-        TextButton(
-          style: TextButton.styleFrom(
-            shape: const CircleBorder(),
-          ),
-          onPressed: () {
-            // Navigator.pushNamed(context, '/checkout');
-          },
-          child: SizedBox(
-            width: 30,
-            child: Stack(
-              children: [
-                Positioned(
-                  child: SvgPicture.asset(
-                    'assets/icons/shopping-bag.svg',
-                    colorFilter: const ColorFilter.mode(
-                        Constants.darkGrayColor, BlendMode.srcIn),
-                  ),
-                ),
-                Positioned(
-                    left: 20,
-                    top: 18,
-                    child: Container(
-                      width: 10,
-                      height: 10,
-                      decoration: const BoxDecoration(
-                          color: Constants.purpleColor, shape: BoxShape.circle),
-                    ))
-              ],
-            ),
-          ),
-        ),
-      ],
+      // actions: [
+      //   TextButton(
+      //     style: TextButton.styleFrom(
+      //       shape: const CircleBorder(),
+      //     ),
+      //     onPressed: () {
+      //       // Navigator.pushNamed(context, '/checkout');
+      //     },
+      //     child: SizedBox(
+      //       width: 30,
+      //       child: Stack(
+      //         children: [
+      //           Positioned(
+      //             child: SvgPicture.asset(
+      //               'assets/icons/shopping-bag.svg',
+      //               colorFilter: const ColorFilter.mode(
+      //                   Constants.darkGrayColor, BlendMode.srcIn),
+      //             ),
+      //           ),
+      //           Positioned(
+      //               left: 20,
+      //               top: 18,
+      //               child: Container(
+      //                 width: 10,
+      //                 height: 10,
+      //                 decoration: const BoxDecoration(
+      //                     color: Constants.purpleColor, shape: BoxShape.circle),
+      //               ))
+      //         ],
+      //       ),
+      //     ),
+      //   ),
+      // ],
     );
   }
 }

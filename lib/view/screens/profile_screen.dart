@@ -174,10 +174,8 @@ class ProfileScreen extends StatelessWidget {
                               padding: EdgeInsets.only(
                                   right: Constants.defaultPadding * 0.5),
                               child: SvgPicture.asset(
-                                  'assets/icons/arrow-right.svg',
-                                  colorFilter: const ColorFilter.mode(
-                                      Constants.middleGrayColor,
-                                      BlendMode.srcIn)),
+                                'assets/icons/arrow-right.svg',
+                              ),
                             ),
                             onTap: () async {
                               final Locale currentLocale = context

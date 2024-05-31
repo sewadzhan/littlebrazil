@@ -68,11 +68,10 @@ class _SliverBodyState extends State<SliverBody> {
                     child: SizedBox(
                       width: 25,
                       child: SvgPicture.asset(
-                          widget.backButtonType == BackButtonType.cross
-                              ? 'assets/icons/cross.svg'
-                              : 'assets/icons/arrow-left.svg',
-                          colorFilter: const ColorFilter.mode(
-                              Constants.darkGrayColor, BlendMode.srcIn)),
+                        widget.backButtonType == BackButtonType.cross
+                            ? 'assets/icons/cross.svg'
+                            : 'assets/icons/arrow-left.svg',
+                      ),
                     ),
                     onPressed: () {
                       Navigator.pop(context);

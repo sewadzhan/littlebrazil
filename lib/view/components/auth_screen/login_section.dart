@@ -49,9 +49,9 @@ class _LoginSectionState extends State<LoginSection> {
             ),
             child: SizedBox(
               width: 25,
-              child: SvgPicture.asset('assets/icons/cross.svg',
-                  colorFilter: const ColorFilter.mode(
-                      Constants.darkGrayColor, BlendMode.srcIn)),
+              child: SvgPicture.asset(
+                'assets/icons/cross.svg',
+              ),
             ),
             onPressed: () {
               Navigator.pop(context);

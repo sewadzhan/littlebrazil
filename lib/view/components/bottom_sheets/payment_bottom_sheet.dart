@@ -90,9 +90,7 @@ class PaymentBottomSheet extends StatelessWidget {
                             //         ),
                             //         trailing: SvgPicture.asset(
                             //             'assets/icons/arrow_right.svg',
-                            //             colorFilter: const ColorFilter.mode(
-                            //                 Constants.middleGrayColor,
-                            //                 BlendMode.srcIn)),
+                            //             ),
                             //       )
                             //     : const SizedBox.shrink(),
                             // paymentMethods['nonCash'] != null &&
@@ -134,9 +132,7 @@ class PaymentBottomSheet extends StatelessWidget {
                             //         ),
                             //         trailing: SvgPicture.asset(
                             //             'assets/icons/arrow_right.svg',
-                            //             colorFilter: const ColorFilter.mode(
-                            //                 Constants.middleGrayColor,
-                            //                 BlendMode.srcIn)),
+                            //             ),
                             //       )
                             // : const SizedBox.shrink(),
                             paymentMethods['bankCard'] != null &&
@@ -173,10 +169,8 @@ class PaymentBottomSheet extends StatelessWidget {
                                           style: Constants.textTheme.bodyLarge,
                                         ),
                                         trailing: SvgPicture.asset(
-                                            'assets/icons/arrow-right.svg',
-                                            colorFilter: const ColorFilter.mode(
-                                                Constants.middleGrayColor,
-                                                BlendMode.srcIn)),
+                                          'assets/icons/arrow-right.svg',
+                                        ),
                                         onTap: () {
                                           context.read<CheckoutBloc>().add(
                                               const CheckoutPaymentMethodChanged(
@@ -266,10 +260,8 @@ class PaymentBottomSheet extends StatelessWidget {
                                           style: Constants.textTheme.bodyLarge,
                                         ),
                                         trailing: SvgPicture.asset(
-                                            'assets/icons/arrow-right.svg',
-                                            colorFilter: const ColorFilter.mode(
-                                                Constants.middleGrayColor,
-                                                BlendMode.srcIn)),
+                                          'assets/icons/arrow-right.svg',
+                                        ),
                                         onTap: () {
                                           context.read<CheckoutBloc>().add(
                                               const CheckoutPaymentMethodChanged(
