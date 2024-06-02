@@ -10,9 +10,17 @@ import 'package:littlebrazil/view/components/bottom_sheets/loyal_system_bottom_s
 import 'package:littlebrazil/view/components/list_tiles/profile_list_tile.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
+
+  void launchURL(String str) async {
+    var url = Uri.parse(str);
+    await canLaunchUrl(url)
+        ? await launchUrl(url)
+        : throw 'Could not launch $url';
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -217,53 +225,66 @@ class ProfileScreen extends StatelessWidget {
                         routeName: '',
                         pushWithRemove: true,
                       ),
-                      Padding(
-                        padding:
-                            EdgeInsets.only(bottom: Constants.defaultPadding),
-                        child: InkWell(
-                          onTap: () {},
-                          child: Container(
-                            margin: EdgeInsets.only(
-                                top: Constants.defaultPadding * 1.5),
-                            padding: EdgeInsets.symmetric(
-                              vertical: Constants.defaultPadding * 0.75,
-                              horizontal: Constants.defaultPadding * 0.5,
-                            ),
-                            decoration: const BoxDecoration(
-                                color: Constants.lightGrayColor,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(6))),
-                            child: Row(
-                              children: [
-                                Padding(
-                                  padding: EdgeInsets.only(
-                                      right: Constants.defaultPadding * 0.75),
-                                  child: SizedBox(
-                                    width: 30,
-                                    height: 30,
-                                    child: SvgPicture.asset(
-                                      'assets/icons/question.svg',
-                                      colorFilter: const ColorFilter.mode(
-                                          Constants.purpleColor,
-                                          BlendMode.srcIn),
-                                    ),
+                      BlocBuilder<ContactsCubit, ContactsState>(
+                        builder: (context, state) {
+                          if (state is ContactsLoadedState &&
+                              state.contactsModel.needHelpUrl.isNotEmpty) {
+                            return Padding(
+                              padding: EdgeInsets.only(
+                                  bottom: Constants.defaultPadding),
+                              child: InkWell(
+                                onTap: () {
+                                  launchURL(state.contactsModel.needHelpUrl);
+                                },
+                                child: Container(
+                                  margin: EdgeInsets.only(
+                                      top: Constants.defaultPadding * 1.5),
+                                  padding: EdgeInsets.symmetric(
+                                    vertical: Constants.defaultPadding * 0.75,
+                                    horizontal: Constants.defaultPadding * 0.5,
+                                  ),
+                                  decoration: const BoxDecoration(
+                                      color: Constants.lightGrayColor,
+                                      borderRadius:
+                                          BorderRadius.all(Radius.circular(6))),
+                                  child: Row(
+                                    children: [
+                                      Padding(
+                                        padding: EdgeInsets.only(
+                                            right: Constants.defaultPadding *
+                                                0.75),
+                                        child: SizedBox(
+                                          width: 30,
+                                          height: 30,
+                                          child: SvgPicture.asset(
+                                            'assets/icons/question.svg',
+                                            colorFilter: const ColorFilter.mode(
+                                                Constants.purpleColor,
+                                                BlendMode.srcIn),
+                                          ),
+                                        ),
+                                      ),
+                                      Text(
+                                        appLocalization.needHelp,
+                                        style: Constants
+                                            .headlineTextTheme.headlineLarge!
+                                            .copyWith(
+                                                color: Constants.purpleColor,
+                                                fontSize: Constants
+                                                        .headlineTextTheme
+                                                        .headlineLarge!
+                                                        .fontSize! +
+                                                    2,
+                                                height: 0.25),
+                                      )
+                                    ],
                                   ),
                                 ),
-                                Text(
-                                  appLocalization.needHelp,
-                                  style: Constants
-                                      .headlineTextTheme.headlineLarge!
-                                      .copyWith(
-                                          color: Constants.purpleColor,
-                                          fontSize: Constants.headlineTextTheme
-                                                  .headlineLarge!.fontSize! +
-                                              2,
-                                          height: 0.25),
-                                )
-                              ],
-                            ),
-                          ),
-                        ),
+                              ),
+                            );
+                          }
+                          return const SizedBox.shrink();
+                        },
                       )
                     ],
                   ),

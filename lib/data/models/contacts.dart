@@ -8,6 +8,7 @@ class ContactsModel {
   final List<String> phones;
   final String webSite;
   final String whatsappUrl;
+  final String needHelpUrl;
   final String tiktokUrl;
   final String youtubeUrl;
   final String closeHour;
@@ -24,6 +25,7 @@ class ContactsModel {
     required this.phones,
     required this.webSite,
     required this.whatsappUrl,
+    required this.needHelpUrl,
     required this.tiktokUrl,
     required this.youtubeUrl,
     required this.closeHour,
@@ -53,6 +55,7 @@ class ContactsModel {
         phones: List.from(data['phones']),
         webSite: data["webSite"],
         whatsappUrl: data["whatsappUrl"],
+        needHelpUrl: data["needHelpUrl"],
         tiktokUrl: data["tiktokUrl"],
         youtubeUrl: data["youtubeUrl"],
         closeHour: data["workingHours"]['close'],

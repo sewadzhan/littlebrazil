@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/logic/blocs/phone_auth/phone_auth_bloc.dart';
@@ -91,9 +92,10 @@ class _LoginSectionState extends State<LoginSection> {
               padding: EdgeInsets.only(bottom: Constants.defaultPadding),
               child: CustomTextInputField(
                   hintText: "+7",
-                  inputFormatters: [maskFormatter],
-                  keyboardType: const TextInputType.numberWithOptions(
-                      signed: true, decimal: true)),
+                  inputFormatters: [
+                    maskFormatter,
+                  ],
+                  keyboardType: TextInputType.phone),
             ),
             BlocConsumer<PhoneAuthBloc, PhoneAuthState>(
               listener: (context, state) async {

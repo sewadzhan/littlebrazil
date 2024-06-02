@@ -1,5 +1,6 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/logic/blocs/cashback/cashback_bloc.dart';
@@ -141,6 +142,9 @@ class OTPSection extends StatelessWidget {
                       controller: otpController,
                       autovalidateMode: AutovalidateMode.disabled,
                       length: 6,
+                      inputFormatters: [
+                        FilteringTextInputFormatter.digitsOnly,
+                      ],
                       keyboardType: const TextInputType.numberWithOptions(
                           signed: true, decimal: false),
                       animationType: AnimationType.fade,
