@@ -18,8 +18,11 @@ class LocalizationCubit extends Cubit<LocalizationState> {
       final SharedPreferences preferences =
           await SharedPreferences.getInstance();
       final String? currentLocale = preferences.getString('locale');
+
       if (currentLocale != null) {
-        emit(LocalizationState(locale: Locale(currentLocale)));
+        emit(LocalizationState(
+          locale: Locale(currentLocale),
+        ));
       }
     } catch (e) {
       log("Localization Cubit Error: $e");
@@ -35,6 +38,19 @@ class LocalizationCubit extends Cubit<LocalizationState> {
       emit(LocalizationState(locale: newLocale));
     } catch (e) {
       log("Localization Cubit Error: $e");
+    }
+  }
+
+  //Get app first launch data
+  Future<bool> getFirstLaunchData() async {
+    final SharedPreferences preferences = await SharedPreferences.getInstance();
+    bool? isFirstLaunch = preferences.getBool('first_time_launch');
+
+    if (isFirstLaunch == false) {
+      return false;
+    } else {
+      preferences.setBool('first_time_launch', false);
+      return true;
     }
   }
 }

@@ -1,11 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
+import 'package:littlebrazil/view/components/auth_screen/language_section.dart';
 import 'package:littlebrazil/view/components/auth_screen/login_section.dart';
 import 'package:littlebrazil/view/components/auth_screen/otp_section.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 
 class AuthScreen extends StatefulWidget {
-  const AuthScreen({super.key});
+  const AuthScreen({super.key, this.isFirstLaunch = false});
+
+  final bool isFirstLaunch;
 
   @override
   State<AuthScreen> createState() => _AuthScreenState();
@@ -61,14 +64,28 @@ class _AuthScreenState extends State<AuthScreen> {
                   child: PageView(
                     controller: pageController,
                     physics: const NeverScrollableScrollPhysics(),
-                    children: [
-                      LoginSection(
-                        pageController: pageController,
-                      ),
-                      OTPSection(
-                        pageController: pageController,
-                      )
-                    ],
+                    children: widget.isFirstLaunch
+                        ? [
+                            LoginLanguageSection(
+                              pageController: pageController,
+                            ),
+                            LoginSection(
+                              pageController: pageController,
+                              isFirstLaunch: true,
+                            ),
+                            OTPSection(
+                              pageController: pageController,
+                            )
+                          ]
+                        : [
+                            LoginSection(
+                              pageController: pageController,
+                              isFirstLaunch: false,
+                            ),
+                            OTPSection(
+                              pageController: pageController,
+                            )
+                          ],
                   ),
                 ),
               ],

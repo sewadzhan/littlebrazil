@@ -5,6 +5,7 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/logic/blocs/cart/cart_bloc.dart';
 import 'package:littlebrazil/logic/blocs/network/network_bloc.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
+import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:littlebrazil/view/screens/contacts_screen.dart';
@@ -53,11 +54,16 @@ class MainScreen extends StatelessWidget {
                       top: BorderSide(
                           color: Constants.lightGrayColor, width: 1))),
               child: BlocConsumer<AuthCubit, User?>(
-                listener: (context, state) {
+                listener: (context, state) async {
                   if (state == null) {
-                    Navigator.of(context).pushNamed('/auth');
-                    context.read<AuthCubit>().signOut();
-                    context.read<NavigationCubit>().setIndex(0);
+                    if (context.mounted) {
+                      context.read<AuthCubit>().signOut();
+                      context.read<NavigationCubit>().setIndex(0);
+                      Navigator.of(context).pushNamed('/auth',
+                          arguments: await context
+                              .read<LocalizationCubit>()
+                              .getFirstLaunchData());
+                    }
                   }
                 },
                 builder: (context, authState) {

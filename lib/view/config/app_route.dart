@@ -125,15 +125,20 @@ class AppRouter {
           ),
         );
       case "/auth":
+        bool? isFirstLaunch = settings.arguments as bool?;
         return PageTransition(
             type: PageTransitionType.fade,
-            child: MultiBlocProvider(providers: [
-              BlocProvider.value(value: authCubit),
-              BlocProvider.value(value: phoneAuthBloc),
-              BlocProvider.value(value: currentUserBloc),
-              BlocProvider.value(value: cashbackBloc),
-              BlocProvider(create: (context) => OTPSectionCubit())
-            ], child: const AuthScreen()));
+            child: MultiBlocProvider(
+                providers: [
+                  BlocProvider.value(value: authCubit),
+                  BlocProvider.value(value: phoneAuthBloc),
+                  BlocProvider.value(value: currentUserBloc),
+                  BlocProvider.value(value: cashbackBloc),
+                  BlocProvider(create: (context) => OTPSectionCubit())
+                ],
+                child: AuthScreen(
+                  isFirstLaunch: isFirstLaunch ?? false,
+                )));
       case "/qr":
         return PageTransition(
             type: PageTransitionType.bottomToTop,

@@ -1,6 +1,5 @@
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:littlebrazil/logic/blocs/phone_auth/phone_auth_bloc.dart';
@@ -13,9 +12,11 @@ import 'package:url_launcher/url_launcher.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class LoginSection extends StatefulWidget {
-  const LoginSection({super.key, required this.pageController});
+  const LoginSection(
+      {super.key, required this.pageController, this.isFirstLaunch = false});
 
   final PageController pageController;
+  final bool isFirstLaunch;
 
   @override
   State<LoginSection> createState() => _LoginSectionState();
@@ -51,10 +52,18 @@ class _LoginSectionState extends State<LoginSection> {
             child: SizedBox(
               width: 25,
               child: SvgPicture.asset(
-                'assets/icons/cross.svg',
+                widget.isFirstLaunch
+                    ? 'assets/icons/arrow-left.svg'
+                    : 'assets/icons/cross.svg',
               ),
             ),
-            onPressed: () {
+            onPressed: () async {
+              if (widget.isFirstLaunch) {
+                await widget.pageController.previousPage(
+                    duration: const Duration(milliseconds: 300),
+                    curve: Curves.ease);
+                return;
+              }
               Navigator.pop(context);
             },
           ),
@@ -97,6 +106,7 @@ class _LoginSectionState extends State<LoginSection> {
                   ],
                   keyboardType: TextInputType.phone),
             ),
+            const Spacer(),
             BlocConsumer<PhoneAuthBloc, PhoneAuthState>(
               listener: (context, state) async {
                 if (state is PhoneAuthNumberVerificationFailure) {
@@ -142,24 +152,27 @@ class _LoginSectionState extends State<LoginSection> {
                 );
               },
             ),
-            RichText(
-                text: TextSpan(
-                    text: appLocalization.byRegisteringYouAgreeTo,
-                    style: Constants.textTheme.bodyMedium,
-                    children: [
-                  TextSpan(
-                    text: appLocalization.privacyPolicy,
-                    style: Constants.textTheme.bodyMedium!
-                        .copyWith(decoration: TextDecoration.underline),
-                    recognizer: TapGestureRecognizer()
-                      ..onTap = () {
-                        launchUrl(Uri.https('littlebrazil.kz'));
-                      },
-                  ),
-                  TextSpan(
-                      text: appLocalization.littleBrazilRestaurant,
-                      style: Constants.textTheme.bodyMedium)
-                ]))
+            Padding(
+              padding: EdgeInsets.only(bottom: Constants.defaultPadding * 1.5),
+              child: RichText(
+                  text: TextSpan(
+                      text: appLocalization.byRegisteringYouAgreeTo,
+                      style: Constants.textTheme.bodyMedium,
+                      children: [
+                    TextSpan(
+                      text: appLocalization.privacyPolicy,
+                      style: Constants.textTheme.bodyMedium!
+                          .copyWith(decoration: TextDecoration.underline),
+                      recognizer: TapGestureRecognizer()
+                        ..onTap = () {
+                          launchUrl(Uri.https('littlebrazil.kz'));
+                        },
+                    ),
+                    TextSpan(
+                        text: appLocalization.littleBrazilRestaurant,
+                        style: Constants.textTheme.bodyMedium)
+                  ])),
+            )
           ],
         )
       ]),
