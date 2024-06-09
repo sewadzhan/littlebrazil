@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:littlebrazil/view/components/auth_screen/language_section.dart';
 import 'package:littlebrazil/view/components/auth_screen/login_section.dart';
@@ -63,6 +64,10 @@ class _AuthScreenState extends State<AuthScreen> {
                           topRight: Radius.circular(15))),
                   child: PageView(
                     controller: pageController,
+                    onPageChanged: (value) {
+                      HapticFeedback
+                          .mediumImpact(); //Small vibration for feedback
+                    },
                     physics: const NeverScrollableScrollPhysics(),
                     children: widget.isFirstLaunch
                         ? [

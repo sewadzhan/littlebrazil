@@ -73,7 +73,7 @@
     "total": "Total",
     "addAddress": "Add address",
     "specifyDeliveryTime": "Specify delivery time",
-    "weWillTryToDeliverYourOrderAsQuicklyAsPossible": "We will try to deliver your order as soon as possible (with an accuracy of ±10 minutes)",
+    "weWillTryToDeliverYourOrderAsQuicklyAsPossible": "We will try to deliver your order as soon as possible (with an accuracy of ±15 minutes)",
     "select": "Select",
     "payForTheOrder": "Pay for the order",
     "byCreditCard": "By credit card",

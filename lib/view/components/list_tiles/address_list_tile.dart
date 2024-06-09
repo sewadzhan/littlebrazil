@@ -31,11 +31,13 @@ class AddressListTile extends StatelessWidget {
                 letterSpacing: 0.1,
                 color: Constants.darkGrayColor),
           ),
-          subtitle: Text(
-            "${appLocalization.apartmentOffice} ${address.apartmentOrOffice}",
-            style: Constants.textTheme.bodyMedium!
-                .copyWith(color: Constants.middleGrayColor),
-          ),
+          subtitle: address.apartmentOrOffice.isNotEmpty
+              ? Text(
+                  "${appLocalization.apartmentOffice} ${address.apartmentOrOffice}",
+                  style: Constants.textTheme.bodyMedium!
+                      .copyWith(color: Constants.middleGrayColor),
+                )
+              : const SizedBox.shrink(),
           trailing: SvgPicture.asset(
             'assets/icons/arrow-right.svg',
           ),

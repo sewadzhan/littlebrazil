@@ -328,11 +328,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                         state.address.address,
                         style: Constants.textTheme.bodyLarge,
                       ),
-                      subtitle: Text(
-                        "${appLocalization.aptOffice} ${state.address.apartmentOrOffice}",
-                        style: Constants.textTheme.bodyMedium!
-                            .copyWith(color: Constants.middleGrayColor),
-                      ),
+                      subtitle: state.address.apartmentOrOffice.isNotEmpty
+                          ? Text(
+                              "${appLocalization.aptOffice} ${state.address.apartmentOrOffice}",
+                              style: Constants.textTheme.bodyMedium!
+                                  .copyWith(color: Constants.middleGrayColor),
+                            )
+                          : const SizedBox.shrink(),
                       trailing: SvgPicture.asset(
                         'assets/icons/arrow-right.svg',
                       ),

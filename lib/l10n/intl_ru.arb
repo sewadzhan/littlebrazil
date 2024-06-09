@@ -74,7 +74,7 @@
     "total": "Итого",
     "addAddress": "Добавить адрес",
     "specifyDeliveryTime": "Укажите время доставки",
-    "weWillTryToDeliverYourOrderAsQuicklyAsPossible": "Будем стараться доставить Ваш заказ максимально быстро (с погрешностью ±10 минут)",
+    "weWillTryToDeliverYourOrderAsQuicklyAsPossible": "Будем стараться доставить Ваш заказ максимально быстро (с погрешностью ±15 минут)",
     "select": "Выбрать",
     "payForTheOrder": "Оплатите заказ",
     "byCreditCard": "Банковской картой",

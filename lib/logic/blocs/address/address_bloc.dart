@@ -60,12 +60,12 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         }
 
         //Address data validation
-        if (event.model.address.isEmpty || event.apartment.isEmpty) {
-          emit(const AddressErrorState("fillAllRequiredFields"));
+        if (!event.model.canBeDelivered) {
+          emit(const AddressErrorState("deliveryIsNotAvailableAtThisAddress"));
           emit(currentState);
           return;
-        } else if (!event.model.canBeDelivered) {
-          emit(const AddressErrorState("deliveryIsNotAvailableAtThisAddress"));
+        } else if (event.model.address.isEmpty || event.apartment.isEmpty) {
+          emit(const AddressErrorState("fillAllRequiredFields"));
           emit(currentState);
           return;
         }
@@ -73,7 +73,7 @@ class AddressBloc extends Bloc<AddressEvent, AddressState> {
         Address address = Address(
             id: uuid.v4(),
             address: event.model.address,
-            apartmentOrOffice: event.apartment,
+            apartmentOrOffice: event.apartment.trim(),
             geopoint: event.model.marker!);
 
         List<Address> newAddressesList = List.from(currentState.addresses)

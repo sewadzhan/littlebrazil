@@ -104,10 +104,6 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                                         latitude: state.geopoint.latitude,
                                         longitude: state.geopoint.longitude),
                                     zoom: 16.65)));
-                          } else if (state is AddAddressFailed) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                Constants.errorSnackBar(context,
-                                    appLocalization.unexpectedAddressError));
                           }
                         },
                         builder: (context, addAddressState) {
@@ -348,22 +344,23 @@ class _AddAddressScreenState extends State<AddAddressScreen> {
                   }
                 },
                 builder: (context, state) {
-                  return CustomElevatedButton(
-                      isLoading: state is AddressLoading,
-                      isEnabled: state is AddressLoaded,
-                      text: appLocalization.saveAddress,
-                      function: () async {
-                        var addAddressState =
-                            context.read<AddAddressBloc>().state;
-                        if (addAddressState is AddAddressLoaded) {
-                          var phoneNumber =
-                              context.read<AuthCubit>().state!.phoneNumber!;
-                          context.read<AddressBloc>().add(AddressAdded(
-                              phoneNumber: phoneNumber,
-                              model: addAddressState.addAddressModel,
-                              apartment: apartmentController.text));
-                        }
-                      });
+                  return BlocBuilder<AddAddressBloc, AddAddressState>(
+                    builder: (context, addAddressState) {
+                      return CustomElevatedButton(
+                          isLoading: addAddressState is AddAddressLoading,
+                          isEnabled: addAddressState is AddAddressLoaded,
+                          text: appLocalization.saveAddress,
+                          function: () async {
+                            var phoneNumber =
+                                context.read<AuthCubit>().state!.phoneNumber!;
+                            context.read<AddressBloc>().add(AddressAdded(
+                                phoneNumber: phoneNumber,
+                                model: (addAddressState as AddAddressLoaded)
+                                    .addAddressModel,
+                                apartment: apartmentController.text));
+                          });
+                    },
+                  );
                 },
               )
             ],
