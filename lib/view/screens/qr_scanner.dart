@@ -124,9 +124,13 @@ class _QRScannerScreenState extends State<QRScannerScreen> {
               Expanded(
                 child: ClipRRect(
                   borderRadius: BorderRadius.circular(12),
-                  child: QRView(
-                    key: qrKey,
-                    onQRViewCreated: onQRViewCreated,
+                  child: Container(
+                    color: Constants.secondBackgroundColor,
+                    child: QRView(
+                      key: qrKey,
+                      onQRViewCreated: onQRViewCreated,
+                      formatsAllowed: const [BarcodeFormat.qrcode],
+                    ),
                   ),
                 ),
               )

@@ -123,18 +123,18 @@ class _HomeScreenState extends State<HomeScreen> {
               }
               return SliverToBoxAdapter(
                 child: SizedBox(
-                    height: 56,
+                    height: 52,
                     child: Padding(
-                      padding: EdgeInsets.symmetric(
-                          horizontal: Constants.defaultPadding * 0.5,
-                          vertical: Constants.defaultPadding * 0.4),
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 10, vertical: 5),
                       child: Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           mainAxisAlignment: MainAxisAlignment.spaceAround,
                           children: List.generate(
                             5,
                             (i) => const ShimmerWidget.rectangular(
-                              width: 60,
-                              height: 25,
+                              width: 70,
+                              height: 28,
                               decoration: BoxDecoration(
                                 color: Constants.lightGrayColor,
                                 borderRadius:
@@ -161,7 +161,8 @@ class _HomeScreenState extends State<HomeScreen> {
                   child: Container(
                       width: 25,
                       height: 25,
-                      margin: const EdgeInsets.only(top: 50),
+                      margin:
+                          EdgeInsets.only(top: Constants.defaultPadding * 2),
                       child: const CircularProgressIndicator(
                         color: Constants.secondPrimaryColor,
                         strokeWidth: 2.5,

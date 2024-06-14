@@ -25,6 +25,8 @@ class Constants {
   static const Color successColor = Color(0xFF4CAF50);
   static const Color errorColor = Color(0xFFF44336);
 
+  static const Color greenShimmerColor = Color(0xFFC2D973);
+
   static double defaultPadding = 16.0;
 
   static TextTheme headlineTextTheme = CustomTheme.headlineTextTheme;

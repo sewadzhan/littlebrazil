@@ -45,6 +45,7 @@ class MainScreen extends StatelessWidget {
                 HomeScreen(),
                 ContactsScreen(),
                 Placeholder(),
+                Placeholder(),
                 ProfileScreen(),
               ],
             ),
@@ -79,12 +80,12 @@ class MainScreen extends StatelessWidget {
 
                       //If tapped profile navigation bar or QR item it checks the authentication status
                       if ((index == 2 && !isAuthenticated) ||
-                          (index == 3 && !isAuthenticated)) {
+                          (index == 4 && !isAuthenticated)) {
                         Navigator.pushNamed(context, '/auth');
                         return;
                       } else if (index == 2) {
                         Navigator.of(context).pushNamed('/qr');
-                      } else if (index == 4) {
+                      } else if (index == 3) {
                         Navigator.of(context).pushNamed('/cart');
                       } else {
                         context.read<NavigationCubit>().setIndex(index);
@@ -130,23 +131,12 @@ class MainScreen extends StatelessWidget {
                           ),
                           label: "QR оплата"),
                       BottomNavigationBarItem(
-                          icon: SizedBox(
-                            width: Constants.defaultPadding * 1.75,
-                            child: SvgPicture.asset('assets/icons/user.svg',
-                                colorFilter: navigationState == 3
-                                    ? const ColorFilter.mode(
-                                        Constants.secondPrimaryColor,
-                                        BlendMode.srcIn)
-                                    : null),
-                          ),
-                          label: appLocalization.profile),
-                      BottomNavigationBarItem(
                           icon: Stack(
                             children: [
                               SizedBox(
                                 width: Constants.defaultPadding * 1.75,
                                 child: SvgPicture.asset('assets/icons/cart.svg',
-                                    colorFilter: navigationState == 4
+                                    colorFilter: navigationState == 3
                                         ? const ColorFilter.mode(
                                             Constants.secondPrimaryColor,
                                             BlendMode.srcIn)
@@ -172,7 +162,18 @@ class MainScreen extends StatelessWidget {
                               )
                             ],
                           ),
-                          label: appLocalization.cart)
+                          label: appLocalization.cart),
+                      BottomNavigationBarItem(
+                          icon: SizedBox(
+                            width: Constants.defaultPadding * 1.75,
+                            child: SvgPicture.asset('assets/icons/user.svg',
+                                colorFilter: navigationState == 4
+                                    ? const ColorFilter.mode(
+                                        Constants.secondPrimaryColor,
+                                        BlendMode.srcIn)
+                                    : null),
+                          ),
+                          label: appLocalization.profile),
                     ],
                   );
                 },

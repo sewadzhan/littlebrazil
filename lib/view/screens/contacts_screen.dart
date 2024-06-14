@@ -41,7 +41,7 @@ class ContactsScreen extends StatelessWidget {
                         state.contactsModel.phones.length,
                         (index) => Padding(
                             padding: EdgeInsets.only(
-                                bottom: Constants.defaultPadding / 4),
+                                bottom: Constants.defaultPadding * 0.25),
                             child: InkWell(
                               onTap: () {
                                 launchURL(
@@ -57,9 +57,13 @@ class ContactsScreen extends StatelessWidget {
                             )),
                       ));
                     }
-                    return const ShimmerWidget.rectangular(
-                      width: 150,
-                      height: 20,
+                    return Padding(
+                      padding: EdgeInsets.only(
+                          bottom: Constants.defaultPadding * 0.25),
+                      child: const ShimmerWidget.rectangular(
+                        width: 150,
+                        height: 25,
+                      ),
                     );
                   },
                 ),
@@ -76,9 +80,13 @@ class ContactsScreen extends StatelessWidget {
                                 color: Constants.darkGrayColor,
                                 fontWeight: FontWeight.normal));
                       }
-                      return const ShimmerWidget.rectangular(
-                        width: 200,
-                        height: 20,
+                      return Padding(
+                        padding: EdgeInsets.only(
+                            bottom: Constants.defaultPadding * 0.25),
+                        child: const ShimmerWidget.rectangular(
+                          width: 150,
+                          height: 25,
+                        ),
                       );
                     },
                   ),
@@ -116,7 +124,7 @@ class ContactsScreen extends StatelessWidget {
                       }
                       return const ShimmerWidget.rectangular(
                         width: 120,
-                        height: 20,
+                        height: 25,
                       );
                     },
                   ),
@@ -153,8 +161,8 @@ class ContactsScreen extends StatelessWidget {
                                   padding: EdgeInsets.only(
                                       bottom: Constants.defaultPadding / 2),
                                   child: const ShimmerWidget.rectangular(
-                                    width: 250,
-                                    height: 20,
+                                    width: 200,
+                                    height: 25,
                                   ),
                                 )));
                   },
@@ -263,8 +271,8 @@ class ContactsScreen extends StatelessWidget {
                         padding: EdgeInsets.only(
                             right: Constants.defaultPadding * 0.75),
                         child: const ShimmerWidget.rectangular(
-                          width: 40,
-                          height: 40,
+                          width: 55,
+                          height: 55,
                           decoration: BoxDecoration(
                               color: Constants.lightGrayColor,
                               shape: BoxShape.circle),

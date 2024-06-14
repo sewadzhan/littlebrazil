@@ -8,6 +8,7 @@ import 'package:littlebrazil/logic/cubits/localization/localization_cubit.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/language_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/bottom_sheets/loyal_system_bottom_sheet.dart';
 import 'package:littlebrazil/view/components/list_tiles/profile_list_tile.dart';
+import 'package:littlebrazil/view/components/shimmer_widgets/shimmer_widget.dart';
 import 'package:littlebrazil/view/config/constants.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:url_launcher/url_launcher.dart';
@@ -51,41 +52,65 @@ class ProfileScreen extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                        children: [
-                          BlocBuilder<CurrentUserBloc, CurrentUserState>(
-                            builder: (context, state) {
-                              if (state is CurrentUserRetrieveSuccessful) {
-                                return Text(
+                      BlocBuilder<CurrentUserBloc, CurrentUserState>(
+                        builder: (context, state) {
+                          if (state is CurrentUserRetrieveSuccessful) {
+                            return Row(
+                              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                              children: [
+                                Text(
                                   state.user.name,
                                   style: Constants
                                       .headlineTextTheme.displayLarge!
                                       .copyWith(
                                           color: Constants.primaryColor,
                                           fontWeight: FontWeight.w600),
-                                );
-                              }
-                              return const SizedBox.shrink();
-                            },
-                          ),
-                          TextButton(
-                            style: TextButton.styleFrom(
-                              backgroundColor: Constants.thirdPrimaryColor,
-                              shape: const CircleBorder(),
-                              minimumSize: const Size(35, 35),
-                              tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                            ),
-                            onPressed: () {
-                              Navigator.pushNamed(context, '/userProfile');
-                            },
-                            child: SvgPicture.asset(
-                              'assets/icons/pencil.svg',
-                              colorFilter: const ColorFilter.mode(
-                                  Constants.darkGrayColor, BlendMode.srcIn),
-                            ),
-                          )
-                        ],
+                                ),
+                                TextButton(
+                                  style: TextButton.styleFrom(
+                                    backgroundColor:
+                                        Constants.thirdPrimaryColor,
+                                    shape: const CircleBorder(),
+                                    minimumSize: const Size(35, 35),
+                                    tapTargetSize:
+                                        MaterialTapTargetSize.shrinkWrap,
+                                  ),
+                                  onPressed: () {
+                                    Navigator.pushNamed(
+                                        context, '/userProfile');
+                                  },
+                                  child: SvgPicture.asset(
+                                    'assets/icons/pencil.svg',
+                                    colorFilter: const ColorFilter.mode(
+                                        Constants.darkGrayColor,
+                                        BlendMode.srcIn),
+                                  ),
+                                )
+                              ],
+                            );
+                          }
+                          return const Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              ShimmerWidget.rectangular(
+                                width: 150,
+                                height: 50,
+                                baseColor: Constants.greenShimmerColor,
+                                decoration: BoxDecoration(
+                                    borderRadius:
+                                        BorderRadius.all(Radius.circular(12))),
+                              ),
+                              ShimmerWidget.rectangular(
+                                width: 35,
+                                height: 35,
+                                baseColor: Constants.greenShimmerColor,
+                                decoration: BoxDecoration(
+                                    color: Constants.lightGrayColor,
+                                    shape: BoxShape.circle),
+                              )
+                            ],
+                          );
+                        },
                       ),
                       Row(
                         crossAxisAlignment: CrossAxisAlignment.end,
@@ -109,7 +134,24 @@ class ProfileScreen extends StatelessWidget {
                                                   fontWeight: FontWeight.w600))
                                     ]));
                               }
-                              return const SizedBox.shrink();
+                              return Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    "${appLocalization.yourBalance}\n",
+                                    style: Constants.textTheme.bodyMedium!
+                                        .copyWith(height: 0.5),
+                                  ),
+                                  const ShimmerWidget.rectangular(
+                                    width: 100,
+                                    height: 40,
+                                    baseColor: Constants.greenShimmerColor,
+                                    decoration: BoxDecoration(
+                                        borderRadius: BorderRadius.all(
+                                            Radius.circular(12))),
+                                  ),
+                                ],
+                              );
                             },
                           ),
                           BlocBuilder<CashbackBloc, CashbackState>(
