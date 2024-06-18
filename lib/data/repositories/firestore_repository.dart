@@ -1,3 +1,4 @@
+import 'package:littlebrazil/data/models/about_company_model.dart';
 import 'package:littlebrazil/data/models/about_restaurant_model.dart';
 import 'package:littlebrazil/data/models/address.dart';
 import 'package:littlebrazil/data/models/cashback_data.dart';
@@ -164,5 +165,13 @@ class FirestoreRepository {
     faqs.sort((a, b) => a.order.compareTo(b.order));
 
     return faqs;
+  }
+
+  //Get about company data
+  Future<AboutCompanyModel> getAboutCompanyData() async {
+    var aboutCompanySnapshot = await firestoreProvider.getAboutCompanyData();
+    var data = aboutCompanySnapshot.data();
+
+    return AboutCompanyModel.fromMap(data!);
   }
 }

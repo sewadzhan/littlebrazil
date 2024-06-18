@@ -27,6 +27,7 @@ import 'package:littlebrazil/logic/blocs/promocode/promocode_bloc.dart';
 import 'package:littlebrazil/logic/blocs/qr_scanner/qr_scanner_bloc.dart';
 import 'package:littlebrazil/logic/blocs/search/search_bloc.dart';
 import 'package:littlebrazil/logic/blocs/suggest_address/suggest_address_bloc.dart';
+import 'package:littlebrazil/logic/cubits/about_company/about_company_cubit.dart';
 import 'package:littlebrazil/logic/cubits/about_restaurant/about_restaurant_cubit.dart';
 import 'package:littlebrazil/logic/cubits/auth/logout_cubit.dart';
 import 'package:littlebrazil/logic/cubits/booking/booking_cubit.dart';
@@ -39,6 +40,7 @@ import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
 import 'package:littlebrazil/logic/cubits/rate_app/rate_app_cubit.dart';
 import 'package:littlebrazil/logic/cubits/stories/stories_cubit.dart';
 import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
+import 'package:littlebrazil/view/screens/about_company_screen.dart';
 import 'package:littlebrazil/view/screens/about_restaurant_screen.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
 import 'package:littlebrazil/view/screens/auth_screen.dart';
@@ -328,6 +330,13 @@ class AppRouter {
                   child: const BookingScreen(),
                 ),
             settings: const RouteSettings(name: "/booking"));
+      case "/aboutCompany":
+        return CupertinoPageRoute(
+            builder: (_) => BlocProvider(
+                  create: (context) => AboutCompanyCubit(firestoreRepository),
+                  child: const AboutCompanyScreen(),
+                ),
+            settings: const RouteSettings(name: "/aboutCompany"));
       default:
         return _errorRoute();
     }

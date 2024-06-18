@@ -250,5 +250,9 @@
     "dateTimeOfReservation": "Date and time of reservation",
     "reservation": "Reservation",
     "reservationRequestSent": "Reservation request sent successfully",
-    "confirm": "Confirm"
+    "confirm": "Confirm",
+    "offer": "Offer",
+    "paymentTerms": "Payment terms",
+    "deliveryTerms": "Delivery terms",
+    "aboutCompany": "About company"
 }

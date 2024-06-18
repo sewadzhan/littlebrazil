@@ -263,6 +263,10 @@ class ProfileScreen extends StatelessWidget {
                         },
                       ),
                       ProfileListTile(
+                        title: appLocalization.aboutCompany,
+                        routeName: '/aboutCompany',
+                      ),
+                      ProfileListTile(
                         title: appLocalization.logoutFromAccount,
                         routeName: '',
                         pushWithRemove: true,

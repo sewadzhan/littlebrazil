@@ -37,7 +37,10 @@ class ProfileListTile extends StatelessWidget {
           contentPadding: EdgeInsets.zero,
           title: Text(
             title,
-            style: Constants.textTheme.headlineSmall,
+            style: pushWithRemove
+                ? Constants.textTheme.headlineSmall!
+                    .copyWith(color: Constants.secondPrimaryColor)
+                : Constants.textTheme.headlineSmall,
           ),
           trailing: Padding(
             padding: EdgeInsets.only(right: Constants.defaultPadding * 0.5),

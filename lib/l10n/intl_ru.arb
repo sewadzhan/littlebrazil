@@ -250,5 +250,9 @@
     "dateTimeOfReservation": "Дата и время бронирования",
     "reservation": "Бронирование",
     "reservationRequestSent": "Запрос на бронирование успешно отправлен",
-    "confirm": "Подтвердить"
+    "confirm": "Подтвердить",
+    "offer": "Оферта",
+    "paymentTerms": "Условия оплаты",
+    "deliveryTerms": "Условия доставки",
+    "aboutCompany": "О компании"
 }

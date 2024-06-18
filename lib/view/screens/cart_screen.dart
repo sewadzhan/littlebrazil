@@ -38,7 +38,7 @@ class CartScreen extends StatelessWidget {
                     child: SvgPicture.asset(
                       'assets/icons/bin.svg',
                       colorFilter: const ColorFilter.mode(
-                          Constants.darkGrayColor, BlendMode.srcIn),
+                          Constants.secondPrimaryColor, BlendMode.srcIn),
                     ),
                   ),
                   onPressed: () {
