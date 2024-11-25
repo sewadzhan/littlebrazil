@@ -4,7 +4,6 @@ import 'package:intl/intl.dart';
 import 'package:littlebrazil/data/models/contacts.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
 import 'package:littlebrazil/logic/cubits/bottom_sheet/bottom_sheet_cubit.dart';
-import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 
 part 'contacts_state.dart';
 
@@ -12,11 +11,12 @@ part 'contacts_state.dart';
 class ContactsCubit extends Cubit<ContactsState> {
   final FirestoreRepository firestoreRepository;
   final BottomSheetCubit bottomSheetCubit;
-  final UpdateAppCubit updateAppCubit;
+  // final UpdateAppCubit updateAppCubit;
   bool isRestaurantWorking = true;
   ContactsCubit(
-      this.firestoreRepository, this.bottomSheetCubit, this.updateAppCubit)
-      : super(ContactsLoadingState()) {
+    this.firestoreRepository,
+    this.bottomSheetCubit, //this.updateAppCubit,
+  ) : super(ContactsLoadingState()) {
     getContacts();
   }
   void getContacts() async {
@@ -26,8 +26,8 @@ class ContactsCubit extends Cubit<ContactsState> {
       emit(ContactsLoadedState(contactsModel: contactsModel));
 
       //After loading playMarketUrl and appStoreUrl check for app updates
-      updateAppCubit.checkNewVersion(
-          contactsModel.playMarketUrl, contactsModel.appStoreUrl);
+      // updateAppCubit.checkNewVersion(
+      //     contactsModel.playMarketUrl, contactsModel.appStoreUrl);
 
       //Check current time if the restaurant is open or not
       checkWorkingTime(contactsModel);

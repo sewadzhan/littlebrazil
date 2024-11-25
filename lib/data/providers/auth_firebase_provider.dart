@@ -5,6 +5,7 @@ class AuthFirebaseProvider {
 
   AuthFirebaseProvider(this.firebaseAuth) {
     firebaseAuth.setLanguageCode("ru");
+    firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
   }
 
   //Get current user
@@ -38,7 +39,7 @@ class AuthFirebaseProvider {
       verificationFailed: onVerificaitonFailed,
       codeSent: onCodeSent,
       codeAutoRetrievalTimeout: onCodeAutoRetrievalTimeOut,
-      timeout: const Duration(seconds: 120),
+      timeout: const Duration(seconds: 180),
     );
   }
 

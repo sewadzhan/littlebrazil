@@ -12,7 +12,20 @@
           "package_name": "kz.khan.littlebrazil"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "256703153439-1ta7p84aa715k49vflerm8e5dkaae6nv.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "kz.khan.littlebrazil",
+            "certificate_hash": "201a052dffb8b02fc09bed56ca0bc9c95591d8b7"
+          }
+        },
+        {
+          "client_id": "256703153439-qii97vi21mom5kgi9qb2melnmalsmm6c.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyANPetdvc2cTDT8EGcDcJJ73VpNXKTBLs4"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "256703153439-3vld8lvrr26u7apr734n29k67vr46vqh.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "256703153439-kqr9cetqlm01o0a60um6aor8rsk646e7.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "kz.khan.littlebrazil"
+              }
+            }
+          ]
         }
       }
     }

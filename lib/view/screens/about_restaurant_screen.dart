@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:littlebrazil/logic/cubits/about_restaurant/about_restaurant_cubit.dart';
@@ -28,7 +28,7 @@ class AboutRestaurantScreen extends StatelessWidget {
                   Padding(
                     padding:
                         EdgeInsets.only(bottom: Constants.defaultPadding * 1.5),
-                    child: CarouselSlider(
+                    child: carousel_slider.CarouselSlider(
                         items: state.aboutRestaurantModel.images
                             .map(
                               (url) => ClipRRect(
@@ -56,7 +56,7 @@ class AboutRestaurantScreen extends StatelessWidget {
                                   )),
                             )
                             .toList(),
-                        options: CarouselOptions(
+                        options: carousel_slider.CarouselOptions(
                           height: 220,
                           aspectRatio: 16 / 9,
                           viewportFraction: 0.91,

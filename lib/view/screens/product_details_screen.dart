@@ -1,5 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:carousel_slider/carousel_slider.dart';
+import 'package:carousel_slider/carousel_slider.dart' as carousel_slider;
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -99,7 +99,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
           children: [
             Padding(
               padding: EdgeInsets.only(bottom: Constants.defaultPadding * 0.5),
-              child: CarouselSlider(
+              child: carousel_slider.CarouselSlider(
                   items: widget.product.imageUrls
                       .map(
                         (e) => ClipRRect(
@@ -118,7 +118,7 @@ class _ProductDetailsScreenState extends State<ProductDetailsScreen> {
                                   )),
                       )
                       .toList(),
-                  options: CarouselOptions(
+                  options: carousel_slider.CarouselOptions(
                     height: 220,
                     aspectRatio: 16 / 9,
                     viewportFraction: 0.91,

@@ -29,12 +29,22 @@
 			<string>Editor</string>
 			<key>CFBundleURLSchemes</key>
 			<array>
+				<string>com.googleusercontent.apps.256703153439-kqr9cetqlm01o0a60um6aor8rsk646e7</string>
+			</array>
+		</dict>
+		<dict>
+			<key>CFBundleTypeRole</key>
+			<string>Editor</string>
+			<key>CFBundleURLSchemes</key>
+			<array>
 				<string>app-1-256703153439-ios-0ea29c1f969459df46dc2a</string>
 			</array>
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
 	<string>$(FLUTTER_BUILD_NUMBER)</string>
+	<key>FirebaseAppDelegateProxyEnabled</key>
+	<false/>
 	<key>LSApplicationQueriesSchemes</key>
 	<array>
 		<string>tel</string>
@@ -49,9 +59,13 @@
 		<true/>
 	</dict>
 	<key>NSCameraUsageDescription</key>
-	<string>This app needs camera access to scan QR codes</string>
+	<string>To scan your order's QR code and receive up-to-date information about your order, ingredients and so on.</string>
+	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
+	<string>To automatically detect your address and simplify the data entry process when placing a delivery order.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>This app needs access to location when open.</string>
+	<string>To automatically detect your address and simplify the data entry process when placing a delivery order.</string>
+	<key>NSMotionUsageDescription</key>
+	<string>To automatically detect your address and simplify the data entry process when placing a delivery order.</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UIBackgroundModes</key>
@@ -80,7 +94,5 @@
 	</array>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-	<key>FirebaseAppDelegateProxyEnabled</key>
-	<false/>
 </dict>
 </plist>

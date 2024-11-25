@@ -39,7 +39,6 @@ import 'package:littlebrazil/logic/cubits/navigation/navigation_cubit.dart';
 import 'package:littlebrazil/logic/cubits/otp_section/otp_section_cubit.dart';
 import 'package:littlebrazil/logic/cubits/rate_app/rate_app_cubit.dart';
 import 'package:littlebrazil/logic/cubits/stories/stories_cubit.dart';
-import 'package:littlebrazil/logic/cubits/update_app/update_app_cubit.dart';
 import 'package:littlebrazil/view/screens/about_company_screen.dart';
 import 'package:littlebrazil/view/screens/about_restaurant_screen.dart';
 import 'package:littlebrazil/view/screens/add_address_screen.dart';
@@ -74,9 +73,12 @@ class AppRouter {
   static AuthCubit authCubit = AuthCubit(authRepository);
   static final MenuCubit menuCubit = MenuCubit(firestoreRepository)..getMenu();
   static final BottomSheetCubit bottomSheetCubit = BottomSheetCubit();
-  static final UpdateAppCubit updateAppCubit = UpdateAppCubit(bottomSheetCubit);
-  static final ContactsCubit contactsCubit =
-      ContactsCubit(firestoreRepository, bottomSheetCubit, updateAppCubit);
+  // static final UpdateAppCubit updateAppCubit = UpdateAppCubit(bottomSheetCubit);
+  static final ContactsCubit contactsCubit = ContactsCubit(
+    firestoreRepository,
+    bottomSheetCubit,
+    // updateAppCubit,
+  );
   static final DeliveryZonesCubit deliveryZonesCubit =
       DeliveryZonesCubit(firestoreRepository);
   static final NavigationCubit navigationCubit = NavigationCubit();
