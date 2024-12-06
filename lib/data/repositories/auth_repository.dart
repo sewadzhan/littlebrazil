@@ -93,4 +93,25 @@ class AuthRepository {
   Future<void> deleteCurrentUser() async {
     await firebaseProvider.deleteCurrentUser();
   }
+
+  //Log in via custom token
+  Future<PhoneAuthModel> loginWithCustomToken({
+    required String customToken,
+  }) async {
+    UserCredential userCredential =
+        await firebaseProvider.signInWithCustomToken(
+      customToken: customToken,
+    );
+    User? user = userCredential.user;
+    if (user != null) {
+      return PhoneAuthModel(
+          phoneAuthModelState: PhoneAuthModelState.verified,
+          uid: user.uid,
+          isNewUser:
+              true); //isNewUser: userCredential.additionalUserInfo!.isNewUser
+    } else {
+      return const PhoneAuthModel(
+          phoneAuthModelState: PhoneAuthModelState.error);
+    }
+  }
 }

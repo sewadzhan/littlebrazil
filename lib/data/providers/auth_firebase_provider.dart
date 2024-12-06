@@ -5,7 +5,7 @@ class AuthFirebaseProvider {
 
   AuthFirebaseProvider(this.firebaseAuth) {
     firebaseAuth.setLanguageCode("ru");
-    firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
+    // firebaseAuth.setSettings(appVerificationDisabledForTesting: true);
   }
 
   //Get current user
@@ -39,7 +39,7 @@ class AuthFirebaseProvider {
       verificationFailed: onVerificaitonFailed,
       codeSent: onCodeSent,
       codeAutoRetrievalTimeout: onCodeAutoRetrievalTimeOut,
-      timeout: const Duration(seconds: 180),
+      timeout: const Duration(seconds: 120),
     );
   }
 
@@ -87,5 +87,13 @@ class AuthFirebaseProvider {
     if (firebaseAuth.currentUser != null) {
       await firebaseAuth.currentUser!.delete();
     }
+  }
+
+  //Log in or sign up via custom token
+  Future<UserCredential> signInWithCustomToken(
+      {required String customToken}) async {
+    UserCredential userCredential =
+        await firebaseAuth.signInWithCustomToken(customToken);
+    return userCredential;
   }
 }

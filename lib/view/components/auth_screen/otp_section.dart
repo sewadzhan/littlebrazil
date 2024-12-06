@@ -96,11 +96,10 @@ class OTPSection extends StatelessWidget {
                       context.read<OTPSectionCubit>().setToInitialState();
                       if (phoneAuthState.isNewUser) {
                         //create new user in Firestore
-                        context.read<PhoneAuthBloc>().add(
-                            CreateNewUserInFirestore(
-                                phoneNumber: otpSentState.phoneNumber,
-                                name: otpSentState.name,
-                                welcomeBonus: checkWelcomeBonus(context)));
+                        context.read<PhoneAuthBloc>().add(CreateNewUser(
+                            phoneNumber: otpSentState.phoneNumber,
+                            name: otpSentState.name,
+                            welcomeBonus: checkWelcomeBonus(context)));
                       } else {
                         //successful log in
                         context.read<AuthCubit>().getCurrentUser();
@@ -168,6 +167,7 @@ class OTPSection extends StatelessWidget {
                             is PhoneAuthNumberVerificationSuccess) {
                           context.read<PhoneAuthBloc>().add(
                               PhoneAuthCodeVerified(
+                                  phone: otpSentState.phoneNumber,
                                   verificationId: phoneAuthState.verificationId,
                                   smsCode: smsOTP,
                                   resendToken: phoneAuthState.resendToken));
@@ -177,14 +177,16 @@ class OTPSection extends StatelessWidget {
                               PhoneAuthCodeVerified(
                                   verificationId: phoneAuthState.verificationId,
                                   smsCode: smsOTP,
-                                  resendToken: phoneAuthState.resendToken));
+                                  resendToken: phoneAuthState.resendToken,
+                                  phone: otpSentState.phoneNumber));
                         } else if (phoneAuthState
                             is PhoneAuthCodeVerificationFailure) {
                           context.read<PhoneAuthBloc>().add(
                               PhoneAuthCodeVerified(
                                   verificationId: phoneAuthState.verificationId,
                                   smsCode: smsOTP,
-                                  resendToken: phoneAuthState.resendToken));
+                                  resendToken: phoneAuthState.resendToken,
+                                  phone: otpSentState.phoneNumber));
                         }
                       },
                     );

@@ -6,9 +6,11 @@ import 'package:littlebrazil/data/models/product.dart';
 import 'package:littlebrazil/data/models/story_screen_argument.dart';
 import 'package:littlebrazil/data/providers/auth_firebase_provider.dart';
 import 'package:littlebrazil/data/providers/firestore_provider.dart';
+import 'package:littlebrazil/data/providers/functions_provider.dart';
 import 'package:littlebrazil/data/providers/yandex_provider.dart';
 import 'package:littlebrazil/data/repositories/auth_repository.dart';
 import 'package:littlebrazil/data/repositories/firestore_repository.dart';
+import 'package:littlebrazil/data/repositories/functions_repository.dart';
 import 'package:littlebrazil/data/repositories/yandex_repository.dart';
 import 'package:littlebrazil/logic/blocs/add_address/add_address_bloc.dart';
 import 'package:littlebrazil/logic/blocs/address/address_bloc.dart';
@@ -69,6 +71,8 @@ class AppRouter {
       AuthRepository(AuthFirebaseProvider(FirebaseAuth.instance));
   static final FirestoreRepository firestoreRepository =
       FirestoreRepository(FirestoreProvider(FirebaseFirestore.instance));
+  static final FunctionsRepositoty functionsRepositoty =
+      FunctionsRepositoty(const FunctionsProvider());
 
   static AuthCubit authCubit = AuthCubit(authRepository);
   static final MenuCubit menuCubit = MenuCubit(firestoreRepository)..getMenu();
@@ -104,7 +108,8 @@ class AppRouter {
   final PhoneAuthBloc phoneAuthBloc = PhoneAuthBloc(
       authRepository:
           AuthRepository(AuthFirebaseProvider(FirebaseAuth.instance)),
-      firestoreRepository: firestoreRepository);
+      firestoreRepository: firestoreRepository,
+      functionsRepositoty: functionsRepositoty);
 
   Route onGenerateRoute(RouteSettings settings) {
     switch (settings.name) {

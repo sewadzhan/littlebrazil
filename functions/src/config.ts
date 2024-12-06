@@ -1,16 +1,10 @@
 import * as dotenv from "dotenv";
-import { Response } from "express";
+import {Response} from "express";
 
 dotenv.config();
 
-export const ALTEGIO_API_URL = process.env.ALTEGIO_API_URL || "https://api.alteg.io/api/v1";
-export const ALTEGIO_PARTNER_TOKEN = process.env.ALTEGIO_PARTNER_TOKEN || "";
-export const ALTEGIO_USER_TOKEN = process.env.ALTEGIO_USER_TOKEN || "";
-export const ALTEGIO_COMPANY_ID = process.env.ALTEGIO_COMPANY_ID || "";
-export const ALTEGIO_CHAIN_ID = process.env.ALTEGIO_CHAIN_ID || "";
-export const TWILIO_ACCOUNT_SID = process.env.TWILIO_ACCOUNT_SID || "";
-export const TWILIO_AUTH_TOKEN = process.env.TWILIO_AUTH_TOKEN || "";
-export const TWILIO_TEMPLATE_SID = process.env.TWILIO_TEMPLATE_SID || "";
+export const SMSCENTER_LOGIN = process.env.SMSCENTER_LOGIN || "";
+export const SMSCENTER_PSW = process.env.SMSCENTER_PSW || "";
 
 // Get formatted current date
 export const getFormattedDate = (): string => {
@@ -38,5 +32,70 @@ export const getFormattedDate = (): string => {
 // Helper function to handle responses
 export const handleErrorResponse = (res: Response, message: string, error: any) => {
   console.error(message, error);
-  return res.status(500).json({ message, error: error.message || error });
+
+  let statusCode = 500; // Default to Internal Server Error
+  let errorMessage = message;
+
+  // Check for specific error codes
+  if (error) {
+    // Firebase function-specific errors
+    statusCode = mapHttpsErrorCodeToStatus(error.code);
+    errorMessage = error.message;
+  } else if (error.response) {
+    // Errors from external API (e.g., Axios errors)
+    statusCode = error.response.status || 500;
+    errorMessage = error.response.data?.error || error.response.data || error.message;
+  } else if (error.request) {
+    // Request was made but no response was received
+    statusCode = 502; // Bad Gateway
+    errorMessage = "No response received from external service.";
+  } else {
+    // Unknown errors
+    errorMessage = error.message || "An unexpected error occurred.";
+  }
+
+  return res.status(statusCode).json({
+    message: errorMessage,
+    details: error.stack || null,
+  });
 };
+
+// Helper function to map Firebase HttpsError codes to HTTP status codes
+const mapHttpsErrorCodeToStatus = (code: string): number => {
+  switch (code) {
+  case "cancelled":
+    return 499; // Client Closed Request
+  case "invalid-argument":
+    return 400; // Bad Request
+  case "deadline-exceeded":
+    return 504; // Gateway Timeout
+  case "not-found":
+    return 404; // Not Found
+  case "already-exists":
+    return 409; // Conflict
+  case "permission-denied":
+    return 403; // Forbidden
+  case "resource-exhausted":
+    return 429; // Too Many Requests
+  case "failed-precondition":
+    return 412; // Precondition Failed
+  case "aborted":
+    return 409; // Conflict
+  case "out-of-range":
+    return 400; // Bad Request
+  case "unimplemented":
+    return 501; // Not Implemented
+  case "internal":
+    return 500; // Internal Server Error
+  case "unavailable":
+    return 503; // Service Unavailable
+  case "data-loss":
+    return 500; // Internal Server Error
+  case "unauthenticated":
+    return 401; // Unauthorized
+  default:
+    return 500; // Internal Server Error
+  }
+};
+
+

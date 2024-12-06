@@ -1,11 +1,10 @@
 // index.ts
 import * as functions from "firebase-functions/v2";
-import { setGlobalOptions } from "firebase-functions/v2";
 import * as express from "express";
-import { sendVerificationCode, verifyOTPCode } from "./controllers/smsController";
-import { closeInternalOrder, createOrder, getMenu, getOrderDetails } from "./controllers/rKeeperController";
+import {sendVerificationCode, verifyOTPCode} from "./controllers/smsController";
+import {closeInternalOrder, createOrder, getMenu, getOrderDetails} from "./controllers/rKeeperController";
 
-setGlobalOptions({ region: "asia-south2" });
+functions.setGlobalOptions({region: "asia-south2"});
 
 // Initialize the Express app
 const app = express();

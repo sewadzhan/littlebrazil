@@ -27,14 +27,18 @@ class PhoneAuthNumberVerified extends PhoneAuthEvent {
 // Check SMS OTP event
 class PhoneAuthCodeVerified extends PhoneAuthEvent {
   final String verificationId;
+  final String phone;
   final int? resendToken;
   final String smsCode;
 
   const PhoneAuthCodeVerified(
-      {required this.verificationId, required this.smsCode, this.resendToken});
+      {required this.phone,
+      required this.verificationId,
+      required this.smsCode,
+      this.resendToken});
 
   @override
-  List<Object> get props => [smsCode];
+  List<Object> get props => [smsCode, verificationId, phone];
 }
 
 //Time out to get SMS OTP event
@@ -98,14 +102,20 @@ class PhoneAuthVerificationCompleted extends PhoneAuthEvent {
   List<Object?> get props => [uid];
 }
 
-//Create new user in Cloud Firestore
-class CreateNewUserInFirestore extends PhoneAuthEvent {
+//Create new user in Cloud Firestore and Altegio CRM
+class CreateNewUser extends PhoneAuthEvent {
   final String phoneNumber;
   final String name;
+  final String surname;
+  final int? sex;
   final int? welcomeBonus;
 
-  const CreateNewUserInFirestore(
-      {required this.phoneNumber, required this.name, this.welcomeBonus});
+  const CreateNewUser(
+      {required this.phoneNumber,
+      required this.name,
+      this.surname = "",
+      this.sex,
+      this.welcomeBonus});
 
   @override
   List<Object?> get props => [phoneNumber, name, welcomeBonus];
